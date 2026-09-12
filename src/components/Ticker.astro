@@ -1,24 +1,42 @@
 ---
 // Demo data — see BUILD.md §7. Replace with a live quote feed before launch.
 const quotes = [
-  { sym: 'BTC', px: '79,412', chg: '+1.8%', up: true },
-  { sym: 'ETH', px: '2,488', chg: '+0.9%', up: true },
-  { sym: 'SOL', px: '164.2', chg: '-0.6%', up: false },
-  { sym: 'BTC ETF 7D', px: '+$1.1B', chg: '', up: true },
-  { sym: 'USDT', px: '1.0002', chg: '', up: true },
-  { sym: 'FOMC', px: 'через 5 дней', chg: '', up: true },
+  { sym: 'BTC', px: 79412, decimals: 0, chgPct: 1.8, up: true },
+  { sym: 'ETH', px: 2488, decimals: 0, chgPct: 0.9, up: true },
+  { sym: 'SOL', px: 164.2, decimals: 1, chgPct: -0.6, up: false },
 ];
+const staticItems = [
+  { sym: 'BTC ETF 7D', px: '+$1.1B' },
+  { sym: 'USDT', px: '1.0002' },
+  { sym: 'FOMC', px: 'через 5 дней' },
+];
+
+function fmt(n: number, decimals: number) {
+  return n.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
 ---
 
 <div class="ticker" data-ticker>
   <span class="badge">ДЕМО-ДАННЫЕ</span>
   <div class="track" data-track>
-    {[...quotes, ...quotes].map((q) => (
-      <span class="item">
-        <span class="sym">{q.sym}</span>
-        <span class="px data">{q.px}</span>
-        {q.chg && <span class:list={['chg', 'data', q.up ? 'up' : 'down']}>{q.up ? '▲' : '▼'} {q.chg}</span>}
-      </span>
+    {Array.from({ length: 2 }).map(() => (
+      <>
+        {quotes.map((q) => (
+          <span class="item" data-sym={q.sym} data-decimals={q.decimals}>
+            <span class="sym">{q.sym}</span>
+            <span class="px data" data-px>{fmt(q.px, q.decimals)}</span>
+            <span class:list={['chg', 'data', q.up ? 'up' : 'down']} data-chg>
+              <span data-arrow>{q.up ? '▲' : '▼'}</span> <span data-pct>{Math.abs(q.chgPct).toFixed(1)}</span>%
+            </span>
+          </span>
+        ))}
+        {staticItems.map((s) => (
+          <span class="item">
+            <span class="sym">{s.sym}</span>
+            <span class="px data">{s.px}</span>
+          </span>
+        ))}
+      </>
     ))}
   </div>
 </div>
@@ -28,17 +46,18 @@ const quotes = [
   const track = ticker?.querySelector<HTMLElement>('[data-track]');
   if (ticker && track) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let paused = document.hidden;
+
+    ticker.addEventListener('mouseenter', () => (paused = true));
+    ticker.addEventListener('mouseleave', () => (paused = false));
+    document.addEventListener('visibilitychange', () => {
+      paused = document.hidden;
+    });
+
     if (!reduce) {
       let x = 0;
-      let paused = false;
-      const speed = 40; // px/s
       let last = performance.now();
-
-      ticker.addEventListener('mouseenter', () => (paused = true));
-      ticker.addEventListener('mouseleave', () => (paused = false));
-      document.addEventListener('visibilitychange', () => {
-        paused = document.hidden;
-      });
+      const speed = 40; // px/s
 
       function step(now: number) {
         const dt = (now - last) / 1000;
@@ -53,6 +72,46 @@ const quotes = [
       }
       requestAnimationFrame(step);
     }
+
+    // Simulated tick: nudges one quote's price by a small random amount so the
+    // "price flash" from the brief's motion table has something to show. Both
+    // looped copies of that symbol update together so the marquee stays consistent.
+    function tick() {
+      if (!paused) {
+        const groups = new Map<string, HTMLElement[]>();
+        ticker!.querySelectorAll<HTMLElement>('[data-sym]').forEach((el) => {
+          const sym = el.dataset.sym!;
+          if (!groups.has(sym)) groups.set(sym, []);
+          groups.get(sym)!.push(el);
+        });
+        const syms = [...groups.keys()];
+        const sym = syms[Math.floor(Math.random() * syms.length)];
+        const els = groups.get(sym)!;
+        const decimals = Number(els[0].dataset.decimals);
+        const pxEl = els[0].querySelector<HTMLElement>('[data-px]');
+        const current = Number(pxEl?.textContent?.replace(/[^\d.,-]/g, '').replace(',', '.'));
+        if (Number.isFinite(current)) {
+          const delta = current * (Math.random() * 0.006 - 0.003);
+          const next = Math.max(0, current + delta);
+          const up = delta >= 0;
+          const nextText = next.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+          for (const el of els) {
+            const px = el.querySelector<HTMLElement>('[data-px]');
+            const chg = el.querySelector<HTMLElement>('[data-chg]');
+            const arrow = el.querySelector<HTMLElement>('[data-arrow]');
+            const pct = el.querySelector<HTMLElement>('[data-pct]');
+            if (px) px.textContent = nextText;
+            if (chg) chg.className = `chg data ${up ? 'up' : 'down'}`;
+            if (arrow) arrow.textContent = up ? '▲' : '▼';
+            if (pct) pct.textContent = Math.abs((delta / current) * 100).toFixed(1);
+            px?.classList.add('flash');
+            setTimeout(() => px?.classList.remove('flash'), 160);
+          }
+        }
+      }
+      setTimeout(tick, 3000 + Math.random() * 2000);
+    }
+    setTimeout(tick, 3000);
   }
 </script>
 
@@ -106,5 +165,27 @@ const quotes = [
   }
   .down {
     color: #ef8a85;
+  }
+  /* Price flash: background-color only, per the brief's motion table (never keyframes).
+     Exit (180ms, the resting rule) is slower than entry (160ms, the .flash rule) is
+     backwards from every other component on this site on purpose — here "entry" is the
+     flash appearing and "exit" is it fading, and the brief times the fade-out at 180ms. */
+  .px {
+    padding: 0 2px;
+    background-color: transparent;
+    transition: background-color 180ms ease;
+  }
+  .px.flash {
+    background-color: rgba(242, 244, 240, 0.22);
+    transition: background-color 160ms ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* The brief keeps color flashes even under reduced motion — only stagger and
+       positional shifts get removed. This overrides global.css's blanket
+       transition-duration squash for this one element on purpose. */
+    .px,
+    .px.flash {
+      transition-duration: 160ms !important;
+    }
   }
 </style>

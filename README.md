@@ -78,13 +78,20 @@ If the site ever needs an English edition again, re-add the Redaction/Atkinson F
 and branch `--font-display`/`--font-body` per locale — the token layer already isolates this to
 `src/styles/tokens.css`.
 
-## One deliberate deviation from the brief
+## Two deliberate deviations from the brief
 
-The brief's §6.1 URL table splits breaking news (`/news/{slug}`) from section explainers
-(`/defi/{slug}`, `/policy/{slug}`, …). This build routes every article as `/{section}/{slug}` —
-one rule, no `type` field needed to decide which prefix applies, and it still satisfies the
-harder invariant from §2.4/§6.4 that "the section in the URL is the section in the breadcrumb."
-Flag it if the client specifically wants a separate `/news/` namespace.
+- The brief's §6.1 URL table splits breaking news (`/news/{slug}`) from section explainers
+  (`/defi/{slug}`, `/policy/{slug}`, …). This build routes every article as `/{section}/{slug}` —
+  one rule, no `type` field needed to decide which prefix applies, and it still satisfies the
+  harder invariant from §2.4/§6.4 that "the section in the URL is the section in the breadcrumb."
+  Flag it if the client specifically wants a separate `/news/` namespace.
+- The brief's §4.4 asks for hub pagination as a `?page=2` query string with a self-referential
+  canonical. A fully static build can't serve different content for the same file at different
+  query strings — the host doesn't see the query string at all. `src/pages/[section]/page/[page].astro`
+  generates real static pages at `/{section}/page/{n}/` instead, each with its own canonical
+  pointing at itself (`src/components/Pagination.astro`). `HUB_PAGE_SIZE` (`src/lib/pagination.ts`)
+  is 6; every section currently has 1–3 articles, so no page-2 routes exist yet — they'll appear
+  automatically once a section passes that count.
 
 ## Definition of done — where it stands
 
@@ -106,6 +113,18 @@ Checked against the brief's §8 checklist:
   height, minimal feed JS) are all in place, but the brief's specific numeric targets are unverified.
 - **Brand-style check**: logo recognizable without the wordmark, no identical cards, sponsored
   content unmistakably marked — all hold up on inspection.
+
+## Motion
+
+All ten rows of the brief's §5 motion table are implemented except one: "new check arrives in a
+live story" needs a real push channel from an editorial backend, which doesn't exist for a static
+site. The ticker's price flash *is* implemented — `src/components/Ticker.astro` runs a client-side
+demo tick every few seconds that nudges one quote by a small random amount and flashes its
+background-color only (never keyframes), 160ms in / 180ms out, matching the brief's timing. It's
+still demo data, just no longer static demo data. Note the one deliberate exception to
+`prefers-reduced-motion`: the brief keeps color flashes even in reduced motion (only stagger and
+positional movement get removed), so the ticker's `.px` rule overrides global.css's blanket
+transition-duration squash for that element specifically.
 
 ## Not yet built
 

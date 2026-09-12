@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleRow from '../../../components/ArticleRow.astro';
+import Pagination from '../../../components/Pagination.astro';
+import { SECTIONS } from '../../../content.config';
+import { SECTION_LABELS } from '../../../lib/labels';
+import { paginate, HUB_PAGE_SIZE } from '../../../lib/pagination';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  const paths: { params: { section: string; page: string } }[] = [];
+
+  for (const section of SECTIONS) {
+    const count = news.filter((n) => n.data.section === section).length;
+    const totalPages = Math.ceil(count / HUB_PAGE_SIZE);
+    for (let page = 2; page <= totalPages; page++) {
+      paths.push({ params: { section, page: String(page) } });
+    }
+  }
+  return paths;
+}
+
+const { section, page } = Astro.params as { section: string; page: string };
+const pageNum = Number(page);
+
+const news = (await getCollection('news'))
+  .filter((n) => n.data.section === section)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const { pageItems, totalPages } = paginate(news, pageNum);
+const sectionLabel = SECTION_LABELS[section] ?? section;
+---
+
+<BaseLayout
+  title={`${sectionLabel} — страница ${pageNum} — Finality`}
+  description={`Материалы раздела «${sectionLabel}», страница ${pageNum} из ${totalPages}.`}
+  canonicalPath={`/${section}/page/${pageNum}/`}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: `${sectionLabel} — Finality`,
+      about: sectionLabel,
+    },
+  ]}
+>
+  <div class="wrap hub">
+    <nav class="crumbs"><a href="/">Finality</a> / <a href={`/${section}/`}>{sectionLabel}</a> / стр. {pageNum}</nav>
+    <h1 class="section-title">{sectionLabel}</h1>
+    <div class="feed">
+      {pageItems.map((n) => (
+        <ArticleRow
+          title={n.data.title}
+          dek={n.data.dek}
+          href={`/${n.data.section}/${n.id}/`}
+          section={sectionLabel}
+          publishedAt={n.data.publishedAt}
+          checksCount={n.data.checks.length}
+        />
+      ))}
+    </div>
+    <Pagination basePath={`/${section}`} page={pageNum} totalPages={totalPages} />
+  </div>
+</BaseLayout>
+
+<style>
+  .hub {
+    padding-block: 24px 48px;
+    max-width: 860px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .section-title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+</style>

@@ -53,7 +53,7 @@ function fmtUpdated(d: Date) {
         <h2>Последние материалы</h2>
         <span class="kicker">Сначала новые</span>
       </div>
-      {feed.slice(0, 10).map((n) => (
+      {feed.map((n) => (
         <ArticleRow
           title={n.data.title}
           dek={n.data.dek}

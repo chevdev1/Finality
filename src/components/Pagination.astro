@@ -1,0 +1,45 @@
+---
+interface Props {
+  basePath: string; // e.g. "/defi"
+  page: number;
+  totalPages: number;
+}
+const { basePath, page, totalPages } = Astro.props;
+
+function pageUrl(n: number) {
+  return n <= 1 ? `${basePath}/` : `${basePath}/page/${n}/`;
+}
+---
+
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Страницы">
+    {page > 1 ? (
+      <a href={pageUrl(page - 1)} rel="prev">← Раньше</a>
+    ) : (
+      <span></span>
+    )}
+    <span class="kicker">Страница {page} из {totalPages}</span>
+    {page < totalPages ? (
+      <a href={pageUrl(page + 1)} rel="next">Позже →</a>
+    ) : (
+      <span></span>
+    )}
+  </nav>
+)}
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  a {
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 14px;
+  }
+</style>
