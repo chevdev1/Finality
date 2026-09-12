@@ -1,0 +1,312 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('spotlight');
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${d.project}: ${d.tagline}`,
+    datePublished: d.publishedAt.toISOString(),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: d.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title={`${d.project} — Project Spotlight — Finality`}
+  description={d.tagline}
+  jsonLd={jsonLd}
+  canonicalPath={`/spotlight/${entry.id}/`}
+>
+  <div class="partner-bar">Партнёрский материал · Оплачено {d.project}</div>
+
+  <div class="wrap spotlight" style={`--guest: ${d.guestColor}`}>
+    <header class="hero">
+      <div class="tile" aria-hidden="true">{d.project.replace('[', '').charAt(0) || 'P'}</div>
+      <div>
+        <h1>{d.project}: {d.tagline}</h1>
+        <p class="lead">
+          Написано вместе с командой {d.project}. Раздел «Риски» добавлен редакцией Finality.
+        </p>
+      </div>
+    </header>
+
+    <div class="facts">
+      <div><span class="kicker">Сеть</span><span class="data">{d.chain}</span></div>
+      <div><span class="kicker">Токен</span><span class="data guest">{d.token}</span></div>
+      <div><span class="kicker">Запуск</span><span class="data">{d.launch}</span></div>
+      <div><span class="kicker">Аудиты</span><span class="data">{d.audits}</span></div>
+      <div><span class="kicker">Инвесторы</span><span class="data">{d.backers}</span></div>
+      <div><span class="kicker">TVL / объём</span><span class="data">{d.tvl}</span></div>
+    </div>
+
+    <section class="block">
+      <h2>Что это</h2>
+      <p>{d.whatItIs}</p>
+    </section>
+
+    <section class="block">
+      <h2>Как это работает</h2>
+      <div class="flow">
+        {d.howItWorks.map((step, i) => (
+          <>
+            <span class="flow-step">{step}</span>
+            {i < d.howItWorks.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+          </>
+        ))}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Токеномика</h2>
+      <div class="bars">
+        {d.tokenomics.map((t) => (
+          <div class="bar-row">
+            <span class="bar-label">{t.label}</span>
+            <div class="bar-track">
+              <div class="bar-fill" style={`width:${t.pct}%`}></div>
+            </div>
+            <span class="data">{t.pct}%</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Роадмап</h2>
+      <ol class="roadmap">
+        {d.roadmap.map((r) => (
+          <li class:list={{ done: r.done }}>
+            <span class="n data">{r.n}</span>
+            <span>{r.label}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>Команда и инвесторы</h2>
+      <p>{d.team}</p>
+      <p>{d.backersList}</p>
+    </section>
+
+    <section class="block risks">
+      <h2>Риски и открытые вопросы</h2>
+      <p class="added-by">Добавлено редакцией Finality</p>
+      <ul>
+        {d.risks.map((r) => <li>{r}</li>)}
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>FAQ</h2>
+      <dl>
+        {d.faq.map((f) => (
+          <>
+            <dt>{f.q}</dt>
+            <dd>{f.a}</dd>
+          </>
+        ))}
+      </dl>
+    </section>
+
+    <div class="cta">
+      <a href={d.ctaUrl} rel="sponsored noopener" target="_blank">Перейти на {d.ctaUrl.replace('https://', '')}</a>
+      <p class="kicker">Откроется официальный сайт проекта в новой вкладке.</p>
+    </div>
+
+    <div class="extra-content">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .partner-bar {
+    background: var(--ink);
+    color: var(--ledger);
+    text-align: center;
+    padding: 8px;
+    font-family: var(--font-data);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+  .spotlight {
+    padding-block: 32px 48px;
+    max-width: 760px;
+    border: 1px dashed var(--rule);
+    display: grid;
+    gap: 36px;
+  }
+  .hero {
+    display: flex;
+    gap: 20px;
+  }
+  .tile {
+    width: 56px;
+    height: 56px;
+    background: var(--guest);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .hero h1 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--step-h2);
+  }
+  .lead {
+    color: var(--graphite);
+    max-width: 60ch;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    border: 1px solid var(--rule);
+    padding: 16px;
+    background: var(--paper);
+  }
+  .facts > div {
+    display: grid;
+    gap: 4px;
+  }
+  .guest {
+    color: var(--guest);
+    font-weight: 600;
+  }
+  .block h2 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--step-h3);
+    margin-bottom: 12px;
+  }
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    font-family: var(--font-data);
+    font-size: 13px;
+  }
+  .bars {
+    display: grid;
+    gap: 10px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .bar-track {
+    height: 8px;
+    background: var(--rule);
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--guest);
+  }
+  .roadmap {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .roadmap li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.5;
+  }
+  .roadmap li.done {
+    opacity: 1;
+  }
+  .roadmap .n {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .risks {
+    background: var(--pending);
+    padding: 20px;
+  }
+  .risks h2 {
+    font-family: var(--font-display);
+  }
+  .added-by {
+    font-family: var(--font-data);
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: -4px 0 12px;
+  }
+  dl {
+    display: grid;
+    gap: 12px;
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 4px 0 0;
+    color: var(--graphite);
+  }
+  .cta {
+    background: var(--ink);
+    color: var(--ledger);
+    padding: 20px;
+    display: grid;
+    gap: 6px;
+  }
+  .cta a {
+    color: var(--guest);
+    font-weight: 700;
+    text-decoration: none;
+    /* guest on ink is 3.58:1 — fails AA for normal text (4.5:1) but clears the 3:1 bar
+       for "large text" (≥14pt/18.66px bold). 20px keeps it unambiguously in that bucket
+       without changing the sponsor's actual brand color. */
+    font-size: 20px;
+  }
+  .cta .kicker {
+    color: #9aa39d;
+  }
+
+  @media (max-width: 640px) {
+    .facts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

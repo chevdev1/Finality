@@ -1,0 +1,51 @@
+:root {
+  /* Color — brief 2.2. Do not add colors outside this list. */
+  --ledger: #f2f4f0;   /* page background */
+  --paper: #fbfcfa;    /* panels, insets */
+  --ink: #0f1613;      /* text, filled check cells, ticker */
+  --graphite: #56615b; /* secondary text, metadata */
+  --rule: #d3d9d4;     /* rules and borders */
+  --pending: #ffd23f;  /* the one loud color */
+  --up: #0b7a4e;       /* price gains only */
+  --down: #c8322b;     /* price losses only */
+  --guest: #3d5afe;    /* sponsor color, Spotlight page only, swapped per sponsor */
+
+  /* Type — RU build: PT Serif (display) + Golos Text (body) replace Redaction/Atkinson,
+     which have no Cyrillic glyphs. Martian Mono already covers Cyrillic. */
+  --font-display: "PT Serif", Georgia, serif;
+  --font-status: "PT Serif", Georgia, serif;
+  --font-body: "Golos Text", system-ui, sans-serif;
+  --font-data: "Martian Mono", ui-monospace, monospace;
+
+  /* Type scale — desktop */
+  --step-display: 84px;
+  --step-h1: 60px;
+  --step-h2: 40px;
+  --step-h3: 28px;
+  --step-lead: 21px;
+  --step-body: 18px;
+  --step-meta: 11px;
+
+  /* Layout */
+  --grid-max: 1440px;
+  --grid-gutter: 24px;
+  --rail-width: 380px;
+  --log-width: 360px;
+  --radius: 0px;
+
+  /* Motion easing — see BUILD.md section 5. Never used outside its named purpose. */
+  --ease-standard: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-menu: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@media (max-width: 640px) {
+  :root {
+    --step-display: 40px;
+    --step-h1: 28px;
+    --step-h2: 21px;
+    --step-h3: 18.5px;
+    --step-lead: 16.5px;
+    --step-body: 16.5px;
+    --step-meta: 11px;
+  }
+}

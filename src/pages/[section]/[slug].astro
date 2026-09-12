@@ -1,0 +1,275 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VerificationLog from '../../components/VerificationLog.astro';
+import RelatedList from '../../components/RelatedList.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
+import KeyTakeaways from '../../components/KeyTakeaways.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import { SECTION_LABELS, STATUS_LABELS } from '../../lib/labels';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  return news.map((entry) => ({
+    params: { section: entry.data.section, slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const author = await getEntry('authors', entry.data.author);
+
+const news = await getCollection('news');
+const relatedEntries = entry.data.related
+  .map((slug) => news.find((n) => n.id === slug))
+  .filter((n): n is (typeof news)[number] => !!n)
+  .slice(0, 3);
+
+const related = relatedEntries.map((n) => ({
+  title: n.data.title,
+  href: `/${n.data.section}/${n.id}/`,
+  section: n.data.section,
+  checksCount: n.data.checks.length,
+}));
+
+function fmtDate(d: Date) {
+  return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+}
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: entry.data.title,
+    description: entry.data.dek,
+    datePublished: entry.data.publishedAt.toISOString(),
+    dateModified: entry.data.updatedAt.toISOString(),
+    author: author
+      ? { '@type': 'Person', name: author.data.name, sameAs: author.data.sameAs }
+      : undefined,
+    publisher: { '@type': 'Organization', name: 'Finality', logo: `${siteUrl}/og-default.png` },
+    mainEntityOfPage: `${siteUrl}/${entry.data.section}/${entry.id}/`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Finality', item: siteUrl },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: entry.data.section,
+        item: `${siteUrl}/${entry.data.section}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: entry.data.title,
+        item: `${siteUrl}/${entry.data.section}/${entry.id}/`,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={`${entry.data.title} — Finality`}
+  description={entry.data.dek}
+  jsonLd={jsonLd}
+  ogImage={`${siteUrl}/og/${entry.data.section}/${entry.id}.png`}
+>
+  <article class="wrap article-layout">
+    <nav class="crumbs" aria-label="Хлебные крошки">
+      <a href="/">Finality</a> / <a href={`/${entry.data.section}/`}>{SECTION_LABELS[entry.data.section]}</a>
+    </nav>
+
+    <div class="dates">
+      <div>
+        <span class="kicker">Опубликовано</span>
+        <time datetime={entry.data.publishedAt.toISOString()} class="data">{fmtDate(entry.data.publishedAt)}</time>
+      </div>
+      <div>
+        <span class="kicker">Обновлено</span>
+        <time datetime={entry.data.updatedAt.toISOString()} class="data">{fmtDate(entry.data.updatedAt)}</time>
+      </div>
+    </div>
+
+    <header class="art-header">
+      <div class="tags">
+        <span class="kicker">{SECTION_LABELS[entry.data.section]}</span>
+        <span class="status-word">{STATUS_LABELS[entry.data.status]}</span>
+      </div>
+      <h1>{entry.data.title}</h1>
+      <p class="lead">{entry.data.dek}</p>
+      {author && (
+        <a class="byline" href={`/author/${entry.data.author}/`}>
+          <span class="avatar" aria-hidden="true">{author.data.initials}</span>
+          {author.data.name} · {author.data.role}
+        </a>
+      )}
+    </header>
+
+    <aside class="log-slot">
+      <VerificationLog checks={entry.data.checks} status={entry.data.status} />
+    </aside>
+
+    <div class="prose">
+      <KeyTakeaways items={entry.data.takeaways} />
+      <TableOfContents headings={headings} />
+      <Content />
+      <div class="sources">
+        <span class="kicker">Источники</span>
+        <ul>
+          {entry.data.sources.map((s) => (
+            <li><a href={s.url} target="_blank" rel="noopener">{s.title}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <aside class="side">
+      <RelatedList items={related} />
+      {author && (
+        <AuthorCard
+          name={author.data.name}
+          role={author.data.role}
+          bio={author.data.bio}
+          initials={author.data.initials}
+          slug={entry.data.author}
+        />
+      )}
+    </aside>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    padding-block: 24px 48px;
+  }
+  .crumbs {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    text-decoration: none;
+    color: var(--graphite);
+  }
+  .dates {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    font-size: 13px;
+  }
+  .dates > div {
+    display: grid;
+    gap: 2px;
+  }
+  .art-header {
+    grid-column: 1;
+    display: grid;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+  }
+  .art-header h1 {
+    font-size: var(--step-h1);
+  }
+  .lead {
+    max-width: 64ch;
+    color: var(--graphite);
+    font-size: var(--step-lead);
+    margin: 0;
+  }
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ledger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-data);
+    font-size: 12px;
+  }
+  .log-slot {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .prose {
+    grid-column: 1;
+    max-width: 64ch;
+    font-size: var(--step-body);
+    line-height: 1.6;
+  }
+  .prose > :global(.takeaways),
+  .prose > :global(.toc) {
+    margin-bottom: 24px;
+  }
+  .prose :global(h2) {
+    font-size: var(--step-h3);
+    margin-top: 2em;
+  }
+  .prose :global(p) {
+    margin: 1em 0;
+  }
+  .prose :global(.data-inset) {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 16px;
+    font-family: var(--font-data);
+    font-size: 13px;
+    color: var(--graphite);
+    margin: 1.5em 0;
+  }
+  .sources {
+    margin-top: 2em;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .sources ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+  }
+  .side {
+    grid-column: 2;
+    grid-row: 4;
+    display: grid;
+    gap: 24px;
+    align-content: start;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+    }
+    .dates,
+    .log-slot,
+    .side {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+</style>

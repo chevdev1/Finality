@@ -1,0 +1,185 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VerificationMeter from '../components/VerificationMeter.astro';
+import VerificationLog from '../components/VerificationLog.astro';
+import ArticleRow from '../components/ArticleRow.astro';
+import MarketsPanel from '../components/MarketsPanel.astro';
+import SpotlightTeaser from '../components/SpotlightTeaser.astro';
+import Subscribe from '../components/Subscribe.astro';
+import { SECTIONS } from '../content.config';
+import { SECTION_LABELS, STATUS_LABELS } from '../lib/labels';
+
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+const hero = news.find((n) => n.data.featured) ?? news[0];
+const feed = news.filter((n) => n.id !== hero.id);
+const spotlights = await getCollection('spotlight');
+const spotlight = spotlights[0];
+
+const sectionCounts = SECTIONS.map((s) => ({
+  slug: s,
+  count: news.filter((n) => n.data.section === s).length,
+}));
+
+function fmtUpdated(d: Date) {
+  return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+}
+---
+
+<BaseLayout
+  title="Finality — крипто-новости с видимой степенью уверенности"
+  description="Крипто и финтех-новости с журналом проверок у каждого материала: чем больше клеток закрашено, тем твёрже факт."
+>
+  <div class="wrap layout">
+    <section class="hero">
+      <div class="hero-top">
+        <span class="kicker">{SECTION_LABELS[hero.data.section]}</span>
+        <span class="status-word">{STATUS_LABELS[hero.data.status]}</span>
+        <span class="data">Обновлено {fmtUpdated(hero.data.updatedAt)}</span>
+      </div>
+      <h1><a href={`/${hero.data.section}/${hero.id}/`}>{hero.data.title}</a></h1>
+      <p class="lead">{hero.data.dek}</p>
+      <VerificationMeter filled={hero.data.checks.length} animate size={16} />
+    </section>
+
+    <aside class="hero-log">
+      <VerificationLog checks={hero.data.checks} status={hero.data.status} open />
+    </aside>
+
+    <section class="feed">
+      <div class="feed-head">
+        <h2>Последние материалы</h2>
+        <span class="kicker">Сначала новые</span>
+      </div>
+      {feed.slice(0, 10).map((n) => (
+        <ArticleRow
+          title={n.data.title}
+          dek={n.data.dek}
+          href={`/${n.data.section}/${n.id}/`}
+          section={SECTION_LABELS[n.data.section]}
+          publishedAt={n.data.publishedAt}
+          checksCount={n.data.checks.length}
+        />
+      ))}
+    </section>
+
+    <aside class="rail">
+      <MarketsPanel />
+      {spotlight && (
+        <SpotlightTeaser
+          project={spotlight.data.project}
+          tagline={spotlight.data.tagline}
+          href={`/spotlight/${spotlight.id}/`}
+          guestColor={spotlight.data.guestColor}
+        />
+      )}
+      <div class="section-hubs">
+        <span class="kicker heading">Разделы</span>
+        <div class="hub-grid">
+          {sectionCounts.map((s) => (
+            <a href={`/${s.slug}/`}>
+              <span>{SECTION_LABELS[s.slug]}</span>
+              <VerificationMeter filled={Math.min(s.count, 6)} size={7} />
+            </a>
+          ))}
+        </div>
+      </div>
+      <Subscribe />
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--rail-width);
+    gap: 32px;
+    padding-block: 24px 48px;
+  }
+  .hero {
+    grid-column: 1;
+    background: var(--pending);
+    padding: 32px;
+    display: grid;
+    gap: 14px;
+  }
+  .hero-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+  }
+  /* --graphite on --pending is 4.47:1, just under WCAG AA's 4.5:1 — every other
+     --graphite pairing in the token set clears AA, so this one spot uses --ink instead
+     of touching the shared token. */
+  .hero-top .kicker {
+    color: var(--ink);
+  }
+  .hero h1 {
+    font-size: var(--step-h1);
+  }
+  .hero h1 a {
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .lead {
+    margin: 0;
+    max-width: 60ch;
+  }
+  .hero-log {
+    grid-column: 1;
+  }
+  .feed {
+    grid-column: 1;
+  }
+  .feed-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .feed-head h2 {
+    font-size: var(--step-h3);
+  }
+  .rail {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  .section-hubs {
+    border: 1px solid var(--rule);
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+    background: var(--paper);
+  }
+  .hub-grid {
+    display: grid;
+    gap: 8px;
+  }
+  .hub-grid a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .rail {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .hero {
+      padding: 20px;
+    }
+  }
+</style>

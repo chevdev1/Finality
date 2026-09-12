@@ -1,0 +1,85 @@
+---
+import VerificationMeter from './VerificationMeter.astro';
+
+interface Props {
+  title: string;
+  dek?: string;
+  href: string;
+  section: string;
+  publishedAt: Date;
+  checksCount: number;
+}
+
+const { title, dek, href, section, publishedAt, checksCount } = Astro.props;
+
+function fmtTime(d: Date) {
+  return d.toISOString().slice(11, 16);
+}
+---
+
+<a class="row" href={href}>
+  <span class="data time">{fmtTime(publishedAt)}</span>
+  <VerificationMeter filled={checksCount} size={10} />
+  <span class="body">
+    <span class="title">{title}</span>
+    {dek && <span class="dek">{dek}</span>}
+  </span>
+  <span class="kicker section">{section}</span>
+</a>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 52px 90px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .title {
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 3px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .title {
+      transition: text-decoration-color 150ms ease;
+    }
+    .row:hover .title {
+      text-decoration-color: var(--pending);
+    }
+  }
+  .body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .title {
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .dek {
+    color: var(--graphite);
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .section {
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .time {
+      display: none;
+    }
+    .section {
+      justify-self: start;
+    }
+  }
+</style>

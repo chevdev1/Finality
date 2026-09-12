@@ -1,0 +1,59 @@
+---
+// Demo data — see BUILD.md §7. Replace with a live quote feed before launch.
+const rows = [
+  { label: 'Bitcoin', value: '$79,412', chg: '+1.8%', up: true },
+  { label: 'Ether', value: '$2,488', chg: '+0.9%', up: true },
+  { label: 'Предложение стейблкоинов', value: '$318B', chg: '+0.2%', up: true },
+  { label: 'Поток в BTC ETF, 7д', value: '+$1.1B', chg: '', up: true },
+];
+---
+
+<div class="panel">
+  <div class="head">
+    <span class="kicker">Рынки</span>
+    <span class="kicker demo">Демо-данные</span>
+  </div>
+  {rows.map((r) => (
+    <div class="row">
+      <span>{r.label}</span>
+      <span class="right">
+        <span class="data">{r.value}</span>
+        {r.chg && <span class:list={['data', 'chg', r.up ? 'up' : 'down']}>{r.chg}</span>}
+      </span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .panel {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+  }
+  .demo {
+    color: var(--graphite);
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    border-top: 1px solid var(--rule);
+    padding-top: 8px;
+  }
+  .right {
+    display: flex;
+    gap: 8px;
+  }
+  .up {
+    color: var(--up);
+  }
+  .down {
+    color: var(--down);
+  }
+</style>

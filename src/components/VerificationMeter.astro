@@ -1,0 +1,67 @@
+---
+interface Props {
+  filled: number; // 0–6, cells actually checked — never decorative
+  size?: number; // px per cell
+  label?: string;
+  animate?: boolean; // stagger-fill on first load, hero only
+}
+
+const { filled, size = 14, label, animate = false } = Astro.props;
+const cells = Array.from({ length: 6 }, (_, i) => i < filled);
+---
+
+<span
+  class="meter"
+  class:list={{ animate }}
+  style={`--cell: ${size}px;`}
+  role="img"
+  aria-label={label ?? `${filled} из 6 проверок пройдено`}
+>
+  {cells.map((on, i) => (
+    <span class="cell" class:list={{ on }} style={animate ? `--i:${i}` : undefined} aria-hidden="true"></span>
+  ))}
+</span>
+
+<style>
+  .meter {
+    display: inline-flex;
+    gap: 3px;
+  }
+  .cell {
+    width: var(--cell);
+    height: var(--cell);
+    border: 1.5px solid var(--ink);
+    background: transparent;
+  }
+  .cell.on {
+    background: var(--ink);
+  }
+  .meter.animate .cell.on {
+    animation: fill 220ms var(--ease-standard) backwards;
+    animation-delay: calc(var(--i) * 60ms);
+  }
+  @keyframes fill {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .meter.animate .cell.on {
+      animation: fade 1ms linear backwards;
+      animation-delay: 0ms;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

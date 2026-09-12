@@ -1,0 +1,110 @@
+---
+// Demo data — see BUILD.md §7. Replace with a live quote feed before launch.
+const quotes = [
+  { sym: 'BTC', px: '79,412', chg: '+1.8%', up: true },
+  { sym: 'ETH', px: '2,488', chg: '+0.9%', up: true },
+  { sym: 'SOL', px: '164.2', chg: '-0.6%', up: false },
+  { sym: 'BTC ETF 7D', px: '+$1.1B', chg: '', up: true },
+  { sym: 'USDT', px: '1.0002', chg: '', up: true },
+  { sym: 'FOMC', px: 'через 5 дней', chg: '', up: true },
+];
+---
+
+<div class="ticker" data-ticker>
+  <span class="badge">ДЕМО-ДАННЫЕ</span>
+  <div class="track" data-track>
+    {[...quotes, ...quotes].map((q) => (
+      <span class="item">
+        <span class="sym">{q.sym}</span>
+        <span class="px data">{q.px}</span>
+        {q.chg && <span class:list={['chg', 'data', q.up ? 'up' : 'down']}>{q.up ? '▲' : '▼'} {q.chg}</span>}
+      </span>
+    ))}
+  </div>
+</div>
+
+<script>
+  const ticker = document.querySelector<HTMLElement>('[data-ticker]');
+  const track = ticker?.querySelector<HTMLElement>('[data-track]');
+  if (ticker && track) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) {
+      let x = 0;
+      let paused = false;
+      const speed = 40; // px/s
+      let last = performance.now();
+
+      ticker.addEventListener('mouseenter', () => (paused = true));
+      ticker.addEventListener('mouseleave', () => (paused = false));
+      document.addEventListener('visibilitychange', () => {
+        paused = document.hidden;
+      });
+
+      function step(now: number) {
+        const dt = (now - last) / 1000;
+        last = now;
+        if (!paused) {
+          x -= speed * dt;
+          const half = track!.scrollWidth / 2;
+          if (Math.abs(x) >= half) x += half;
+          track!.style.transform = `translateX(${x}px)`;
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }
+</script>
+
+<style>
+  .ticker {
+    height: 34px;
+    background: var(--ink);
+    color: var(--ledger);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+  }
+  .badge {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    font-family: var(--font-data);
+    letter-spacing: 0.05em;
+    /* --graphite on --ink is 2.85:1 — well under WCAG AA. --graphite is tuned for the
+       light --ledger/--paper backgrounds it's paired with everywhere else on the site;
+       the ticker is the one place text sits on dark --ink, so it needs its own lighter
+       tint (7.08:1) rather than reusing that token here. */
+    color: #9aa39d;
+    background: var(--ink);
+    padding-left: 8px;
+    z-index: 1;
+  }
+  .track {
+    display: inline-flex;
+    will-change: transform;
+  }
+  .item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 0 20px;
+    font-size: 13px;
+  }
+  .sym {
+    font-weight: 700;
+  }
+  /* --up/--down (#0B7A4E / #C8322B) are tuned for light backgrounds — on the ticker's dark
+     --ink they'd fail contrast almost entirely. These are lighter tints of the same hue,
+     confirmed at 10.0:1 / 7.6:1 on --ink. */
+  .up {
+    color: #6fd39a;
+  }
+  .down {
+    color: #ef8a85;
+  }
+</style>

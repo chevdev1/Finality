@@ -1,0 +1,120 @@
+---
+import VerificationMeter from './VerificationMeter.astro';
+import { STATUS_LABELS } from '../lib/labels';
+
+interface CheckDef {
+  id: number;
+  label: string;
+}
+
+interface Props {
+  checks: { id: number; at: Date }[];
+  status: 'developing' | 'final';
+  open?: boolean;
+}
+
+const { checks, status, open = false } = Astro.props;
+
+const CHECK_DEFS: CheckDef[] = [
+  { id: 1, label: 'Первоисточник найден и проставлен ссылкой' },
+  { id: 2, label: 'Ончейн-данные подтверждают утверждение' },
+  { id: 3, label: 'Независимое второе издание сообщает то же самое' },
+  { id: 4, label: 'Официальное заявление стороны получено' },
+  { id: 5, label: 'Цифры сверены редакцией' },
+  { id: 6, label: 'Подпись выпускающего редактора' },
+];
+
+const byId = new Map(checks.map((c) => [c.id, c.at]));
+const filled = checks.length;
+
+function fmt(d: Date) {
+  return d.toISOString().slice(5, 16).replace('T', ' ') + ' UTC';
+}
+---
+
+<details class="log" open={open}>
+  <summary>
+    <VerificationMeter filled={filled} />
+    <span class="data status-count">{filled} из 6 проверок пройдено</span>
+    <span class="status-word">{STATUS_LABELS[status]}</span>
+  </summary>
+  <div class="rows-wrapper">
+    <div class="rows">
+      {CHECK_DEFS.map((def) => {
+        const at = byId.get(def.id);
+        return (
+          <div class="row">
+            <span class="cell-mini" class:list={{ on: !!at }} aria-hidden="true"></span>
+            <span class="check-label">{def.label}</span>
+            <span class="data check-time">{at ? fmt(at) : 'ОТКРЫТО'}</span>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</details>
+
+<style>
+  .log {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 16px;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .status-count {
+    font-size: var(--step-meta);
+    color: var(--graphite);
+  }
+  /* Native <details> open/close drives this purely in CSS: the [open] attribute
+     selector below picks a longer transition for the reveal than the collapse
+     (brief §5: exit always faster than entry), and min-height: 0 on .rows lets
+     the fr-sized track actually shrink to zero instead of clamping to content size. */
+  .rows-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 150ms var(--ease-standard), visibility 0s linear 150ms;
+  }
+  .log[open] .rows-wrapper {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 200ms var(--ease-standard), visibility 0s linear 0s;
+  }
+  .rows {
+    min-height: 0;
+    overflow: hidden;
+    display: grid;
+    gap: 10px;
+    padding-top: 14px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .cell-mini {
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+  }
+  .cell-mini.on {
+    background: var(--ink);
+  }
+  .check-time {
+    color: var(--graphite);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+</style>

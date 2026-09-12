@@ -1,0 +1,164 @@
+---
+import VerificationMeter from './VerificationMeter.astro';
+import { SECTIONS } from '../content.config';
+import { SECTION_LABELS as sectionLabels } from '../lib/labels';
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="logo">
+      <VerificationMeter filled={6} size={10} label="Finality" />
+      <span class="wordmark">Finality</span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      {SECTIONS.map((s) => (
+        <a href={`/${s}/`}>{sectionLabels[s]}</a>
+      ))}
+    </nav>
+    <div class="actions">
+      <button class="search-btn" data-search-trigger aria-label="Поиск">
+        Поиск <kbd class="kbd-hint">⌘K</kbd>
+      </button>
+      <details class="mobile-menu">
+        <summary class="menu-btn" aria-label="Открыть меню">
+          <span></span><span></span><span></span>
+        </summary>
+        <nav class="mobile-menu-panel" aria-label="Разделы">
+          {SECTIONS.map((s) => (
+            <a href={`/${s}/`}>{sectionLabels[s]}</a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--ledger);
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .bar {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+  }
+  .nav {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    flex: 1;
+  }
+  .nav a {
+    text-decoration: none;
+    color: var(--graphite);
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .nav a:hover {
+    color: var(--ink);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .search-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .search-btn kbd {
+    font-family: var(--font-data);
+    font-size: 11px;
+  }
+
+  /* Mobile menu is a native <details> so it opens/closes with zero JS. The panel stays
+     display:block even while closed (an author rule always beats the UA's
+     "details:not([open]) > *:not(summary){display:none}" at equal/normal priority — the
+     same mechanism behind the search-overlay bug fix and the verification-log accordion)
+     and is instead hidden off-screen via transform, which is what lets the open/close
+     motion animate at all. Exit is faster than entry per the brief's motion table. */
+  .mobile-menu {
+    display: none;
+  }
+  .menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .menu-btn::-webkit-details-marker {
+    display: none;
+  }
+  .menu-btn span {
+    width: 20px;
+    height: 2px;
+    background: var(--ink);
+  }
+  .mobile-menu-panel {
+    display: block;
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: var(--ledger);
+    z-index: 30;
+    padding: 16px 24px;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 180ms var(--ease-menu), visibility 0s linear 180ms;
+  }
+  .mobile-menu[open] .mobile-menu-panel {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 240ms var(--ease-menu), visibility 0s linear 0s;
+  }
+  .mobile-menu-panel a {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 24px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  @media (max-width: 860px) {
+    .nav {
+      display: none;
+    }
+    /* No physical keyboard on touch devices, so the ⌘K hint is dead weight here —
+       it was previously targeted as `.search-btn span`, which matched nothing since
+       this is a <kbd>, so it never actually hid on mobile. */
+    .search-btn .kbd-hint {
+      display: none;
+    }
+    .mobile-menu {
+      display: block;
+    }
+  }
+</style>

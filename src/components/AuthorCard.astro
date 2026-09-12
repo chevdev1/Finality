@@ -1,0 +1,56 @@
+---
+interface Props {
+  name: string;
+  role: string;
+  bio: string;
+  initials: string;
+  slug: string;
+}
+const { name, role, bio, initials, slug } = Astro.props;
+---
+
+<a class="card" href={`/author/${slug}/`}>
+  <span class="avatar" aria-hidden="true">{initials}</span>
+  <span class="text">
+    <span class="name">{name}</span>
+    <span class="role kicker">{role}</span>
+    <span class="bio">{bio}</span>
+  </span>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    gap: 14px;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 16px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .avatar {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ledger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-data);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .text {
+    display: grid;
+    gap: 4px;
+  }
+  .name {
+    font-weight: 700;
+  }
+  .bio {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+</style>

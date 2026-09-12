@@ -1,0 +1,122 @@
+---
+import { getCollection } from 'astro:content';
+import { SECTION_LABELS } from '../lib/labels';
+
+const news = await getCollection('news');
+const index = news.map((n) => ({
+  title: n.data.title,
+  section: SECTION_LABELS[n.data.section],
+  url: `/${n.data.section}/${n.id}/`,
+}));
+---
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(index)} />
+
+<div class="search-overlay" data-search-overlay hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Поиск">
+    <input type="text" data-search-input placeholder="Поиск по заголовкам…" autocomplete="off" />
+    <div class="results" data-search-results></div>
+    <p class="hint">Esc — закрыть</p>
+  </div>
+</div>
+
+<script>
+  const overlay = document.querySelector<HTMLElement>('[data-search-overlay]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const results = document.querySelector<HTMLElement>('[data-search-results]');
+  const dataEl = document.getElementById('search-index');
+  const index: { title: string; section: string; url: string }[] = dataEl
+    ? JSON.parse(dataEl.textContent || '[]')
+    : [];
+
+  function open() {
+    overlay?.removeAttribute('hidden');
+    input?.focus();
+  }
+  function close() {
+    overlay?.setAttribute('hidden', '');
+    if (input) input.value = '';
+    render([]);
+  }
+  function render(items: typeof index) {
+    if (!results) return;
+    results.innerHTML = items
+      .slice(0, 8)
+      .map(
+        (i) =>
+          `<a href="${i.url}"><span class="kicker">${i.section}</span><span>${i.title}</span></a>`
+      )
+      .join('');
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      open();
+    }
+    if (e.key === 'Escape') close();
+  });
+
+  document.querySelectorAll('[data-search-trigger]').forEach((el) => el.addEventListener('click', open));
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+  input?.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) return render([]);
+    render(index.filter((i) => i.title.toLowerCase().includes(q)));
+  });
+</script>
+
+<style>
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 22, 19, 0.5);
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12vh;
+    z-index: 100;
+  }
+  .search-overlay:not([hidden]) {
+    display: flex;
+  }
+  .search-panel {
+    background: var(--paper);
+    width: min(560px, 92vw);
+    padding: 16px;
+    border: 1px solid var(--rule);
+  }
+  input[data-search-input] {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 18px;
+    padding: 10px 8px;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+  }
+  input[data-search-input]:focus {
+    border-bottom-color: var(--ink);
+  }
+  .results {
+    display: grid;
+  }
+  .results a {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    padding: 10px 8px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .results a:hover {
+    background: var(--ledger);
+  }
+  .hint {
+    margin: 10px 8px 0;
+    font-size: 11px;
+    color: var(--graphite);
+  }
+</style>

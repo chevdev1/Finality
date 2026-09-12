@@ -1,0 +1,74 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+interface Props {
+  headings: Heading[];
+}
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2);
+---
+
+{items.length > 1 && (
+  <details class="toc">
+    <summary>На этой странице</summary>
+    <nav>
+      <ol>
+        {items.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+      </ol>
+    </nav>
+  </details>
+)}
+
+<style>
+  .toc {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 14px 16px;
+  }
+  summary {
+    cursor: pointer;
+    font-family: var(--font-data);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--graphite);
+  }
+  ol {
+    margin: 12px 0 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 8px;
+  }
+  a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Desktop: force the nav visible regardless of <details> open state (this beats the
+     UA's "details:not([open]) > *:not(summary){display:none}" rule the same way a
+     normal-priority author rule always wins over a normal-priority UA rule), and stick
+     it under the site header while the reader scrolls the article. Mobile keeps the
+     native collapsed-by-default disclosure. */
+  @media (min-width: 901px) {
+    summary {
+      display: none;
+    }
+    .toc {
+      position: sticky;
+      top: 72px;
+    }
+    .toc nav {
+      display: block;
+    }
+    ol {
+      margin-top: 0;
+    }
+  }
+</style>

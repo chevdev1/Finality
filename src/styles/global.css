@@ -1,0 +1,102 @@
+@import "@fontsource/pt-serif/cyrillic-400.css";
+@import "@fontsource/pt-serif/cyrillic-700.css";
+@import "@fontsource/golos-text/cyrillic-400.css";
+@import "@fontsource/golos-text/cyrillic-700.css";
+@import "@fontsource/martian-mono/cyrillic-400.css";
+@import "@fontsource/martian-mono/cyrillic-600.css";
+@import "@fontsource/martian-mono/400.css";
+@import "@fontsource/martian-mono/600.css";
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--ledger);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.wrap {
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  padding-inline: var(--grid-gutter);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.kicker {
+  font-family: var(--font-data);
+  font-size: var(--step-meta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.status-word {
+  font-family: var(--font-status);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.data {
+  font-family: var(--font-data);
+}
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+/* Visible keyboard focus everywhere, logical tab order relies on source order. */
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

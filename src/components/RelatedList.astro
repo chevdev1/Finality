@@ -1,0 +1,48 @@
+---
+import VerificationMeter from './VerificationMeter.astro';
+
+interface Item {
+  title: string;
+  href: string;
+  section: string;
+  checksCount: number;
+}
+interface Props {
+  items: Item[];
+}
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="related">
+    <span class="kicker heading">Связанные материалы</span>
+    {items.map((i) => (
+      <a class="item" href={i.href}>
+        <VerificationMeter filled={i.checksCount} size={9} />
+        <span class="title">{i.title}</span>
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .related {
+    display: grid;
+    gap: 14px;
+  }
+  .heading {
+    color: var(--graphite);
+  }
+  .item {
+    display: grid;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--ink);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .title {
+    font-weight: 700;
+    font-size: 15px;
+  }
+</style>

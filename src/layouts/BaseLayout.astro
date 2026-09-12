@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Ticker from '../components/Ticker.astro';
+import SearchIndex from '../components/SearchIndex.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: Record<string, unknown>[];
+  ogImage?: string;
+  canonicalPath?: string;
+}
+
+const { title, description, jsonLd = [], ogImage, canonicalPath } = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonical = `${siteUrl}${canonicalPath ?? Astro.url.pathname}`;
+const resolvedOgImage = ogImage ?? `${siteUrl}/og-default.png`;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Finality',
+  url: siteUrl,
+  logo: `${siteUrl}/og-default.png`,
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Finality',
+  url: siteUrl,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteUrl}/?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const allSchema = [orgSchema, websiteSchema, ...jsonLd];
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Finality" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    {allSchema.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body>
+    <Ticker />
+    <Header />
+    <SearchIndex />
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <p>Finality — часть сети из пяти изданий. Общая информация об издателе — на странице About.</p>
+        <p class="kicker">© 2026 Finality</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: 48px;
+    padding: 32px 0;
+    color: var(--graphite);
+    font-size: 13px;
+  }
+  .footer-inner {
+    display: grid;
+    gap: 8px;
+  }
+</style>

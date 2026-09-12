@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://finality.news/sitemap-index.xml
+Sitemap: https://finality.news/news-sitemap.xml

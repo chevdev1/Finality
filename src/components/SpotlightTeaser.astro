@@ -1,0 +1,59 @@
+---
+interface Props {
+  project: string;
+  tagline: string;
+  href: string;
+  guestColor: string;
+}
+const { project, tagline, href, guestColor } = Astro.props;
+---
+
+<a class="teaser" href={href} rel="sponsored">
+  <span class="badge">Партнёрский материал</span>
+  <span class="row">
+    <span class="tile" style={`background:${guestColor}`} aria-hidden="true">{project.replace('[', '').charAt(0)}</span>
+    <span class="name">{project}</span>
+  </span>
+  <span class="tagline">{tagline}</span>
+</a>
+
+<style>
+  .teaser {
+    display: grid;
+    gap: 8px;
+    border: 1px dashed var(--rule);
+    padding: 16px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .badge {
+    font-family: var(--font-data);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--graphite);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tile {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-family: var(--font-body);
+    flex-shrink: 0;
+  }
+  .name {
+    font-weight: 700;
+  }
+  .tagline {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+</style>
