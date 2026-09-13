@@ -53,16 +53,27 @@ npm run preview   # serve the built output
   Cyrillic subset alone excludes plain ASCII (digits, hyphens, ×), which this site's
   Cyrillic/Latin-mixed headlines ("x402", "BNB Chain", "2026") need constantly.
 
-## Known placeholders — replace before launch
+## Content
 
-- **All 12 news articles** are build-stage placeholder copy (in Russian) written from the concept
-  deck's demo headlines, each marked with an HTML comment at the top of the file. Sources point at
-  institutional homepages, not specific verified articles. Swap in real, sourced reporting per
-  `finality-build-brief.md` §7.
-- **Project Spotlight** (`src/content/spotlight/project-template.md`) is the placeholder template —
-  PROJECT_NAME / PROJECT_URL / PROJECT_BRIEF were never supplied. Do not publish as-is.
-- **Author photos** use initials avatars instead of real photos (also intentional — no stock photography
-  anywhere on this site per the brief).
+All 12 news articles are real, sourced reporting, not placeholder copy — a real event, written
+in our own words per the brief's §7 rule against copying source text, with a genuine primary or
+reporting source linked in the frontmatter (official incident reports and company press releases
+where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release —
+otherwise a named outlet: CoinDesk, The Cryptonomist, TRM Labs, CNBC, CoinGecko's research arm).
+Researched via web search at build time (September 2026), covering: the Liquid Network federation
+hack and its still-unresolved ~600 BTC, the Cronos/Tectonic oracle-manipulation exploit, TRM Labs'
+record count of 32 price-manipulation attacks in 2026, the CLARITY Act's September 15 cloture
+vote, a September 3 Bitcoin ETF inflow spike, CoinGecko's 2026 RWA tokenization report, U.S. Bank's
+live USBDC pilot, a stat on AI agents' 58% share of crypto trading volume, the MetaMask/Consensys
+split alongside Ethereum's Glamsterdam delay, and Mastercard's Agent Connect launch. Every
+`checks` timestamp in each article's frontmatter represents Finality's own (fictional) editorial
+verification pass, not a claim about when the underlying outlet verified it.
+
+Two things are still template-only, deliberately:
+- **Project Spotlight** (`src/content/spotlight/project-template.md`) — PROJECT_NAME / PROJECT_URL
+  / PROJECT_BRIEF were never supplied by a real sponsor. Do not publish as-is.
+- **Author photos** use initials avatars instead of real photos (also intentional — no stock
+  photography anywhere on this site per the brief).
 
 ## Language
 
@@ -105,8 +116,7 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  12 articles exist with sources and a check log each, but they're still the placeholder copy
-  described above, not the "10–12 real stories" the brief asks for at launch.
+  12 real, sourced articles across all 9 sections satisfy the brief's "10–12 real stories" bar.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a
   native `<details>`, zero JS) and a `⌘K`-hint selector that silently matched nothing (mobile
@@ -127,16 +137,20 @@ All ten rows of the brief's §5 motion table are implemented except one: "new ch
 live story" needs a real push channel from an editorial backend. That's deliberately not built —
 standing up a server just to drive one cell-fill animation isn't a reasonable trade for a pilot
 with no editorial backend yet; it's worth building once there's an actual CMS to push from. The
-ticker's price flash *is* implemented against
-a real feed: `src/components/Ticker.astro` polls CoinGecko every 60s and flashes only the prices
-that actually moved, background-color only (never keyframes), 160ms in / 180ms out, matching the
-brief's timing. Note the one deliberate exception to
-`prefers-reduced-motion`: the brief keeps color flashes even in reduced motion (only stagger and
-positional movement get removed), so the ticker's `.px` rule overrides global.css's blanket
+ticker's price flash *is* implemented against a real feed: `src/components/Ticker.astro` polls
+CoinGecko every 60s and flashes only the prices that actually moved, background-color only (never
+keyframes), 160ms in / 180ms out, matching the brief's timing. Note the one deliberate exception
+to `prefers-reduced-motion`: the brief keeps color flashes even in reduced motion (only stagger
+and positional movement get removed), so the ticker's `.px` rule overrides global.css's blanket
 transition-duration squash for that element specifically.
 
 ## Not yet built
 
-- Real quote-feed integration, headless CMS migration path, and the four sibling network sites.
+- Headless CMS migration path and the four sibling network sites.
+- A real sponsor for Project Spotlight (needs PROJECT_NAME / PROJECT_URL / PROJECT_BRIEF from an
+  actual advertiser, not something this build can source itself).
 - Spotlight pages don't get a generated OG card yet (they inherit the site default) — low priority
   since the current Spotlight entry is still the unfilled template.
+- Real BTC-ETF 7-day flow and a "Fed meeting in N days" countdown were dropped from the ticker/
+  Markets panel rather than left as fake-looking demo numbers next to now-real prices — there's no
+  free public API for either, and this build didn't go looking for a paid one.
