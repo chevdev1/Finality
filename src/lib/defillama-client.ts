@@ -15,6 +15,11 @@ export function chainIconUrl(name: string): string {
   return `https://icons.llamao.fi/icons/chains/rsz_${slug}.jpg`;
 }
 
+export function chainPageUrl(name: string): string {
+  const slug = name.toLowerCase().replace(/\s+/g, '-');
+  return `https://defillama.com/chain/${slug}`;
+}
+
 export interface ChainTvl {
   name: string;
   tvl: number;
@@ -24,9 +29,17 @@ export interface ProtocolTvl {
   name: string;
   tvl: number;
   change_1d: number | null;
+  change_7d: number | null;
   category: string;
   chains: string[];
   logo: string | null;
+  description: string | null;
+  url: string | null;
+  twitter: string | null;
+  audits: string;
+  auditLink: string | null;
+  listedAt: number | null;
+  slug: string | null;
 }
 
 // Same rationale as coingecko-client.ts: this page's stats + tables all read from these two
@@ -68,9 +81,17 @@ async function fetchAllProtocols(): Promise<ProtocolTvl[]> {
             name: p.name,
             tvl: p.tvl,
             change_1d: typeof p.change_1d === 'number' ? p.change_1d : null,
+            change_7d: typeof p.change_7d === 'number' ? p.change_7d : null,
             category: p.category ?? '—',
             chains: p.chains ?? [],
             logo: p.logo ?? null,
+            description: p.description ?? null,
+            url: p.url ?? null,
+            twitter: p.twitter ?? null,
+            audits: p.audits ?? '0',
+            auditLink: Array.isArray(p.audit_links) && p.audit_links[0] ? p.audit_links[0] : null,
+            listedAt: typeof p.listedAt === 'number' ? p.listedAt : null,
+            slug: p.slug ?? null,
           }));
       } catch {
         return [];
@@ -108,4 +129,13 @@ export function fmtTvl(n: number): string {
 export function fmtChange(n: number | null): string {
   if (n === null) return '—';
   return (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+}
+
+export function fmtListedDate(unixSeconds: number | null): string | null {
+  if (!unixSeconds) return null;
+  return new Date(unixSeconds * 1000).toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }

@@ -2,7 +2,17 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
-import { fetchTopChains, fetchTopProtocols, fetchTopGainers, chainIconUrl, fmtTvl, fmtChange } from '../../lib/defillama-client';
+import {
+  fetchTopChains,
+  fetchTopProtocols,
+  fetchTopGainers,
+  chainIconUrl,
+  chainPageUrl,
+  fmtTvl,
+  fmtChange,
+  fmtListedDate,
+  type ProtocolTvl,
+} from '../../lib/defillama-client';
 
 const [chains, protocols, gainers] = await Promise.all([
   fetchTopChains(10),
@@ -13,6 +23,10 @@ const [chains, protocols, gainers] = await Promise.all([
 const totalTvl = chains.reduce((sum, c) => sum + c.tvl, 0);
 const spotlights = await getCollection('spotlight');
 const spotlight = spotlights[0];
+
+function protocolPageUrl(p: ProtocolTvl) {
+  return p.slug ? `https://defillama.com/protocol/${p.slug}` : 'https://defillama.com';
+}
 ---
 
 <BaseLayout
@@ -33,13 +47,14 @@ const spotlight = spotlights[0];
     <p class="intro">
       Блокчейны и протоколы, отсортированные по объёму заблокированных средств (TVL). Разница в TVL
       за 24 часа — не то же самое, что рост числа пользователей, но это единственная метрика здесь,
-      у которой есть открытый, проверяемый источник у каждой строки.
+      у которой есть открытый, проверяемый источник у каждой строки. Строки протоколов
+      раскрываются — внутри описание, категория, сети и ссылка на официальный сайт.
     </p>
 
-    <div class="stats" data-stats>
+    <div class="stats">
       <div class="stat">
         <span class="kicker">Суммарный TVL, топ-10 сетей</span>
-        <span class="data value" data-total-tvl>{fmtTvl(totalTvl)}</span>
+        <span class="data value">{fmtTvl(totalTvl)}</span>
       </div>
       <div class="stat">
         <span class="kicker">Протоколов в рейтинге</span>
@@ -58,16 +73,18 @@ const spotlight = spotlights[0];
             <h2>Топ блокчейнов по TVL</h2>
             <span class="kicker">DeFiLlama</span>
           </div>
-          <div class="table" data-chains-table>
+          <p class="table-note kicker">Строка ведёт на страницу сети в DeFiLlama.</p>
+          <div class="table">
             {chains.map((c, i) => (
-              <div class="row">
+              <a class="row chain-row" href={chainPageUrl(c.name)} target="_blank" rel="noopener">
                 <span class="rank data">{i + 1}</span>
                 <span class="proto">
                   <img src={chainIconUrl(c.name)} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />
                   <span class="name">{c.name}</span>
                 </span>
                 <span class="tvl data">{fmtTvl(c.tvl)}</span>
-              </div>
+                <span class="external" aria-hidden="true">↗</span>
+              </a>
             ))}
           </div>
         </section>
@@ -77,21 +94,43 @@ const spotlight = spotlights[0];
             <h2>Топ протоколов по TVL</h2>
             <span class="kicker">DeFiLlama</span>
           </div>
-          <div class="table" data-protocols-table>
+          <p class="table-note kicker">Клик по строке разворачивает карточку проекта.</p>
+          <div class="table">
             {protocols.map((p, i) => (
-              <div class="row">
-                <span class="rank data">{i + 1}</span>
-                <span class="proto">
-                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
-                  <span class="name">{p.name}</span>
-                  <span class="kicker cat">{p.category}</span>
-                </span>
-                <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
-                <span class="tvl data">{fmtTvl(p.tvl)}</span>
-                <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
-                  {fmtChange(p.change_1d)}
-                </span>
-              </div>
+              <details class="row proto-row">
+                <summary>
+                  <span class="rank data">{i + 1}</span>
+                  <span class="proto">
+                    {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
+                    <span class="name">{p.name}</span>
+                    <span class="kicker cat">{p.category}</span>
+                  </span>
+                  <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
+                  <span class="tvl data">{fmtTvl(p.tvl)}</span>
+                  <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
+                    {fmtChange(p.change_1d)}
+                  </span>
+                  <span class="disclosure" aria-hidden="true">＋</span>
+                </summary>
+                <div class="detail-wrapper">
+                  <div class="detail">
+                    {p.description && <p class="description">{p.description}</p>}
+                    <div class="detail-grid">
+                      <div><span class="kicker">Категория</span><span>{p.category}</span></div>
+                      <div><span class="kicker">Δ7 дней</span><span class:list={['data', (p.change_7d ?? 0) >= 0 ? 'up' : 'down']}>{fmtChange(p.change_7d)}</span></div>
+                      <div><span class="kicker">Аудиты</span><span>{p.audits === '0' ? 'не найдены' : p.audits}</span></div>
+                      {fmtListedDate(p.listedAt) && <div><span class="kicker">В реестре DeFiLlama с</span><span class="data">{fmtListedDate(p.listedAt)}</span></div>}
+                      <div class="chains-list"><span class="kicker">Сети ({p.chains.length})</span><span>{p.chains.join(', ')}</span></div>
+                    </div>
+                    <div class="detail-links">
+                      {p.url && <a href={p.url} target="_blank" rel="noopener">Сайт проекта ↗</a>}
+                      {p.twitter && <a href={`https://x.com/${p.twitter}`} target="_blank" rel="noopener">X (Twitter) ↗</a>}
+                      {p.auditLink && <a href={p.auditLink} target="_blank" rel="noopener">Отчёт аудита ↗</a>}
+                      <a href={protocolPageUrl(p)} target="_blank" rel="noopener">Полная карточка на DeFiLlama ↗</a>
+                    </div>
+                  </div>
+                </div>
+              </details>
             ))}
           </div>
         </section>
@@ -102,28 +141,48 @@ const spotlight = spotlights[0];
             <span class="kicker">DeFiLlama</span>
           </div>
           <p class="table-note kicker">Только протоколы с TVL от $5 млн — иначе рост в процентах ничего не значит.</p>
-          <div class="table" data-gainers-table>
+          <div class="table">
             {gainers.map((p, i) => (
-              <div class="row">
-                <span class="rank data">{i + 1}</span>
-                <span class="proto">
-                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
-                  <span class="name">{p.name}</span>
-                  <span class="kicker cat">{p.category}</span>
-                </span>
-                <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
-                <span class="tvl data">{fmtTvl(p.tvl)}</span>
-                <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
-                  {fmtChange(p.change_1d)}
-                </span>
-              </div>
+              <details class="row proto-row">
+                <summary>
+                  <span class="rank data">{i + 1}</span>
+                  <span class="proto">
+                    {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
+                    <span class="name">{p.name}</span>
+                    <span class="kicker cat">{p.category}</span>
+                  </span>
+                  <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
+                  <span class="tvl data">{fmtTvl(p.tvl)}</span>
+                  <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
+                    {fmtChange(p.change_1d)}
+                  </span>
+                  <span class="disclosure" aria-hidden="true">＋</span>
+                </summary>
+                <div class="detail-wrapper">
+                  <div class="detail">
+                    {p.description && <p class="description">{p.description}</p>}
+                    <div class="detail-grid">
+                      <div><span class="kicker">Категория</span><span>{p.category}</span></div>
+                      <div><span class="kicker">Δ7 дней</span><span class:list={['data', (p.change_7d ?? 0) >= 0 ? 'up' : 'down']}>{fmtChange(p.change_7d)}</span></div>
+                      <div><span class="kicker">Аудиты</span><span>{p.audits === '0' ? 'не найдены' : p.audits}</span></div>
+                      {fmtListedDate(p.listedAt) && <div><span class="kicker">В реестре DeFiLlama с</span><span class="data">{fmtListedDate(p.listedAt)}</span></div>}
+                      <div class="chains-list"><span class="kicker">Сети ({p.chains.length})</span><span>{p.chains.join(', ')}</span></div>
+                    </div>
+                    <div class="detail-links">
+                      {p.url && <a href={p.url} target="_blank" rel="noopener">Сайт проекта ↗</a>}
+                      {p.twitter && <a href={`https://x.com/${p.twitter}`} target="_blank" rel="noopener">X (Twitter) ↗</a>}
+                      {p.auditLink && <a href={p.auditLink} target="_blank" rel="noopener">Отчёт аудита ↗</a>}
+                      <a href={protocolPageUrl(p)} target="_blank" rel="noopener">Полная карточка на DeFiLlama ↗</a>
+                    </div>
+                  </div>
+                </div>
+              </details>
             ))}
           </div>
         </section>
 
         <p class="disclaimer kicker">
-          Данные получены на сборке страницы и обновляются раз в 60–120 секунд, пока страница открыта.
-          Не инвестиционная рекомендация.
+          Данные получены при последней сборке страницы. Не инвестиционная рекомендация.
         </p>
       </div>
 
@@ -140,48 +199,6 @@ const spotlight = spotlights[0];
     </div>
   </div>
 </BaseLayout>
-
-<script>
-  import { fetchTopChains, fetchTopProtocols, fetchTopGainers, chainIconUrl, fmtTvl, fmtChange } from '../../lib/defillama-client';
-  import type { ProtocolTvl } from '../../lib/defillama-client';
-
-  function renderProtoRow(p: ProtocolTvl, i: number) {
-    const up = (p.change_1d ?? 0) >= 0;
-    const logo = p.logo
-      ? `<img src="${p.logo}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />`
-      : '';
-    return `<div class="row"><span class="rank data">${i + 1}</span><span class="proto">${logo}<span class="name">${p.name}</span><span class="kicker cat">${p.category}</span></span><span class="chains data">${p.chains.length} ${p.chains.length === 1 ? 'сеть' : 'сетей'}</span><span class="tvl data">${fmtTvl(p.tvl)}</span><span class="chg data ${up ? 'up' : 'down'}">${fmtChange(p.change_1d)}</span></div>`;
-  }
-
-  async function refresh() {
-    if (document.hidden) return;
-    const [chains, protocols, gainers] = await Promise.all([
-      fetchTopChains(10),
-      fetchTopProtocols(15),
-      fetchTopGainers(10),
-    ]);
-
-    const totalEl = document.querySelector<HTMLElement>('[data-total-tvl]');
-    if (totalEl) totalEl.textContent = fmtTvl(chains.reduce((s, c) => s + c.tvl, 0));
-
-    const chainsTable = document.querySelector<HTMLElement>('[data-chains-table]');
-    if (chainsTable) {
-      chainsTable.innerHTML = chains
-        .map(
-          (c, i) =>
-            `<div class="row"><span class="rank data">${i + 1}</span><span class="proto"><img src="${chainIconUrl(c.name)}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" /><span class="name">${c.name}</span></span><span class="tvl data">${fmtTvl(c.tvl)}</span></div>`
-        )
-        .join('');
-    }
-
-    const protocolsTable = document.querySelector<HTMLElement>('[data-protocols-table]');
-    if (protocolsTable) protocolsTable.innerHTML = protocols.map(renderProtoRow).join('');
-
-    const gainersTable = document.querySelector<HTMLElement>('[data-gainers-table]');
-    if (gainersTable) gainersTable.innerHTML = gainers.map(renderProtoRow).join('');
-  }
-  setInterval(refresh, 90000);
-</script>
 
 <style>
   .page {
@@ -236,7 +253,7 @@ const spotlight = spotlights[0];
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
   .block-head h2 {
     font-size: var(--step-h3);
@@ -248,62 +265,147 @@ const spotlight = spotlights[0];
   .table {
     border-top: 1px solid var(--rule);
   }
-  .table :global(.row) {
+
+  /* Shared row shell: both the plain <a> chain rows and the <details> protocol rows use the
+     same grid so the three tables read as one visual system. */
+  .row summary,
+  a.row {
     display: grid;
     grid-template-columns: 32px 1fr auto;
     align-items: center;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--rule);
     font-size: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    list-style: none;
   }
-  [data-chains-table] :global(.row) {
-    grid-template-columns: 32px 1fr auto;
+  .row summary::-webkit-details-marker {
+    display: none;
   }
-  [data-protocols-table] :global(.row),
-  [data-gainers-table] :global(.row) {
-    grid-template-columns: 32px 1fr 80px 90px 64px;
+  .table > .row {
+    border-bottom: 1px solid var(--rule);
   }
-  .table :global(.rank) {
+  .proto-row > summary {
+    grid-template-columns: 32px 1fr 80px 90px 64px 20px;
+  }
+  .chain-row {
+    grid-template-columns: 32px 1fr auto 20px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row summary:hover,
+    a.row:hover {
+      background: var(--paper);
+    }
+  }
+  .rank {
     color: var(--graphite);
     font-size: 12px;
   }
-  .table :global(.proto) {
+  .proto {
     display: flex;
     align-items: center;
     gap: 8px;
     min-width: 0;
   }
-  .table :global(.proto img) {
+  .proto img {
     flex-shrink: 0;
   }
-  .table :global(.name) {
+  .name {
     font-weight: 700;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .table :global(.cat) {
+  .cat {
     flex-shrink: 0;
   }
-  .table :global(.chains) {
+  .chains {
     color: var(--graphite);
     font-size: 12px;
     white-space: nowrap;
   }
-  .table :global(.tvl) {
+  .tvl {
     text-align: right;
     white-space: nowrap;
   }
-  .table :global(.chg) {
+  .chg {
     text-align: right;
     white-space: nowrap;
   }
-  .table :global(.up) {
+  .up {
     color: var(--up);
   }
-  .table :global(.down) {
+  .down {
     color: var(--down);
+  }
+  .external,
+  .disclosure {
+    color: var(--graphite);
+    font-size: 14px;
+    text-align: center;
+  }
+  .proto-row[open] .disclosure {
+    transform: rotate(45deg);
+  }
+
+  /* Accordion reveal: same technique as VerificationLog — the wrapper stays display:grid
+     regardless of [open] (an author rule always beats the UA's
+     "details:not([open]) > *:not(summary){display:none}"), and grid-template-rows 0fr→1fr
+     does the actual show/hide without a layout jump. Exit (150ms) faster than entry (200ms),
+     per the brief's motion table. */
+  .detail-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 150ms var(--ease-standard), visibility 0s linear 150ms;
+  }
+  .proto-row[open] .detail-wrapper {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 200ms var(--ease-standard), visibility 0s linear 0s;
+  }
+  .detail {
+    min-height: 0;
+    overflow: hidden;
+    padding: 4px 0 20px;
+    display: grid;
+    gap: 14px;
+  }
+  .description {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 64ch;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  .detail-grid > div {
+    display: grid;
+    gap: 2px;
+    font-size: 13px;
+  }
+  .chains-list {
+    grid-column: 1 / -1;
+  }
+  .detail-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  .detail-links a {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 3px;
   }
   .disclaimer {
     color: var(--graphite);
@@ -323,14 +425,15 @@ const spotlight = spotlights[0];
       grid-template-columns: 1fr;
     }
     /* Same pattern as ArticleRow's mobile treatment: drop the least essential column
-       (chains count) rather than fight a 5-column grid into a narrow viewport. */
-    [data-protocols-table] :global(.row),
-    [data-gainers-table] :global(.row) {
-      grid-template-columns: 24px 1fr 70px 56px;
+       (chains count) rather than fight a wide grid into a narrow viewport. */
+    .proto-row > summary {
+      grid-template-columns: 24px 1fr 70px 56px 16px;
     }
-    [data-protocols-table] :global(.chains),
-    [data-gainers-table] :global(.chains) {
+    .chains {
       display: none;
+    }
+    .detail-grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>

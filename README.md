@@ -37,10 +37,22 @@ npm run preview   # serve the built output
   honestly mean here) — plus a stats strip. Chain logos come from DeFiLlama's own icon CDN
   (`icons.llamao.fi/icons/chains/rsz_<slug>.jpg`, an undocumented convention read off their site
   and spot-checked against every chain this build actually renders) with `onerror` hiding any
-  that 404 instead of showing a broken-image box. Critically, the client's future paid placement
-  is a separate dashed-border card reusing `SpotlightTeaser`, never blended into the real ranking
-  rows; corrupting the rankings to fit a sponsor would undercut the one thing this whole site is
-  built to sell. Full writeup in `finality-build-brief.md` §11.
+  that 404 instead of showing a broken-image box.
+  Rows are actually usable: chain rows are plain links out to their DeFiLlama chain page (no rich
+  per-chain metadata exists in the free API to justify an accordion there); protocol/gainer rows
+  are `<details>` accordions — same zero-JS grid-rows technique as `VerificationLog` — that reveal
+  the project's real description, category, 7-day change, audit count, "in DeFiLlama's registry
+  since" date, and outbound links to its site/X/audit report/full DeFiLlama page, all sourced
+  straight from the same API response (no extra request). Deliberately dropped the periodic
+  full-table refresh this page originally had: swapping a row's entire markup out from under an
+  open `<details>` on a timer would collapse it mid-read, and a ticking-every-90-seconds table is
+  closer to the "dashboard as primary retail interface" brief §3 already rejects than to a page
+  someone reads once per visit. Numbers are as fresh as the last build/page load, not real-time —
+  same trade-off Markets/Ticker make explicit with their source badges, just without a badge that
+  would imply otherwise here. Critically, the client's future paid placement is a separate
+  dashed-border card reusing `SpotlightTeaser`, never blended into the real ranking rows;
+  corrupting the rankings to fit a sponsor would undercut the one thing this whole site is built
+  to sell. Full writeup in `finality-build-brief.md` §11.
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
 - **Article imagery** — two tiers, by explicit client request to override the brief's
