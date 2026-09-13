@@ -2,9 +2,13 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
-import { fetchTopChains, fetchTopProtocols, fmtTvl, fmtChange } from '../../lib/defillama-client';
+import { fetchTopChains, fetchTopProtocols, fetchTopGainers, chainIconUrl, fmtTvl, fmtChange } from '../../lib/defillama-client';
 
-const [chains, protocols] = await Promise.all([fetchTopChains(10), fetchTopProtocols(15)]);
+const [chains, protocols, gainers] = await Promise.all([
+  fetchTopChains(10),
+  fetchTopProtocols(15),
+  fetchTopGainers(10),
+]);
 
 const totalTvl = chains.reduce((sum, c) => sum + c.tvl, 0);
 const spotlights = await getCollection('spotlight');
@@ -58,7 +62,10 @@ const spotlight = spotlights[0];
             {chains.map((c, i) => (
               <div class="row">
                 <span class="rank data">{i + 1}</span>
-                <span class="name">{c.name}</span>
+                <span class="proto">
+                  <img src={chainIconUrl(c.name)} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />
+                  <span class="name">{c.name}</span>
+                </span>
                 <span class="tvl data">{fmtTvl(c.tvl)}</span>
               </div>
             ))}
@@ -75,7 +82,32 @@ const spotlight = spotlights[0];
               <div class="row">
                 <span class="rank data">{i + 1}</span>
                 <span class="proto">
-                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" />}
+                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
+                  <span class="name">{p.name}</span>
+                  <span class="kicker cat">{p.category}</span>
+                </span>
+                <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
+                <span class="tvl data">{fmtTvl(p.tvl)}</span>
+                <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
+                  {fmtChange(p.change_1d)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="block-head">
+            <h2>Актуальные проекты — лидеры роста TVL за 24ч</h2>
+            <span class="kicker">DeFiLlama</span>
+          </div>
+          <p class="table-note kicker">Только протоколы с TVL от $5 млн — иначе рост в процентах ничего не значит.</p>
+          <div class="table" data-gainers-table>
+            {gainers.map((p, i) => (
+              <div class="row">
+                <span class="rank data">{i + 1}</span>
+                <span class="proto">
+                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />}
                   <span class="name">{p.name}</span>
                   <span class="kicker cat">{p.category}</span>
                 </span>
@@ -110,11 +142,24 @@ const spotlight = spotlights[0];
 </BaseLayout>
 
 <script>
-  import { fetchTopChains, fetchTopProtocols, fmtTvl, fmtChange } from '../../lib/defillama-client';
+  import { fetchTopChains, fetchTopProtocols, fetchTopGainers, chainIconUrl, fmtTvl, fmtChange } from '../../lib/defillama-client';
+  import type { ProtocolTvl } from '../../lib/defillama-client';
+
+  function renderProtoRow(p: ProtocolTvl, i: number) {
+    const up = (p.change_1d ?? 0) >= 0;
+    const logo = p.logo
+      ? `<img src="${p.logo}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" />`
+      : '';
+    return `<div class="row"><span class="rank data">${i + 1}</span><span class="proto">${logo}<span class="name">${p.name}</span><span class="kicker cat">${p.category}</span></span><span class="chains data">${p.chains.length} ${p.chains.length === 1 ? 'сеть' : 'сетей'}</span><span class="tvl data">${fmtTvl(p.tvl)}</span><span class="chg data ${up ? 'up' : 'down'}">${fmtChange(p.change_1d)}</span></div>`;
+  }
 
   async function refresh() {
     if (document.hidden) return;
-    const [chains, protocols] = await Promise.all([fetchTopChains(10), fetchTopProtocols(15)]);
+    const [chains, protocols, gainers] = await Promise.all([
+      fetchTopChains(10),
+      fetchTopProtocols(15),
+      fetchTopGainers(10),
+    ]);
 
     const totalEl = document.querySelector<HTMLElement>('[data-total-tvl]');
     if (totalEl) totalEl.textContent = fmtTvl(chains.reduce((s, c) => s + c.tvl, 0));
@@ -124,21 +169,16 @@ const spotlight = spotlights[0];
       chainsTable.innerHTML = chains
         .map(
           (c, i) =>
-            `<div class="row"><span class="rank data">${i + 1}</span><span class="name">${c.name}</span><span class="tvl data">${fmtTvl(c.tvl)}</span></div>`
+            `<div class="row"><span class="rank data">${i + 1}</span><span class="proto"><img src="${chainIconUrl(c.name)}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'" /><span class="name">${c.name}</span></span><span class="tvl data">${fmtTvl(c.tvl)}</span></div>`
         )
         .join('');
     }
 
     const protocolsTable = document.querySelector<HTMLElement>('[data-protocols-table]');
-    if (protocolsTable) {
-      protocolsTable.innerHTML = protocols
-        .map((p, i) => {
-          const up = (p.change_1d ?? 0) >= 0;
-          const logo = p.logo ? `<img src="${p.logo}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" />` : '';
-          return `<div class="row"><span class="rank data">${i + 1}</span><span class="proto">${logo}<span class="name">${p.name}</span><span class="kicker cat">${p.category}</span></span><span class="chains data">${p.chains.length} ${p.chains.length === 1 ? 'сеть' : 'сетей'}</span><span class="tvl data">${fmtTvl(p.tvl)}</span><span class="chg data ${up ? 'up' : 'down'}">${fmtChange(p.change_1d)}</span></div>`;
-        })
-        .join('');
-    }
+    if (protocolsTable) protocolsTable.innerHTML = protocols.map(renderProtoRow).join('');
+
+    const gainersTable = document.querySelector<HTMLElement>('[data-gainers-table]');
+    if (gainersTable) gainersTable.innerHTML = gainers.map(renderProtoRow).join('');
   }
   setInterval(refresh, 90000);
 </script>
@@ -201,6 +241,10 @@ const spotlight = spotlights[0];
   .block-head h2 {
     font-size: var(--step-h3);
   }
+  .table-note {
+    color: var(--graphite);
+    margin: 0 0 8px;
+  }
   .table {
     border-top: 1px solid var(--rule);
   }
@@ -213,7 +257,11 @@ const spotlight = spotlights[0];
     border-bottom: 1px solid var(--rule);
     font-size: 14px;
   }
-  [data-protocols-table] :global(.row) {
+  [data-chains-table] :global(.row) {
+    grid-template-columns: 32px 1fr auto;
+  }
+  [data-protocols-table] :global(.row),
+  [data-gainers-table] :global(.row) {
     grid-template-columns: 32px 1fr 80px 90px 64px;
   }
   .table :global(.rank) {
@@ -276,10 +324,12 @@ const spotlight = spotlights[0];
     }
     /* Same pattern as ArticleRow's mobile treatment: drop the least essential column
        (chains count) rather than fight a 5-column grid into a narrow viewport. */
-    [data-protocols-table] :global(.row) {
+    [data-protocols-table] :global(.row),
+    [data-gainers-table] :global(.row) {
       grid-template-columns: 24px 1fr 70px 56px;
     }
-    [data-protocols-table] :global(.chains) {
+    [data-protocols-table] :global(.chains),
+    [data-gainers-table] :global(.chains) {
       display: none;
     }
   }
