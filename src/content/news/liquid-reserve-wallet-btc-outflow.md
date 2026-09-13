@@ -27,9 +27,9 @@ sources:
   - url: "https://x.com/Liquid_BTC/status/2097404704028545175"
     title: "Официальный отчёт Liquid Network об инциденте"
 related:
+  - crypto-hacks-3-6-billion-18-months
   - stolen-keys-not-code-bugs-defi-losses
   - what-a-federated-sidechain-is
-  - cronos-oracle-manipulation-75m-borrow
 ---
 
 **Что произошло.** 6 сентября в 15:53:10 UTC (блок Liquid 4 050 336) из резервного кошелька федерации Liquid Network — биткоин-сайдчейна, которым управляет Blockstream, — ушло около 4000 из 4200 BTC, находившихся в мультиподписи. На момент вывода это было около $320 млн.

@@ -22,8 +22,9 @@ sources:
   - url: "https://en.cryptonomist.ch/2026/09/09/mastercard-ai-shopping-agent-connect/"
     title: "The Cryptonomist: Mastercard AI Shopping launches Agent Connect integration"
 related:
+  - visa-stablecoin-settlement-20b
+  - paypal-pyusdx-stablecoin-launch
   - us-bank-usbdc-stablecoin-stellar-pilot
-  - metamask-consensys-split-glamsterdam-delay
 ---
 
 **Главное**

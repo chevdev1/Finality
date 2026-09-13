@@ -22,6 +22,7 @@ sources:
   - url: "https://corpgov.law.harvard.edu/2026/09/11/sec-proposes-regulation-crypto-assets-a-tailored-offering-framework-for-crypto-investment-contracts/"
     title: "Harvard Law School Forum on Corporate Governance: SEC Proposes Regulation Crypto Assets"
 related:
+  - nasdaq-texas-commodity-trust-rule
   - clarity-market-structure-test-vote
   - g20-statement-digital-assets-asheville
 ---

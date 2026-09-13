@@ -22,9 +22,9 @@ sources:
   - url: "https://www.certik.com/"
     title: "CertiK — исследования безопасности Web3"
 related:
+  - crypto-hacks-3-6-billion-18-months
   - liquid-reserve-wallet-btc-outflow
   - defi-price-manipulation-attacks-2026
-  - what-a-federated-sidechain-is
 ---
 
 **Что изменилось.** С начала 2026 года DeFi-протоколы потеряли из-за эксплойтов не менее $1,3 млрд, по совместным данным Forbes и аналитической компании CertiK. Важнее самой суммы — то, что впервые за всё время наблюдений компрометация приватных ключей обогнала баги в смарт-контрактах как основная причина потерь.
