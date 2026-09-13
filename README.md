@@ -28,14 +28,21 @@ npm run preview   # serve the built output
   Project Spotlight (`src/pages/spotlight/[slug].astro`).
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
-- **Article imagery** — `src/components/ArticleSeal.astro` gives every article a picture without
-  stock photography or a hero image (both banned by the brief; LCP must stay the headline text).
-  It's inline SVG: a grid of cells whose fill/accent/empty state is derived by hashing the
-  article's own slug, so each story gets a distinct, reproducible "imprint" grown from the same
-  six-cell motif as the verification meter — not a random pattern, and not an external image
-  request (zero decode cost, no Core Web Vitals impact). This is also literally the "hash-derived
-  rosette" idea the concept deck names for network site #2, borrowed here since it fits Finality's
-  own visual language better than any photo would.
+- **Article imagery** — two tiers, by explicit client request to override the brief's
+  no-stock-photography / no-hero-image rule (§2, normally "not the executor's call"):
+  - `src/lib/pexels-client.ts` fetches one themed photo per article at build time from Pexels'
+    free API, keyed by each article's own `imageQuery` frontmatter field (e.g. `"capitol building
+    washington government senate"` for the CLARITY Act story). Needs `PEXELS_API_KEY` in `.env`
+    (see `.env.example`) — never exposed client-side, build-time only.
+  - `src/components/ArticleSeal.astro` is the fallback for articles with no `imageQuery`, no key
+    configured, or an empty search result: an inline SVG grid whose cell states are derived by
+    hashing the article's slug, giving a distinct, reproducible "imprint" grown from the same
+    six-cell motif as the verification meter — literally the "hash-derived rosette" idea the
+    concept deck names for network site #2. Zero image request, zero decode cost.
+  - Accepting real photos means accepting their Core Web Vitals cost too — the photo is no longer
+    invisible to LCP the way the seal is. Every `<img>` ships explicit `width`/`height` (940×650,
+    Pexels' `large` size) so it can't cause layout shift, but it does become the largest
+    above-the-fold element on articles that have one.
 - **JSON-LD** — Organization + WebSite/SearchAction sitewide (`BaseLayout.astro`), NewsArticle +
   BreadcrumbList per article, CollectionPage + ItemList per hub, ProfilePage + Person per author,
   Article + FAQPage on Spotlight.
@@ -104,8 +111,14 @@ If the site ever needs an English edition again, re-add the Redaction/Atkinson F
 and branch `--font-display`/`--font-body` per locale — the token layer already isolates this to
 `src/styles/tokens.css`.
 
-## Two deliberate deviations from the brief
+## Three deliberate deviations from the brief
 
+- **Stock photography, explicitly re-authorized by the client.** §2 bans it outright ("not the
+  executor's call") and ties the no-hero-image rule to keeping LCP as the headline text. The
+  client asked for CoinDesk-style photos anyway after seeing the hash-seal alternative; this
+  build flagged the trade-off (brand differentiation, Core Web Vitals) before building it. See
+  "Article imagery" above for how the fallback keeps every article illustrated even where a photo
+  isn't wanted or available.
 - The brief's §6.1 URL table splits breaking news (`/news/{slug}`) from section explainers
   (`/defi/{slug}`, `/policy/{slug}`, …). This build routes every article as `/{section}/{slug}` —
   one rule, no `type` field needed to decide which prefix applies, and it still satisfies the

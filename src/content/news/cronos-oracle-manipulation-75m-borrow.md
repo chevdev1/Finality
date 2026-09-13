@@ -6,6 +6,7 @@ status: final
 publishedAt: 2026-08-31T00:00:00Z
 updatedAt: 2026-09-06T00:00:00Z
 author: mara-okafor
+imageQuery: "cryptocurrency trading chart screen"
 takeaways:
   - "30 августа атакующий разогнал цену токена TONIC в 100 раз и занял под него около $75 млн из кредитного протокола Tectonic на Cronos."
   - "Валидаторы Cronos остановили производство блоков в течение нескольких минут; к этому моменту на Ethereum успели вывести около $6 млн."

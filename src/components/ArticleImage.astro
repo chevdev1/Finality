@@ -1,0 +1,44 @@
+---
+import type { PexelsPhoto } from '../lib/pexels-client';
+
+interface Props {
+  photo: PexelsPhoto;
+}
+
+const { photo } = Astro.props;
+---
+
+<figure class="figure">
+  <img
+    src={photo.src}
+    width={photo.width}
+    height={photo.height}
+    alt={photo.alt}
+    loading="eager"
+    decoding="async"
+  />
+  <figcaption class="kicker">
+    Фото: <a href={photo.photographerUrl} target="_blank" rel="noopener">{photo.photographer}</a> / <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>
+  </figcaption>
+</figure>
+
+<style>
+  .figure {
+    margin: 0;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 940 / 650;
+    object-fit: cover;
+    border: 1px solid var(--rule);
+  }
+  figcaption {
+    margin-top: 6px;
+    color: var(--graphite);
+  }
+  figcaption a {
+    color: var(--graphite);
+  }
+</style>

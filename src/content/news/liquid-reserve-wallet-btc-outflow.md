@@ -7,6 +7,7 @@ publishedAt: 2026-09-07T09:00:00Z
 updatedAt: 2026-09-12T18:00:00Z
 author: mara-okafor
 featured: true
+imageQuery: "cybersecurity hacker dark cryptocurrency"
 takeaways:
   - "6 сентября из федеративного резерва Liquid Network ушло 4000 из 4200 BTC (~$320 млн) из-за бага в кэшировании проверки range proof в открытом коде Elements."
   - "7 сентября атакующие вернули 3400 BTC, назвав себя «белыми хакерами», проводившими раскрытие уязвимости; ещё около 600 BTC пока не возвращены."

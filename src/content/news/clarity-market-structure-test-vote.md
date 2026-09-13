@@ -6,6 +6,7 @@ status: developing
 publishedAt: 2026-09-01T00:00:00Z
 updatedAt: 2026-09-11T00:00:00Z
 author: dev-patel
+imageQuery: "capitol building washington government senate"
 takeaways:
   - "Процедурное голосование по биллю CLARITY (cloture vote) назначено на 15 сентября — нужно 60 голосов, чтобы преодолеть филибастер."
   - "Не согласованы этические положения для законодателей, правила противодействия нелегальным финансам и режим вознаграждений по стейблкоинам."

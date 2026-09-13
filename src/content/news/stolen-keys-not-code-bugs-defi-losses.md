@@ -6,6 +6,7 @@ status: final
 publishedAt: 2026-09-10T00:00:00Z
 updatedAt: 2026-09-12T00:00:00Z
 author: mara-okafor
+imageQuery: "digital lock security padlock technology"
 takeaways:
   - "За первые восемь месяцев 2026 года DeFi-протоколы потеряли от эксплойтов не менее $1,3 млрд, по данным CertiK и Forbes."
   - "Компрометация приватных ключей впервые обошла баги в смарт-контрактах как главная причина потерь — такого не фиксировали ни разу за всю историю наблюдений."

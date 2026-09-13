@@ -6,6 +6,7 @@ status: final
 publishedAt: 2026-09-03T00:00:00Z
 updatedAt: 2026-09-04T00:00:00Z
 author: lina-suarez
+imageQuery: "bitcoin gold coin finance investment"
 takeaways:
   - "3 сентября спотовые биткоин-ETF в США привлекли $731 млн за один день — лучший показатель с 14 января."
   - "IBIT от BlackRock обеспечил $454 млн из этой суммы — больше 60% всего притока в тот день."

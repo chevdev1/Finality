@@ -6,6 +6,7 @@ status: final
 publishedAt: 2026-09-09T00:00:00Z
 updatedAt: 2026-09-09T00:00:00Z
 author: dev-patel
+imageQuery: "credit card payment technology contactless"
 takeaways:
   - "9 сентября Mastercard запустила Agent Connect — единую интеграцию для продавцов, ИИ-агентов, платформ и провайдеров платежей."
   - "Стартовая сеть работает в США и включает такие компании и платформы, как Global Payments, Samsung, Trip.com, Nexi и Vodafone Egypt."

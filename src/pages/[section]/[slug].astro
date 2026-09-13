@@ -6,8 +6,10 @@ import RelatedList from '../../components/RelatedList.astro';
 import AuthorCard from '../../components/AuthorCard.astro';
 import KeyTakeaways from '../../components/KeyTakeaways.astro';
 import ArticleSeal from '../../components/ArticleSeal.astro';
+import ArticleImage from '../../components/ArticleImage.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import { SECTION_LABELS, STATUS_LABELS } from '../../lib/labels';
+import { fetchThemedPhoto } from '../../lib/pexels-client';
 
 export async function getStaticPaths() {
   const news = await getCollection('news');
@@ -20,6 +22,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const author = await getEntry('authors', entry.data.author);
+// Falls back to the hash-derived seal (ArticleSeal) whenever there's no imageQuery, no
+// PEXELS_API_KEY configured, or the search comes back empty — every article still gets a
+// picture either way, per the brief's carve-out for this feature (see README "Article imagery").
+const photo = entry.data.imageQuery ? await fetchThemedPhoto(entry.data.imageQuery) : null;
 
 const news = await getCollection('news');
 const relatedEntries = entry.data.related
@@ -118,7 +124,7 @@ const jsonLd = [
     </aside>
 
     <div class="prose">
-      <ArticleSeal seed={entry.id} />
+      {photo ? <ArticleImage photo={photo} /> : <ArticleSeal seed={entry.id} />}
       <KeyTakeaways items={entry.data.takeaways} />
       <TableOfContents headings={headings} />
       <Content />
@@ -227,6 +233,7 @@ const jsonLd = [
     line-height: 1.6;
   }
   .prose > :global(.seal),
+  .prose > :global(.figure),
   .prose > :global(.takeaways),
   .prose > :global(.toc) {
     margin-bottom: 24px;

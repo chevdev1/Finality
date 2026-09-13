@@ -6,6 +6,7 @@ status: developing
 publishedAt: 2026-09-09T00:00:00Z
 updatedAt: 2026-09-11T00:00:00Z
 author: dev-patel
+imageQuery: "ethereum cryptocurrency network technology blue"
 takeaways:
   - "9 сентября MetaMask официально отделился от Consensys как самостоятельный бизнес."
   - "Consensys планирует полностью разделить потребительское и институциональное направления до конца года."

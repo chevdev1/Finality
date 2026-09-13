@@ -6,6 +6,7 @@ status: final
 publishedAt: 2026-09-06T00:00:00Z
 updatedAt: 2026-09-06T00:00:00Z
 author: mara-okafor
+imageQuery: "stock market crash red graph decline"
 takeaways:
   - "С начала 2026 года TRM Labs зафиксировала 32 атаки через манипуляцию ценой на DeFi-кредиторов — рекорд для отрасли."
   - "Общая черта атак — низколиквидные токены, чью цену на локальном рынке может сдвинуть один хорошо капитализированный участник."

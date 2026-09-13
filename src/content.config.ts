@@ -34,6 +34,7 @@ const news = defineCollection({
     related: z.array(z.string()).default([]),
     sponsored: z.literal(false).default(false),
     featured: z.boolean().default(false),
+    imageQuery: z.string().optional(),
   }),
 });
 
