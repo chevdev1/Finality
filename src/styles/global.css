@@ -70,6 +70,7 @@ h3 {
 
 .data {
   font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
 }
 
 .rule {

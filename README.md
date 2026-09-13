@@ -61,6 +61,22 @@ npm run preview   # serve the built output
   dashed-border card reusing `SpotlightTeaser`, never blended into the real ranking rows;
   corrupting the rankings to fit a sponsor would undercut the one thing this whole site is built
   to sell. Full writeup in `finality-build-brief.md` §11.
+  Second design pass fixed five real bugs found in live review: the header ticker was rendering
+  its item set twice unconditionally for the infinite-scroll loop, which visibly repeated the
+  last couple of symbols (SOL/USDT) on wide viewports where one copy already filled the width —
+  it now measures first and only clones when the content actually needs to loop. The Spotlight
+  slot could leak `project-template.md`'s `[Project]` placeholder onto prod if no real sponsor
+  was live; it now filters for a project name with no bracket and falls back to an in-house
+  editorial block instead of a fake ad. `.data` gained `font-variant-numeric: tabular-nums`
+  globally (it never had it). Protocol/gainer rows gained a real Δ7d column (previously only
+  inside the accordion), hidden first below 1024px. Each table's `<details>` rows share a `name`
+  attribute so only one row per table can be open at once — HTML's native exclusive-accordion
+  behavior, zero JS. The disclosure glyph changed from a rotating "+" to a chevron rotating 180°.
+  The stats strip became a dense hairline-bordered row instead of a boxed card, gained a fourth
+  "Обновлено" (build time) stat and a methodology tooltip on Total TVL. The sidebar gained two
+  data-only modules built from arrays already fetched for the tables — "Project of the day" (the
+  #1 gainer) and "Newly listed" (sorted by DeFiLlama's real `listedAt` field) — plus an honest
+  empty-state message if the DeFiLlama API is down at build time instead of a silently empty table.
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
 - **Article imagery** — two tiers, by explicit client request to override the brief's

@@ -25,26 +25,28 @@ function fmtPx(n: number | null, decimals: number) {
   if (n === null) return '—';
   return n.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
+
+function fmtUpdated(d: Date) {
+  return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
+}
+const buildTime = fmtUpdated(new Date());
 ---
 
 <div class="ticker" data-ticker>
   <span class="badge">COINGECKO</span>
   <div class="track" data-track>
-    {Array.from({ length: 2 }).map(() => (
-      <>
-        {rows.map((r) => (
-          <span class="item" data-sym={r.id} data-decimals={r.decimals}>
-            <span class="sym">{r.sym}</span>
-            <span class="px data" data-px>{fmtPx(r.px, r.decimals)}</span>
-            {r.chgPct !== null && (
-              <span class:list={['chg', 'data', r.up ? 'up' : 'down']} data-chg>
-                <span data-arrow>{r.up ? '▲' : '▼'}</span> <span data-pct>{Math.abs(r.chgPct).toFixed(1)}</span>%
-              </span>
-            )}
+    {rows.map((r) => (
+      <span class="item" data-sym={r.id} data-decimals={r.decimals}>
+        <span class="sym">{r.sym}</span>
+        <span class="px data" data-px>{fmtPx(r.px, r.decimals)}</span>
+        {r.chgPct !== null && (
+          <span class:list={['chg', 'data', r.up ? 'up' : 'down']} data-chg>
+            <span data-arrow>{r.up ? '▲' : '▼'}</span> <span data-pct>{Math.abs(r.chgPct).toFixed(1)}</span>%
           </span>
-        ))}
-      </>
+        )}
+      </span>
     ))}
+    <span class="item updated data" data-updated>Обновлено {buildTime}</span>
   </div>
 </div>
 
@@ -63,17 +65,27 @@ function fmtPx(n: number | null, decimals: number) {
       paused = document.hidden;
     });
 
-    if (!reduce) {
+    // Only duplicate the item set (for a seamless loop) when it doesn't already fill the
+    // ticker's width. Rendering two copies unconditionally used to make the last couple of
+    // items (SOL, USDT) visibly repeat inside the viewport on wide screens where one copy
+    // was already wide enough — the fix is to measure first, not to hide it with CSS.
+    const singleWidth = track.scrollWidth;
+    const fits = singleWidth <= ticker.clientWidth;
+    if (!fits && !reduce) {
+      track.append(...Array.from(track.children).map((el) => el.cloneNode(true) as HTMLElement));
+    }
+
+    if (!fits && !reduce) {
       let x = 0;
       let last = performance.now();
       const speed = 40; // px/s
+      const half = singleWidth;
 
       function step(now: number) {
         const dt = (now - last) / 1000;
         last = now;
         if (!paused) {
           x -= speed * dt;
-          const half = track!.scrollWidth / 2;
           if (Math.abs(x) >= half) x += half;
           track!.style.transform = `translateX(${x}px)`;
         }
@@ -115,6 +127,14 @@ function fmtPx(n: number | null, decimals: number) {
                 setTimeout(() => px?.classList.remove('flash'), 160);
               }
             }
+          }
+          const updated = new Date().toLocaleTimeString('ru-RU', {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'UTC',
+          }) + ' UTC';
+          for (const el of ticker!.querySelectorAll<HTMLElement>('[data-updated]')) {
+            el.textContent = `Обновлено ${updated}`;
           }
         }
       }
@@ -165,6 +185,10 @@ function fmtPx(n: number | null, decimals: number) {
   }
   .sym {
     font-weight: 700;
+  }
+  .updated {
+    color: #9aa39d;
+    font-size: 11px;
   }
   /* --up/--down (#0B7A4E / #C8322B) are tuned for light backgrounds — on the ticker's dark
      --ink they'd fail contrast almost entirely. These are lighter tints of the same hue,
