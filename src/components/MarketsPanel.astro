@@ -1,28 +1,82 @@
 ---
-// Demo data — see BUILD.md §7. Replace with a live quote feed before launch.
+import { fetchQuotes, fetchStablecoinSupply, fmtUsd, fmtPct, fmtCompactUsd } from '../lib/coingecko-client';
+
+// Build-time fetch, same rationale as Ticker.astro: the no-JS static page already
+// shows real numbers as of the last build; the client script refreshes them live.
+const [quotes, stableSupply] = await Promise.all([fetchQuotes(), fetchStablecoinSupply()]);
+
 const rows = [
-  { label: 'Bitcoin', value: '$79,412', chg: '+1.8%', up: true },
-  { label: 'Ether', value: '$2,488', chg: '+0.9%', up: true },
-  { label: 'Предложение стейблкоинов', value: '$318B', chg: '+0.2%', up: true },
-  { label: 'Поток в BTC ETF, 7д', value: '+$1.1B', chg: '', up: true },
+  {
+    id: 'bitcoin',
+    label: 'Bitcoin',
+    value: quotes ? fmtUsd(quotes.bitcoin.usd) : '—',
+    chg: quotes ? fmtPct(quotes.bitcoin.usd_24h_change) : '',
+    up: quotes ? quotes.bitcoin.usd_24h_change >= 0 : true,
+  },
+  {
+    id: 'ethereum',
+    label: 'Ether',
+    value: quotes ? fmtUsd(quotes.ethereum.usd) : '—',
+    chg: quotes ? fmtPct(quotes.ethereum.usd_24h_change) : '',
+    up: quotes ? quotes.ethereum.usd_24h_change >= 0 : true,
+  },
+  {
+    id: 'stablecoins',
+    label: 'USDT + USDC + DAI, капитализация',
+    value: stableSupply !== null ? fmtCompactUsd(stableSupply) : '—',
+    chg: '',
+    up: true,
+  },
 ];
 ---
 
-<div class="panel">
+<div class="panel" data-markets>
   <div class="head">
     <span class="kicker">Рынки</span>
-    <span class="kicker demo">Демо-данные</span>
+    <span class="kicker demo">CoinGecko</span>
   </div>
   {rows.map((r) => (
-    <div class="row">
+    <div class="row" data-row={r.id}>
       <span>{r.label}</span>
       <span class="right">
-        <span class="data">{r.value}</span>
-        {r.chg && <span class:list={['data', 'chg', r.up ? 'up' : 'down']}>{r.chg}</span>}
+        <span class="data" data-value>{r.value}</span>
+        {r.chg && <span class:list={['data', 'chg', r.up ? 'up' : 'down']} data-chg>{r.chg}</span>}
       </span>
     </div>
   ))}
 </div>
+
+<script>
+  import { fetchQuotes, fetchStablecoinSupply, fmtUsd, fmtPct, fmtCompactUsd } from '../lib/coingecko-client';
+
+  const panel = document.querySelector<HTMLElement>('[data-markets]');
+  if (panel) {
+    async function refresh() {
+      if (document.hidden) return;
+      const [quotes, stableSupply] = await Promise.all([fetchQuotes(), fetchStablecoinSupply()]);
+      if (quotes) {
+        for (const id of ['bitcoin', 'ethereum'] as const) {
+          const row = panel!.querySelector<HTMLElement>(`[data-row="${id}"]`);
+          const q = quotes[id];
+          if (!row || !q) continue;
+          const value = row.querySelector<HTMLElement>('[data-value]');
+          const chg = row.querySelector<HTMLElement>('[data-chg]');
+          if (value) value.textContent = fmtUsd(q.usd);
+          if (chg) {
+            chg.textContent = fmtPct(q.usd_24h_change);
+            chg.className = `data chg ${q.usd_24h_change >= 0 ? 'up' : 'down'}`;
+          }
+        }
+      }
+      if (stableSupply !== null) {
+        const row = panel!.querySelector<HTMLElement>('[data-row="stablecoins"]');
+        const value = row?.querySelector<HTMLElement>('[data-value]');
+        if (value) value.textContent = fmtCompactUsd(stableSupply);
+      }
+    }
+    setInterval(refresh, 60000);
+  }
+</script>
 
 <style>
   .panel {
@@ -42,6 +96,7 @@ const rows = [
   .row {
     display: flex;
     justify-content: space-between;
+    gap: 12px;
     font-size: 14px;
     border-top: 1px solid var(--rule);
     padding-top: 8px;
@@ -49,6 +104,7 @@ const rows = [
   .right {
     display: flex;
     gap: 8px;
+    flex-shrink: 0;
   }
   .up {
     color: var(--up);

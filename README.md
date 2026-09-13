@@ -35,6 +35,15 @@ npm run preview   # serve the built output
   hand-rolled `src/pages/news-sitemap.xml.ts` per brief §6.2 (Google News format, articles from
   the last 48h only — empty right now since the demo dates are older than that, which is the
   correct behavior for real content too).
+- **Live quotes** — `src/lib/coingecko-client.ts` calls CoinGecko's free, CORS-open, no-API-key
+  endpoints. The ticker (BTC/ETH/SOL/USDT) and Markets panel (BTC, ETH, USDT+USDC+DAI market
+  cap) fetch at build time — so the no-JS static page already shows real numbers as of the last
+  build, not placeholders — and again client-side every 60s while the tab is open, flashing
+  whichever ticker price actually changed (brief §5's price-flash spec, now driven by a real feed
+  instead of a simulation). Each fetch helper caches its promise for 20s so one `astro build`
+  (which renders Ticker on all 26 pages) hits CoinGecko once, not 26 times — verified by
+  instrumenting the fetch during a build. No API key, no backend: this really is just a public
+  API call from the browser/build process, nothing more.
 - **OG images** — generated at build time with `satori` + `@resvg/resvg-js` (`src/lib/og.ts`):
   `/og/{section}/{slug}.png` per article (real section/status/title/check count) and
   `/og-default.png` for the brand card, used as the fallback `og:image` and as
@@ -50,8 +59,6 @@ npm run preview   # serve the built output
   deck's demo headlines, each marked with an HTML comment at the top of the file. Sources point at
   institutional homepages, not specific verified articles. Swap in real, sourced reporting per
   `finality-build-brief.md` §7.
-- **Ticker and Markets panel** show static demo quotes, labeled "DEMO DATA" in the UI per the brief.
-  Wire a real quote feed when one is chosen (§9 of the brief covers what's needed from the client).
 - **Project Spotlight** (`src/content/spotlight/project-template.md`) is the placeholder template —
   PROJECT_NAME / PROJECT_URL / PROJECT_BRIEF were never supplied. Do not publish as-is.
 - **Author photos** use initials avatars instead of real photos (also intentional — no stock photography
@@ -117,11 +124,13 @@ Checked against the brief's §8 checklist:
 ## Motion
 
 All ten rows of the brief's §5 motion table are implemented except one: "new check arrives in a
-live story" needs a real push channel from an editorial backend, which doesn't exist for a static
-site. The ticker's price flash *is* implemented — `src/components/Ticker.astro` runs a client-side
-demo tick every few seconds that nudges one quote by a small random amount and flashes its
-background-color only (never keyframes), 160ms in / 180ms out, matching the brief's timing. It's
-still demo data, just no longer static demo data. Note the one deliberate exception to
+live story" needs a real push channel from an editorial backend. That's deliberately not built —
+standing up a server just to drive one cell-fill animation isn't a reasonable trade for a pilot
+with no editorial backend yet; it's worth building once there's an actual CMS to push from. The
+ticker's price flash *is* implemented against
+a real feed: `src/components/Ticker.astro` polls CoinGecko every 60s and flashes only the prices
+that actually moved, background-color only (never keyframes), 160ms in / 180ms out, matching the
+brief's timing. Note the one deliberate exception to
 `prefers-reduced-motion`: the brief keeps color flashes even in reduced motion (only stagger and
 positional movement get removed), so the ticker's `.px` rule overrides global.css's blanket
 transition-duration squash for that element specifically.

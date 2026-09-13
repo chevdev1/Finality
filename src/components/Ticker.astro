@@ -1,39 +1,46 @@
 ---
-// Demo data — see BUILD.md §7. Replace with a live quote feed before launch.
-const quotes = [
-  { sym: 'BTC', px: 79412, decimals: 0, chgPct: 1.8, up: true },
-  { sym: 'ETH', px: 2488, decimals: 0, chgPct: 0.9, up: true },
-  { sym: 'SOL', px: 164.2, decimals: 1, chgPct: -0.6, up: false },
-];
-const staticItems = [
-  { sym: 'BTC ETF 7D', px: '+$1.1B' },
-  { sym: 'USDT', px: '1.0002' },
-  { sym: 'FOMC', px: 'через 5 дней' },
-];
+import { fetchQuotes, fmtUsd } from '../lib/coingecko-client';
 
-function fmt(n: number, decimals: number) {
+// Build-time fetch so the static, no-JS fallback already shows real prices as of the
+// last build, not placeholder numbers. The client script below re-fetches periodically
+// once the page is interactive to keep them live during the visit.
+const quotes = await fetchQuotes();
+
+const rows = [
+  { sym: 'BTC', id: 'bitcoin' as const, decimals: 0 },
+  { sym: 'ETH', id: 'ethereum' as const, decimals: 0 },
+  { sym: 'SOL', id: 'solana' as const, decimals: 1 },
+  { sym: 'USDT', id: 'tether' as const, decimals: 4 },
+].map((r) => {
+  const q = quotes?.[r.id];
+  return {
+    ...r,
+    px: q ? q.usd : null,
+    chgPct: q ? q.usd_24h_change : null,
+    up: q ? q.usd_24h_change >= 0 : true,
+  };
+});
+
+function fmtPx(n: number | null, decimals: number) {
+  if (n === null) return '—';
   return n.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 ---
 
 <div class="ticker" data-ticker>
-  <span class="badge">ДЕМО-ДАННЫЕ</span>
+  <span class="badge">COINGECKO</span>
   <div class="track" data-track>
     {Array.from({ length: 2 }).map(() => (
       <>
-        {quotes.map((q) => (
-          <span class="item" data-sym={q.sym} data-decimals={q.decimals}>
-            <span class="sym">{q.sym}</span>
-            <span class="px data" data-px>{fmt(q.px, q.decimals)}</span>
-            <span class:list={['chg', 'data', q.up ? 'up' : 'down']} data-chg>
-              <span data-arrow>{q.up ? '▲' : '▼'}</span> <span data-pct>{Math.abs(q.chgPct).toFixed(1)}</span>%
-            </span>
-          </span>
-        ))}
-        {staticItems.map((s) => (
-          <span class="item">
-            <span class="sym">{s.sym}</span>
-            <span class="px data">{s.px}</span>
+        {rows.map((r) => (
+          <span class="item" data-sym={r.id} data-decimals={r.decimals}>
+            <span class="sym">{r.sym}</span>
+            <span class="px data" data-px>{fmtPx(r.px, r.decimals)}</span>
+            {r.chgPct !== null && (
+              <span class:list={['chg', 'data', r.up ? 'up' : 'down']} data-chg>
+                <span data-arrow>{r.up ? '▲' : '▼'}</span> <span data-pct>{Math.abs(r.chgPct).toFixed(1)}</span>%
+              </span>
+            )}
           </span>
         ))}
       </>
@@ -42,6 +49,8 @@ function fmt(n: number, decimals: number) {
 </div>
 
 <script>
+  import { fetchQuotes } from '../lib/coingecko-client';
+
   const ticker = document.querySelector<HTMLElement>('[data-ticker]');
   const track = ticker?.querySelector<HTMLElement>('[data-track]');
   if (ticker && track) {
@@ -73,45 +82,45 @@ function fmt(n: number, decimals: number) {
       requestAnimationFrame(step);
     }
 
-    // Simulated tick: nudges one quote's price by a small random amount so the
-    // "price flash" from the brief's motion table has something to show. Both
-    // looped copies of that symbol update together so the marquee stays consistent.
-    function tick() {
+    // Re-fetch real quotes periodically and flash whichever price actually moved
+    // since the last poll — this is the brief's "price flash" motion spec (§5),
+    // now driven by a real feed instead of a simulated one.
+    const ids = ['bitcoin', 'ethereum', 'solana', 'tether'] as const;
+    async function poll() {
       if (!paused) {
-        const groups = new Map<string, HTMLElement[]>();
-        ticker!.querySelectorAll<HTMLElement>('[data-sym]').forEach((el) => {
-          const sym = el.dataset.sym!;
-          if (!groups.has(sym)) groups.set(sym, []);
-          groups.get(sym)!.push(el);
-        });
-        const syms = [...groups.keys()];
-        const sym = syms[Math.floor(Math.random() * syms.length)];
-        const els = groups.get(sym)!;
-        const decimals = Number(els[0].dataset.decimals);
-        const pxEl = els[0].querySelector<HTMLElement>('[data-px]');
-        const current = Number(pxEl?.textContent?.replace(/[^\d.,-]/g, '').replace(',', '.'));
-        if (Number.isFinite(current)) {
-          const delta = current * (Math.random() * 0.006 - 0.003);
-          const next = Math.max(0, current + delta);
-          const up = delta >= 0;
-          const nextText = next.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-          for (const el of els) {
-            const px = el.querySelector<HTMLElement>('[data-px]');
-            const chg = el.querySelector<HTMLElement>('[data-chg]');
-            const arrow = el.querySelector<HTMLElement>('[data-arrow]');
-            const pct = el.querySelector<HTMLElement>('[data-pct]');
-            if (px) px.textContent = nextText;
-            if (chg) chg.className = `chg data ${up ? 'up' : 'down'}`;
-            if (arrow) arrow.textContent = up ? '▲' : '▼';
-            if (pct) pct.textContent = Math.abs((delta / current) * 100).toFixed(1);
-            px?.classList.add('flash');
-            setTimeout(() => px?.classList.remove('flash'), 160);
+        const quotes = await fetchQuotes();
+        if (quotes) {
+          for (const id of ids) {
+            const q = quotes[id];
+            if (!q) continue;
+            const els = ticker!.querySelectorAll<HTMLElement>(`[data-sym="${id}"]`);
+            for (const el of els) {
+              const decimals = Number(el.dataset.decimals);
+              const px = el.querySelector<HTMLElement>('[data-px]');
+              const chg = el.querySelector<HTMLElement>('[data-chg]');
+              const arrow = el.querySelector<HTMLElement>('[data-arrow]');
+              const pct = el.querySelector<HTMLElement>('[data-pct]');
+              const nextText = q.usd.toLocaleString('ru-RU', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals,
+              });
+              const changed = px && px.textContent !== nextText;
+              const up = q.usd_24h_change >= 0;
+              if (px) px.textContent = nextText;
+              if (chg) chg.className = `chg data ${up ? 'up' : 'down'}`;
+              if (arrow) arrow.textContent = up ? '▲' : '▼';
+              if (pct) pct.textContent = Math.abs(q.usd_24h_change).toFixed(1);
+              if (changed) {
+                px?.classList.add('flash');
+                setTimeout(() => px?.classList.remove('flash'), 160);
+              }
+            }
           }
         }
       }
-      setTimeout(tick, 3000 + Math.random() * 2000);
+      setTimeout(poll, 60000);
     }
-    setTimeout(tick, 3000);
+    setTimeout(poll, 60000);
   }
 </script>
 
@@ -166,10 +175,7 @@ function fmt(n: number, decimals: number) {
   .down {
     color: #ef8a85;
   }
-  /* Price flash: background-color only, per the brief's motion table (never keyframes).
-     Exit (180ms, the resting rule) is slower than entry (160ms, the .flash rule) is
-     backwards from every other component on this site on purpose — here "entry" is the
-     flash appearing and "exit" is it fading, and the brief times the fade-out at 180ms. */
+  /* Price flash: background-color only, per the brief's motion table (never keyframes). */
   .px {
     padding: 0 2px;
     background-color: transparent;
