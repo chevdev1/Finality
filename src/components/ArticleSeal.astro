@@ -1,0 +1,71 @@
+---
+// A deterministic, hash-derived cell pattern unique to each article — an "imprint" grown
+// from the same six-cell motif as the verification meter, not a stock photo or a licensed
+// illustration. The brief bans hero images (LCP must stay the headline text) and stock
+// photography everywhere; this sidesteps both by being inline SVG (no image request, no
+// decode cost) seeded by the article's own slug, so it's reproducible and never random.
+interface Props {
+  seed: string;
+  cols?: number;
+  rows?: number;
+}
+
+const { seed, cols = 18, rows = 5 } = Astro.props;
+
+function hash(str: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function valueAt(seed: string, i: number): number {
+  const h = hash(`${seed}:${i}`);
+  return (h % 10000) / 10000;
+}
+
+const cellSize = 18;
+const gap = 4;
+const width = cols * (cellSize + gap) - gap;
+const height = rows * (cellSize + gap) - gap;
+
+const cells = Array.from({ length: cols * rows }, (_, i) => {
+  const v = valueAt(seed, i);
+  const col = i % cols;
+  const row = Math.floor(i / cols);
+  const kind = v > 0.86 ? 'accent' : v > 0.5 ? 'fill' : 'empty';
+  return { x: col * (cellSize + gap), y: row * (cellSize + gap), kind };
+});
+---
+
+<svg
+  class="seal"
+  viewBox={`0 0 ${width} ${height}`}
+  role="img"
+  aria-hidden="true"
+  preserveAspectRatio="xMidYMid meet"
+>
+  {cells.map((c) => (
+    <rect
+      x={c.x}
+      y={c.y}
+      width={cellSize}
+      height={cellSize}
+      fill={c.kind === 'fill' ? 'var(--ink)' : c.kind === 'accent' ? 'var(--pending)' : 'var(--paper)'}
+      stroke="var(--rule)"
+      stroke-width="1.5"
+    />
+  ))}
+</svg>
+
+<style>
+  .seal {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+    border: 1px solid var(--rule);
+  }
+</style>

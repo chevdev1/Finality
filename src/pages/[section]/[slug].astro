@@ -5,6 +5,7 @@ import VerificationLog from '../../components/VerificationLog.astro';
 import RelatedList from '../../components/RelatedList.astro';
 import AuthorCard from '../../components/AuthorCard.astro';
 import KeyTakeaways from '../../components/KeyTakeaways.astro';
+import ArticleSeal from '../../components/ArticleSeal.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import { SECTION_LABELS, STATUS_LABELS } from '../../lib/labels';
 
@@ -117,6 +118,7 @@ const jsonLd = [
     </aside>
 
     <div class="prose">
+      <ArticleSeal seed={entry.id} />
       <KeyTakeaways items={entry.data.takeaways} />
       <TableOfContents headings={headings} />
       <Content />
@@ -224,6 +226,7 @@ const jsonLd = [
     font-size: var(--step-body);
     line-height: 1.6;
   }
+  .prose > :global(.seal),
   .prose > :global(.takeaways),
   .prose > :global(.toc) {
     margin-bottom: 24px;

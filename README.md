@@ -28,6 +28,14 @@ npm run preview   # serve the built output
   Project Spotlight (`src/pages/spotlight/[slug].astro`).
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
+- **Article imagery** — `src/components/ArticleSeal.astro` gives every article a picture without
+  stock photography or a hero image (both banned by the brief; LCP must stay the headline text).
+  It's inline SVG: a grid of cells whose fill/accent/empty state is derived by hashing the
+  article's own slug, so each story gets a distinct, reproducible "imprint" grown from the same
+  six-cell motif as the verification meter — not a random pattern, and not an external image
+  request (zero decode cost, no Core Web Vitals impact). This is also literally the "hash-derived
+  rosette" idea the concept deck names for network site #2, borrowed here since it fits Finality's
+  own visual language better than any photo would.
 - **JSON-LD** — Organization + WebSite/SearchAction sitewide (`BaseLayout.astro`), NewsArticle +
   BreadcrumbList per article, CollectionPage + ItemList per hub, ProfilePage + Person per author,
   Article + FAQPage on Spotlight.
