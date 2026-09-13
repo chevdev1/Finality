@@ -25,7 +25,17 @@ npm run preview   # serve the built output
   `src/content/{news,authors,spotlight}/`.
 - **Templates** — homepage (`src/pages/index.astro`), article (`src/pages/[section]/[slug].astro`),
   section hub (`src/pages/[section]/index.astro`), author page (`src/pages/author/[name].astro`),
-  Project Spotlight (`src/pages/spotlight/[slug].astro`).
+  Project Spotlight (`src/pages/spotlight/[slug].astro`), and Projects
+  (`src/pages/projects/index.astro`, added post-launch — see below).
+- **Projects page** (`/projects/`) — a DappRadar-style ranking of chains/protocols by TVL, requested
+  by the client, built in Finality's own visual language instead of copying the dark-neon reference
+  screenshot (§10 already bans that look). `src/lib/defillama-client.ts` calls DeFiLlama's free,
+  key-free public API — chosen over DappRadar, whose production tier is $249/mo and whose API
+  domain didn't even resolve from this build sandbox. Two ledger tables (top chains, top protocols),
+  a stats strip, and — critically — the client's future paid placement is a separate dashed-border
+  card reusing `SpotlightTeaser`, never blended into the real ranking rows; corrupting the rankings
+  to fit a sponsor would undercut the one thing this whole site is built to sell. Full writeup in
+  `finality-build-brief.md` §11.
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
 - **Article imagery** — two tiers, by explicit client request to override the brief's

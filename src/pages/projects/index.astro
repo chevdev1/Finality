@@ -1,0 +1,286 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
+import { fetchTopChains, fetchTopProtocols, fmtTvl, fmtChange } from '../../lib/defillama-client';
+
+const [chains, protocols] = await Promise.all([fetchTopChains(10), fetchTopProtocols(15)]);
+
+const totalTvl = chains.reduce((sum, c) => sum + c.tvl, 0);
+const spotlights = await getCollection('spotlight');
+const spotlight = spotlights[0];
+---
+
+<BaseLayout
+  title="Проекты — Finality"
+  description="Рейтинг блокчейнов и протоколов по объёму заблокированных средств (TVL), с источником у каждой цифры."
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Проекты — Finality',
+      about: 'Рейтинг блокчейнов и протоколов по TVL',
+    },
+  ]}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href="/">Finality</a> / Проекты</nav>
+    <h1 class="title">Проекты</h1>
+    <p class="intro">
+      Блокчейны и протоколы, отсортированные по объёму заблокированных средств (TVL). Разница в TVL
+      за 24 часа — не то же самое, что рост числа пользователей, но это единственная метрика здесь,
+      у которой есть открытый, проверяемый источник у каждой строки.
+    </p>
+
+    <div class="stats" data-stats>
+      <div class="stat">
+        <span class="kicker">Суммарный TVL, топ-10 сетей</span>
+        <span class="data value" data-total-tvl>{fmtTvl(totalTvl)}</span>
+      </div>
+      <div class="stat">
+        <span class="kicker">Протоколов в рейтинге</span>
+        <span class="data value">{protocols.length}</span>
+      </div>
+      <div class="stat">
+        <span class="kicker">Источник</span>
+        <span class="value"><a href="https://defillama.com" target="_blank" rel="noopener">DeFiLlama</a></span>
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="main">
+        <section class="block">
+          <div class="block-head">
+            <h2>Топ блокчейнов по TVL</h2>
+            <span class="kicker">DeFiLlama</span>
+          </div>
+          <div class="table" data-chains-table>
+            {chains.map((c, i) => (
+              <div class="row">
+                <span class="rank data">{i + 1}</span>
+                <span class="name">{c.name}</span>
+                <span class="tvl data">{fmtTvl(c.tvl)}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="block">
+          <div class="block-head">
+            <h2>Топ протоколов по TVL</h2>
+            <span class="kicker">DeFiLlama</span>
+          </div>
+          <div class="table" data-protocols-table>
+            {protocols.map((p, i) => (
+              <div class="row">
+                <span class="rank data">{i + 1}</span>
+                <span class="proto">
+                  {p.logo && <img src={p.logo} width="20" height="20" alt="" aria-hidden="true" loading="lazy" />}
+                  <span class="name">{p.name}</span>
+                  <span class="kicker cat">{p.category}</span>
+                </span>
+                <span class="chains data">{p.chains.length} {p.chains.length === 1 ? 'сеть' : 'сетей'}</span>
+                <span class="tvl data">{fmtTvl(p.tvl)}</span>
+                <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>
+                  {fmtChange(p.change_1d)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <p class="disclaimer kicker">
+          Данные получены на сборке страницы и обновляются раз в 60–120 секунд, пока страница открыта.
+          Не инвестиционная рекомендация.
+        </p>
+      </div>
+
+      <aside class="side">
+        {spotlight && (
+          <SpotlightTeaser
+            project={spotlight.data.project}
+            tagline={spotlight.data.tagline}
+            href={`/spotlight/${spotlight.id}/`}
+            guestColor={spotlight.data.guestColor}
+          />
+        )}
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { fetchTopChains, fetchTopProtocols, fmtTvl, fmtChange } from '../../lib/defillama-client';
+
+  async function refresh() {
+    if (document.hidden) return;
+    const [chains, protocols] = await Promise.all([fetchTopChains(10), fetchTopProtocols(15)]);
+
+    const totalEl = document.querySelector<HTMLElement>('[data-total-tvl]');
+    if (totalEl) totalEl.textContent = fmtTvl(chains.reduce((s, c) => s + c.tvl, 0));
+
+    const chainsTable = document.querySelector<HTMLElement>('[data-chains-table]');
+    if (chainsTable) {
+      chainsTable.innerHTML = chains
+        .map(
+          (c, i) =>
+            `<div class="row"><span class="rank data">${i + 1}</span><span class="name">${c.name}</span><span class="tvl data">${fmtTvl(c.tvl)}</span></div>`
+        )
+        .join('');
+    }
+
+    const protocolsTable = document.querySelector<HTMLElement>('[data-protocols-table]');
+    if (protocolsTable) {
+      protocolsTable.innerHTML = protocols
+        .map((p, i) => {
+          const up = (p.change_1d ?? 0) >= 0;
+          const logo = p.logo ? `<img src="${p.logo}" width="20" height="20" alt="" aria-hidden="true" loading="lazy" />` : '';
+          return `<div class="row"><span class="rank data">${i + 1}</span><span class="proto">${logo}<span class="name">${p.name}</span><span class="kicker cat">${p.category}</span></span><span class="chains data">${p.chains.length} ${p.chains.length === 1 ? 'сеть' : 'сетей'}</span><span class="tvl data">${fmtTvl(p.tvl)}</span><span class="chg data ${up ? 'up' : 'down'}">${fmtChange(p.change_1d)}</span></div>`;
+        })
+        .join('');
+    }
+  }
+  setInterval(refresh, 90000);
+</script>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 24px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 16px;
+    margin-bottom: 32px;
+  }
+  .stat {
+    display: grid;
+    gap: 6px;
+  }
+  .value {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .value a {
+    color: var(--ink);
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+  }
+  .block {
+    margin-bottom: 32px;
+  }
+  .block-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .block-head h2 {
+    font-size: var(--step-h3);
+  }
+  .table {
+    border-top: 1px solid var(--rule);
+  }
+  .table :global(.row) {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+  }
+  [data-protocols-table] :global(.row) {
+    grid-template-columns: 32px 1fr 80px 90px 64px;
+  }
+  .table :global(.rank) {
+    color: var(--graphite);
+    font-size: 12px;
+  }
+  .table :global(.proto) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .table :global(.proto img) {
+    flex-shrink: 0;
+  }
+  .table :global(.name) {
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .table :global(.cat) {
+    flex-shrink: 0;
+  }
+  .table :global(.chains) {
+    color: var(--graphite);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .table :global(.tvl) {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .table :global(.chg) {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .table :global(.up) {
+    color: var(--up);
+  }
+  .table :global(.down) {
+    color: var(--down);
+  }
+  .disclaimer {
+    color: var(--graphite);
+    margin-top: 16px;
+  }
+  .side {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .stats {
+      grid-template-columns: 1fr;
+    }
+    /* Same pattern as ArticleRow's mobile treatment: drop the least essential column
+       (chains count) rather than fight a 5-column grid into a narrow viewport. */
+    [data-protocols-table] :global(.row) {
+      grid-template-columns: 24px 1fr 70px 56px;
+    }
+    [data-protocols-table] :global(.chains) {
+      display: none;
+    }
+  }
+</style>
