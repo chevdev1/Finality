@@ -22,6 +22,7 @@ sources:
   - url: "https://en.cryptonomist.ch/2026/09/06/defi-price-manipulation-exploits/"
     title: "The Cryptonomist: DeFi price-manipulation exploits surge to record high"
 related:
+  - term-finance-governance-exploit
   - cronos-oracle-manipulation-75m-borrow
   - stolen-keys-not-code-bugs-defi-losses
 ---

@@ -22,9 +22,9 @@ sources:
   - url: "https://www.coingecko.com/research/publications/rwa-report-2026"
     title: "CoinGecko: RWA Report 2026"
 related:
+  - tokenized-real-estate-lofty-growth
   - tokenized-stocks-volume-surge
   - us-bank-usbdc-stablecoin-stellar-pilot
-  - clarity-market-structure-test-vote
 ---
 
 **Главное**

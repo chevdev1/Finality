@@ -20,6 +20,7 @@ sources:
   - url: "https://www.coingecko.com/en/api/reports/tokenized-equities-sep-2026"
     title: "CoinGecko: Tokenized Equities Report 2026"
 related:
+  - tokenized-real-estate-lofty-growth
   - rwa-tokenization-60-billion-report
   - clarity-market-structure-test-vote
 ---

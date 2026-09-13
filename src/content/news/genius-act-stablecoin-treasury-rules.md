@@ -20,6 +20,7 @@ sources:
   - url: "https://www.federalregister.gov/documents/2026/08/18/2026-16796/genius-act-regulations-on-payment-stablecoin-issuance-offer-and-sale"
     title: "Federal Register: GENIUS Act Regulations on Payment Stablecoin Issuance, Offer, and Sale"
 related:
+  - tether-kpmg-full-audit-usdt
   - us-bank-usbdc-stablecoin-stellar-pilot
   - sec-regulation-crypto-assets-classification
 ---

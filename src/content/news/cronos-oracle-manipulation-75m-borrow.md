@@ -24,6 +24,7 @@ sources:
   - url: "https://www.trmlabs.com/resources/blog/number-of-price-manipulation-attacks-hits-all-time-high-as-usd-75-million-is-stolen-from-tectonic"
     title: "TRM Labs: разбор атаки на Tectonic"
 related:
+  - term-finance-governance-exploit
   - defi-price-manipulation-attacks-2026
   - stolen-keys-not-code-bugs-defi-losses
 ---

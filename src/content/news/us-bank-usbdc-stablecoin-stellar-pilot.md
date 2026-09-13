@@ -24,9 +24,9 @@ sources:
   - url: "https://cointelegraph.com/news/us-bank-launches-usbdc-stablecoin-with-live-cross-border-payment"
     title: "Cointelegraph: U.S. Bank moves USBDC onchain in cross-border pilot"
 related:
+  - tether-kpmg-full-audit-usdt
   - genius-act-stablecoin-treasury-rules
   - rwa-tokenization-60-billion-report
-  - mastercard-agent-connect-launch
 ---
 
 **Главное**

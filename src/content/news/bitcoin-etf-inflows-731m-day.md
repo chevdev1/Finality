@@ -22,9 +22,9 @@ sources:
   - url: "https://en.cryptonomist.ch/2026/09/04/us-bitcoin-etf-inflows-surge/"
     title: "The Cryptonomist: U.S. Bitcoin ETF inflows surge $731M on September 3"
 related:
+  - bitcoin-mining-difficulty-hashprice
   - g20-statement-digital-assets-asheville
   - clarity-market-structure-test-vote
-  - rwa-tokenization-60-billion-report
 ---
 
 **Главное**
