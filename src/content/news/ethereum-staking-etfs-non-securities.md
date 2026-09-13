@@ -22,6 +22,7 @@ sources:
   - url: "https://www.coindesk.com/tech/2026/06/22/ethereum-validators-asked-to-fund-projects-with-up-to-10-of-staking-rewards-under-new-proposal"
     title: "CoinDesk: Ethereum validators asked to fund projects with up to 10% of staking rewards"
 related:
+  - ethereum-privacy-stewards-roadmap
   - metamask-consensys-split-glamsterdam-delay
   - ai-agents-58-percent-trading-volume
 ---

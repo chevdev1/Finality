@@ -76,7 +76,7 @@ npm run preview   # serve the built output
 
 ## Content
 
-All 26 news articles are real, sourced reporting, not placeholder copy — a real event, written
+All 29 news articles are real, sourced reporting, not placeholder copy — a real event, written
 in our own words per the brief's §7 rule against copying source text, with a genuine primary or
 reporting source linked in the frontmatter (official incident reports and company press releases
 where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release,
@@ -100,8 +100,11 @@ lost to hacks despite audits, an SEC-approved Nasdaq Texas rule naming BTC/ETH/S
 commodity-trust-eligible), then +4 more for topic variety within already-covered sections —
 Tether's first full KPMG audit of USDT reserves, Bitcoin's falling mining difficulty against
 rising hashprice, a DeFi governance-takeover exploit at Term Finance (a different attack shape
-than the oracle-manipulation stories), and Lofty's tokenized real-estate platform. 26 articles
-total, none thinner than two per section, most at three or four.
+than the oracle-manipulation stories), and Lofty's tokenized real-estate platform, then +3 to even
+out the last thin spots — Ethereum Foundation's end-to-end privacy roadmap, Binance's Agent OS
+letting Claude/ChatGPT/Codex trade through a withdrawal-locked sub-account, and the London Stock
+Exchange's tokenization deal with Kraken's parent Payward. 29 articles total: seven sections at 3,
+two (security, rwa) at 4.
 
 Author bylines (`src/content/authors/`) carry no `sameAs` links — the three authors are fictional
 pilot bylines, and a placeholder social link would be a fabricated identity claim sitting inside
@@ -160,8 +163,8 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  26 real, sourced articles across all 9 sections (minimum 2 per section, most 3–4) clear the
-  brief's "10–12 real stories" bar.
+  29 real, sourced articles across all 9 sections (7 sections at 3, security and rwa at 4) clear
+  the brief's "10–12 real stories" bar several times over.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a
   native `<details>`, zero JS) and a `⌘K`-hint selector that silently matched nothing (mobile

@@ -20,6 +20,7 @@ sources:
   - url: "https://councils.forbes.com/blog/from-real-estate-to-credit-rwa-tokenization-is-transforming-ownership-in-2026"
     title: "Forbes Councils: From Real Estate to Credit, RWA Tokenization Is Transforming Ownership in 2026"
 related:
+  - lse-kraken-tokenized-uk-stocks
   - rwa-tokenization-60-billion-report
   - tokenized-stocks-volume-surge
 ---

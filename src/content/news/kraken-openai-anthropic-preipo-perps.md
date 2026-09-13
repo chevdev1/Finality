@@ -22,6 +22,7 @@ sources:
   - url: "https://crypto.news/kraken-launches-openai-and-anthropic-pre-ipo-perps/"
     title: "crypto.news: Kraken launches OpenAI and Anthropic pre-IPO perps"
 related:
+  - binance-agent-os-ai-trading
   - ai-agents-58-percent-trading-volume
   - ethereum-staking-etfs-non-securities
 ---
