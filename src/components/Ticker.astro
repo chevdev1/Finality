@@ -172,6 +172,16 @@ const buildTime = fmtUpdated(new Date());
     padding-left: 8px;
     z-index: 1;
   }
+  /* In dark theme --ink flips to a light color (it's the page's text color there), so the
+     ticker — always background:var(--ink) — flips from a dark bar to a light one. --graphite/
+     --up/--down flip too, but the OTHER way (toward light tints, for text on the now-dark
+     page) — the opposite of what a now-light ticker needs. So this isn't "swap to the
+     token," it's "pin back to the fixed dark-on-light values the light theme's tokens
+     happened to already be," spelled out explicitly rather than chasing a token that's
+     moving in the wrong direction. */
+  :root[data-theme='dark'] .badge {
+    color: #56615b;
+  }
   .track {
     display: inline-flex;
     will-change: transform;
@@ -199,6 +209,15 @@ const buildTime = fmtUpdated(new Date());
   .down {
     color: #ef8a85;
   }
+  :root[data-theme='dark'] .up {
+    color: #0b7a4e;
+  }
+  :root[data-theme='dark'] .down {
+    color: #c8322b;
+  }
+  :root[data-theme='dark'] .updated {
+    color: #56615b;
+  }
   /* Price flash: background-color only, per the brief's motion table (never keyframes). */
   .px {
     padding: 0 2px;
@@ -208,6 +227,11 @@ const buildTime = fmtUpdated(new Date());
   .px.flash {
     background-color: rgba(242, 244, 240, 0.22);
     transition: background-color 160ms ease;
+  }
+  /* Flash lightens against the ticker's normally-dark bar; in dark theme that bar flips
+     light (see the .badge/.up/.down overrides above), so the flash needs to darken instead. */
+  :root[data-theme='dark'] .px.flash {
+    background-color: rgba(21, 24, 26, 0.18);
   }
   @media (prefers-reduced-motion: reduce) {
     /* The brief keeps color flashes even under reduced motion — only stagger and

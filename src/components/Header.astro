@@ -1,5 +1,6 @@
 ---
 import VerificationMeter from './VerificationMeter.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { SECTIONS } from '../content.config';
 import { SECTION_LABELS as sectionLabels } from '../lib/labels';
 ---
@@ -17,6 +18,7 @@ import { SECTION_LABELS as sectionLabels } from '../lib/labels';
       <a href="/projects/">Проекты</a>
     </nav>
     <div class="actions">
+      <ThemeToggle />
       <button class="search-btn" data-search-trigger aria-label="Поиск">
         Поиск <kbd class="kbd-hint">⌘K</kbd>
       </button>

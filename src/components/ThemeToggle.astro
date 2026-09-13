@@ -1,0 +1,84 @@
+---
+---
+
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Переключить тему">
+  <span class="icon sun" aria-hidden="true">☀</span>
+  <span class="icon moon" aria-hidden="true">☾</span>
+</button>
+
+<script>
+  const KEY = 'finality-theme';
+  const btn = document.getElementById('theme-toggle');
+
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!reduce) {
+      root.classList.add('theme-transitioning');
+      window.setTimeout(() => root.classList.remove('theme-transitioning'), 300);
+    }
+
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem(KEY, next);
+    } catch {
+      // Private browsing / storage disabled — theme still applies for this page view,
+      // it just won't be remembered on the next one.
+    }
+  });
+</script>
+
+<style>
+  /* Same shell as the search button — square, hairline border, no radius (brief §2.4) —
+     so the toggle reads as part of the same control family, not a bolted-on widget. */
+  .theme-toggle {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    cursor: pointer;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .theme-toggle:active {
+    transform: scale(0.94);
+  }
+  .icon {
+    position: absolute;
+    font-size: 15px;
+    line-height: 1;
+  }
+  /* Sun and moon cross-fade and swap places via rotation rather than a hard cut — the
+     brief's motion table caps this kind of transition at 300ms with --ease-standard. */
+  .sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    transition: transform 280ms var(--ease-standard), opacity 180ms ease;
+  }
+  .moon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.4);
+    transition: transform 280ms var(--ease-standard), opacity 180ms ease;
+  }
+  :root[data-theme='dark'] .sun {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.4);
+  }
+  :root[data-theme='dark'] .moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sun,
+    .moon {
+      transition: opacity 120ms linear;
+    }
+  }
+</style>

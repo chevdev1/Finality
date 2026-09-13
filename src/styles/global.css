@@ -14,10 +14,6 @@
   box-sizing: border-box;
 }
 
-html {
-  color-scheme: light;
-}
-
 body {
   margin: 0;
   background: var(--ledger);
@@ -26,6 +22,20 @@ body {
   font-size: var(--step-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Theme toggle transition — ThemeToggle.astro adds this class to <html> for ~300ms around
+   a theme switch, so the whole page crossfades instead of hard-cutting between palettes.
+   Scoped to the class (not left on permanently) so it never fights a component's own
+   transition timing on hover/focus, and never runs during normal page load. */
+@media (prefers-reduced-motion: no-preference) {
+  .theme-transitioning,
+  .theme-transitioning *,
+  .theme-transitioning *::before,
+  .theme-transitioning *::after {
+    transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease,
+      fill 260ms ease, stroke 260ms ease !important;
+  }
 }
 
 img,

@@ -163,9 +163,32 @@ real `Person` JSON-LD. Add real links once these beats have real editors attache
 
 Two things are still template-only, deliberately:
 - **Project Spotlight** (`src/content/spotlight/project-template.md`) — PROJECT_NAME / PROJECT_URL
-  / PROJECT_BRIEF were never supplied by a real sponsor. Do not publish as-is.
+  / PROJECT_BRIEF were never supplied by a real sponsor. Do not publish as-is. Every place that
+  reads the `spotlight` collection (`index.astro`, `projects/index.astro`,
+  `spotlight/[slug].astro`'s `getStaticPaths`) filters out any entry whose `project` field still
+  has a bracket in it, so this template can sit in the repo without leaking onto a live page or
+  building its own public `/spotlight/project-template/` URL.
 - **Author photos** use initials avatars instead of real photos (also intentional — no stock
   photography anywhere on this site per the brief).
+
+- **Dark theme** — a header toggle (`src/components/ThemeToggle.astro`, sun/moon next to the
+  search button), independent of the OS setting, remembered in `localStorage` (falls back to
+  `prefers-color-scheme` only on a first visit with nothing saved). It's a pure token flip: dark
+  mode redefines the same 9 semantic variables in `tokens.css` under `:root[data-theme='dark']`,
+  so no component markup changed to support it — everything already read `var(--ink)` etc. rather
+  than a hardcoded color. The one exception is a handful of "always-inverted" blocks (the ticker,
+  the Spotlight CTA bar) built as `background: var(--ink); color: var(--ledger)` specifically to
+  read as a dark bar on an otherwise light page; since `--ink`/`--ledger` swap roles in dark mode,
+  these correctly flip to a light bar on an otherwise dark page — same relative contrast, mirrored.
+  Their few genuinely hardcoded hex values (the ticker's light-tinted `.up`/`.down`/badge colors,
+  tuned specifically for a dark background) get their own `:root[data-theme='dark']` overrides that
+  point back to the plain light-theme constants, since the surface they sit on has now flipped to
+  light. Switching plays a ~300ms crossfade: a `.theme-transitioning` class goes on `<html>` for
+  that window, adding an explicit (never `all`) `transition` on background/color/border-color via
+  a `*` selector, removed afterward so it never fights a component's own hover/accordion timing;
+  respects `prefers-reduced-motion`. An inline, blocking `<script>` at the very top of `<head>` in
+  `BaseLayout.astro` sets `data-theme` before any CSS paints, so a returning dark-mode reader never
+  sees a light flash first.
 
 ## Language
 

@@ -4,7 +4,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const items = await getCollection('spotlight');
-  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  // project-template.md is a filled-in example for whoever writes the next Spotlight, not
+  // something to publish — without this filter its "[Project]"/"[Chain]"/etc. placeholder
+  // fields would build a real, public page at /spotlight/project-template/.
+  return items
+    .filter((entry) => !entry.data.project.includes('['))
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 
 const { entry } = Astro.props;
@@ -302,6 +307,16 @@ const jsonLd = [
   }
   .cta .kicker {
     color: #9aa39d;
+  }
+  /* Same fix as Ticker.astro's dark-theme overrides: .cta is always background:var(--ink),
+     which flips from dark to light in dark theme, so the two colors tuned for a dark
+     surface here need to pin back to their original light-surface values instead of
+     following --guest/--graphite, which move the other way. */
+  :root[data-theme='dark'] .cta a {
+    color: #3d5afe;
+  }
+  :root[data-theme='dark'] .cta .kicker {
+    color: #56615b;
   }
 
   @media (max-width: 640px) {

@@ -16,7 +16,10 @@ const news = (await getCollection('news')).sort(
 const hero = news.find((n) => n.data.featured) ?? news[0];
 const feed = news.filter((n) => n.id !== hero.id);
 const spotlights = await getCollection('spotlight');
-const spotlight = spotlights[0];
+// project-template.md ships as an example for whoever writes the next Spotlight, not
+// something to publish — a bracketed field means it's still a template (see the same
+// guard in projects/index.astro).
+const spotlight = spotlights.find((s) => !s.data.project.includes('['));
 
 const sectionCounts = SECTIONS.map((s) => ({
   slug: s,

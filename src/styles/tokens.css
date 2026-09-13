@@ -9,6 +9,12 @@
   --up: #0b7a4e;       /* price gains only */
   --down: #c8322b;     /* price losses only */
   --guest: #3d5afe;    /* sponsor color, Spotlight page only, swapped per sponsor */
+  color-scheme: light;
+
+  /* The ticker bar and a few other "always-inverted" accent blocks (verification meter,
+     mobile menu, author card header...) are built as background:var(--ink); color:var(--ledger).
+     In dark mode --ink/--ledger swap roles like everything else — a black bar naturally becomes
+     a light one, keeping the same relative contrast without any component-level rewrite. */
 
   /* Type — RU build: PT Serif (display) + Golos Text (body) replace Redaction/Atkinson,
      which have no Cyrillic glyphs. Martian Mono already covers Cyrillic. */
@@ -48,4 +54,25 @@
     --step-body: 16.5px;
     --step-meta: 11px;
   }
+}
+
+/* Dark theme — same 6-slot palette, roles kept identical (ledger=page bg, ink=text,
+   graphite=secondary text, rule=borders, up/down=deltas, guest=sponsor), values inverted.
+   --up/--down/--graphite move to the lighter tints already proven legible on a dark
+   surface — they're the exact colors the ticker has used on its always-dark bar since
+   before dark mode existed (see Ticker.astro), just promoted from a one-off to the
+   theme's real palette now that the whole page can be that dark surface. Toggled via
+   [data-theme] rather than only prefers-color-scheme so the switcher (ThemeToggle.astro)
+   can override the system setting and remember the choice. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ledger: #15181a;
+  --paper: #1d2124;
+  --ink: #edf0ec;
+  --graphite: #99a29b;
+  --rule: #2b302e;
+  --pending: #ffd23f;
+  --up: #6fd39a;
+  --down: #ef8a85;
+  --guest: #7c90ff;
 }
