@@ -76,19 +76,30 @@ npm run preview   # serve the built output
 
 ## Content
 
-All 12 news articles are real, sourced reporting, not placeholder copy — a real event, written
+All 18 news articles are real, sourced reporting, not placeholder copy — a real event, written
 in our own words per the brief's §7 rule against copying source text, with a genuine primary or
 reporting source linked in the frontmatter (official incident reports and company press releases
-where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release —
-otherwise a named outlet: CoinDesk, The Cryptonomist, TRM Labs, CNBC, CoinGecko's research arm).
-Researched via web search at build time (September 2026), covering: the Liquid Network federation
-hack and its still-unresolved ~600 BTC, the Cronos/Tectonic oracle-manipulation exploit, TRM Labs'
-record count of 32 price-manipulation attacks in 2026, the CLARITY Act's September 15 cloture
-vote, a September 3 Bitcoin ETF inflow spike, CoinGecko's 2026 RWA tokenization report, U.S. Bank's
-live USBDC pilot, a stat on AI agents' 58% share of crypto trading volume, the MetaMask/Consensys
-split alongside Ethereum's Glamsterdam delay, and Mastercard's Agent Connect launch. Every
-`checks` timestamp in each article's frontmatter represents Finality's own (fictional) editorial
-verification pass, not a claim about when the underlying outlet verified it.
+where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release,
+the Federal Register — otherwise a named outlet: CoinDesk, The Cryptonomist, TRM Labs, CNBC,
+CoinGecko's research arm, Harvard Law's corporate-governance forum). Researched via web search
+(September 2026), covering: the Liquid Network federation hack and its still-unresolved ~600 BTC,
+the Cronos/Tectonic oracle-manipulation exploit, TRM Labs' record count of 32 price-manipulation
+attacks in 2026, the CLARITY Act's September 15 cloture vote, the SEC's five-category crypto-asset
+classification proposal, the G20's September 1 digital-assets statement, a September 3 Bitcoin ETF
+inflow spike, CoinGecko's 2026 RWA tokenization report and a 33x tokenized-equity volume surge,
+U.S. Bank's live USBDC pilot, Treasury's GENIUS Act stablecoin-licensing rulemaking, a stat on AI
+agents' 58% share of crypto trading volume, Kraken's pre-IPO perpetuals on OpenAI and Anthropic,
+Ethereum staking ETFs now that the SEC classifies staking rewards as a non-security, the
+MetaMask/Consensys split alongside Ethereum's Glamsterdam delay, and Mastercard's Agent Connect
+launch. Every `checks` timestamp in each article's frontmatter represents Finality's own
+(fictional) editorial verification pass, not a claim about when the underlying outlet verified it.
+Coverage originally shipped at 12 articles (one per template slot); a second pass added 6 more so
+every section but fintech carries at least two stories, since a hub with a single article doesn't
+really exercise the hub template or the related-articles cross-linking the brief asks for.
+
+Author bylines (`src/content/authors/`) carry no `sameAs` links — the three authors are fictional
+pilot bylines, and a placeholder social link would be a fabricated identity claim sitting inside
+real `Person` JSON-LD. Add real links once these beats have real editors attached to them.
 
 Two things are still template-only, deliberately:
 - **Project Spotlight** (`src/content/spotlight/project-template.md`) — PROJECT_NAME / PROJECT_URL
@@ -143,7 +154,7 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  12 real, sourced articles across all 9 sections satisfy the brief's "10–12 real stories" bar.
+  18 real, sourced articles across all 9 sections clear the brief's "10–12 real stories" bar.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a
   native `<details>`, zero JS) and a `⌘K`-hint selector that silently matched nothing (mobile

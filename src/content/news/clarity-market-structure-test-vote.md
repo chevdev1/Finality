@@ -20,8 +20,9 @@ sources:
   - url: "https://www.cnbc.com/2026/09/01/crypto-enters-september-with-policy-gamble-hanging-by-a-thread.html"
     title: "CNBC: Crypto enters September with legislative policy gamble hanging by a thread"
 related:
+  - sec-regulation-crypto-assets-classification
+  - g20-statement-digital-assets-asheville
   - bitcoin-etf-inflows-731m-day
-  - rwa-tokenization-60-billion-report
 ---
 
 **Главное**

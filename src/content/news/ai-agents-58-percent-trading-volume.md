@@ -20,6 +20,7 @@ sources:
   - url: "https://cryptorank.io/news/feed/96b24-how-ai-agents-are-becoming-crypto-traders-co-pilots-in-2026"
     title: "CryptoRank: How AI agents are becoming crypto traders' co-pilots in 2026"
 related:
+  - kraken-openai-anthropic-preipo-perps
   - defi-price-manipulation-attacks-2026
   - metamask-consensys-split-glamsterdam-delay
 ---
