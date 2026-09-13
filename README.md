@@ -43,6 +43,12 @@ npm run preview   # serve the built output
     invisible to LCP the way the seal is. Every `<img>` ships explicit `width`/`height` (940×650,
     Pexels' `large` size) so it can't cause layout shift, but it does become the largest
     above-the-fold element on articles that have one.
+  - Live and verified with a real `PEXELS_API_KEY`: 11 of 12 articles now render a real, topically
+    matched photo (a dark cybersecurity scene for the Liquid Network hack, the U.S. Capitol for
+    the CLARITY Act vote, a contactless-payment close-up for Mastercard Agent Connect, etc.);
+    `what-a-federated-sidechain-is` deliberately ships no `imageQuery`, so it still renders the
+    ArticleSeal fallback — proving that path still works with a live key configured, not just
+    when the key is absent.
 - **JSON-LD** — Organization + WebSite/SearchAction sitewide (`BaseLayout.astro`), NewsArticle +
   BreadcrumbList per article, CollectionPage + ItemList per hub, ProfilePage + Person per author,
   Article + FAQPage on Spotlight.
