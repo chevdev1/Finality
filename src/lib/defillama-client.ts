@@ -25,8 +25,14 @@ export interface ChainTvl {
   tvl: number;
 }
 
+export interface Hallmark {
+  at: number;
+  label: string;
+}
+
 export interface ProtocolTvl {
   name: string;
+  symbol: string | null;
   tvl: number;
   change_1d: number | null;
   change_7d: number | null;
@@ -40,6 +46,10 @@ export interface ProtocolTvl {
   auditLink: string | null;
   listedAt: number | null;
   slug: string | null;
+  mcap: number | null;
+  chainBreakdown: { chain: string; tvl: number }[];
+  hallmarks: Hallmark[];
+  methodology: string | null;
 }
 
 // Same rationale as coingecko-client.ts: this page's stats + tables all read from these two
@@ -66,6 +76,19 @@ export async function fetchTopChains(limit = 10): Promise<ChainTvl[]> {
   return (await chainsCache.promise).slice(0, limit);
 }
 
+// chainTvls mixes "Ethereum" (deposited) with "Ethereum-borrowed" (borrowed against, for
+// lending markets) and a catch-all "borrowed" key. Keeping only the plain chain names gives an
+// honest "where is this protocol's TVL actually sitting" breakdown instead of double-counting.
+function extractChainBreakdown(chainTvls: Record<string, number> | undefined): { chain: string; tvl: number }[] {
+  if (!chainTvls) return [];
+  return Object.entries(chainTvls)
+    .filter(([key]) => key !== 'borrowed' && !key.includes('-borrowed') && !key.includes('-staking') && !key.includes('-vesting') && !key.includes('-pool2'))
+    .map(([chain, tvl]) => ({ chain, tvl }))
+    .filter((c) => c.tvl > 0)
+    .sort((a, b) => b.tvl - a.tvl)
+    .slice(0, 5);
+}
+
 // Fetches (and caches) the full protocol list once; fetchTopProtocols and fetchTopGainers both
 // derive their view from this same array instead of hitting the API twice.
 async function fetchAllProtocols(): Promise<ProtocolTvl[]> {
@@ -79,6 +102,7 @@ async function fetchAllProtocols(): Promise<ProtocolTvl[]> {
           .filter((p) => p.tvl)
           .map((p) => ({
             name: p.name,
+            symbol: p.symbol && p.symbol !== '-' ? p.symbol : null,
             tvl: p.tvl,
             change_1d: typeof p.change_1d === 'number' ? p.change_1d : null,
             change_7d: typeof p.change_7d === 'number' ? p.change_7d : null,
@@ -92,6 +116,14 @@ async function fetchAllProtocols(): Promise<ProtocolTvl[]> {
             auditLink: Array.isArray(p.audit_links) && p.audit_links[0] ? p.audit_links[0] : null,
             listedAt: typeof p.listedAt === 'number' ? p.listedAt : null,
             slug: p.slug ?? null,
+            mcap: typeof p.mcap === 'number' ? p.mcap : null,
+            chainBreakdown: extractChainBreakdown(p.chainTvls),
+            hallmarks: Array.isArray(p.hallmarks)
+              ? p.hallmarks
+                  .map((h: [number, string]) => ({ at: h[0], label: h[1] }))
+                  .sort((a: Hallmark, b: Hallmark) => b.at - a.at)
+              : [],
+            methodology: typeof p.methodology === 'string' ? p.methodology : null,
           }));
       } catch {
         return [];
@@ -131,7 +163,7 @@ export function fmtChange(n: number | null): string {
   return (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
 }
 
-export function fmtListedDate(unixSeconds: number | null): string | null {
+export function fmtDate(unixSeconds: number | null): string | null {
   if (!unixSeconds) return null;
   return new Date(unixSeconds * 1000).toLocaleDateString('ru-RU', {
     year: 'numeric',

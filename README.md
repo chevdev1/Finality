@@ -42,8 +42,16 @@ npm run preview   # serve the built output
   per-chain metadata exists in the free API to justify an accordion there); protocol/gainer rows
   are `<details>` accordions — same zero-JS grid-rows technique as `VerificationLog` — that reveal
   the project's real description, category, 7-day change, audit count, "in DeFiLlama's registry
-  since" date, and outbound links to its site/X/audit report/full DeFiLlama page, all sourced
-  straight from the same API response (no extra request). Deliberately dropped the periodic
+  since" date, a per-chain TVL breakdown rendered as bars (from the same response's `chainTvls`,
+  filtered to drop `-borrowed`/`-staking`/etc. sub-keys so lending markets don't double-count),
+  a "notable events" timeline when DeFiLlama has one (`hallmarks` — things like "KelpDAO hack" or
+  "UST depeg" with real dates), and outbound links to the project's site/X/audit report/full
+  DeFiLlama page. All of it comes from the one API response already powering the row, no extra
+  request. Every logo — chain or protocol — sits in the same fixed bordered square regardless of
+  the source asset's own shape (circle, square, transparent PNG, flat color block); brief §2.4's
+  ban on border-radius everywhere except author avatars made a hard square the obvious frame, and
+  imposing one shape system is what actually fixed the "inconsistent logo shapes" the client
+  flagged, rather than trying to normalize every third-party icon individually. Deliberately dropped the periodic
   full-table refresh this page originally had: swapping a row's entire markup out from under an
   open `<details>` on a timer would collapse it mid-read, and a ticking-every-90-seconds table is
   closer to the "dashboard as primary retail interface" brief §3 already rejects than to a page
