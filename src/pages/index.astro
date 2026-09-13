@@ -107,6 +107,13 @@ function fmtUpdated(d: Date) {
     padding: 32px;
     display: grid;
     gap: 14px;
+    /* VerificationMeter (below) reads var(--ink) internally with no color prop to override
+       it per-instance — scoping --ink to the fixed on-accent value here means its check
+       cells render correctly on the constant-yellow background in both themes, the same
+       fix as the explicit color rules just below for the text that doesn't go through a
+       shared component. Custom properties inherit through the DOM regardless of which
+       stylesheet scope declares them, so this reaches the meter's internal styles too. */
+    --ink: var(--on-accent);
   }
   .hero-top {
     display: flex;
@@ -114,22 +121,28 @@ function fmtUpdated(d: Date) {
     gap: 8px 12px;
     align-items: center;
   }
-  /* --graphite on --pending is 4.47:1, just under WCAG AA's 4.5:1 — every other
-     --graphite pairing in the token set clears AA, so this one spot uses --ink instead
-     of touching the shared token. */
-  .hero-top .kicker {
-    color: var(--ink);
+  /* Everything in .hero sits directly on the constant-yellow --pending fill, in both
+     themes, so it needs --on-accent (fixed dark) rather than --ink/--graphite, which flip
+     to light colors in dark mode and would put white-ish text on yellow — a WCAG failure
+     that shipped with the original dark theme pass. --graphite on --pending was already
+     4.47:1 in light mode too, just under AA, which is why kicker used --ink instead —
+     --on-accent fixes both problems at once with one fixed, always-dark value. */
+  .hero-top .kicker,
+  .hero-top .status-word,
+  .hero-top .data {
+    color: var(--on-accent);
   }
   .hero h1 {
     font-size: var(--step-h1);
   }
   .hero h1 a {
     text-decoration: none;
-    color: var(--ink);
+    color: var(--on-accent);
   }
   .lead {
     margin: 0;
     max-width: 60ch;
+    color: var(--on-accent);
   }
   .hero-log {
     grid-column: 1;

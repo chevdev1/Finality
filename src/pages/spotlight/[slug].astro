@@ -264,9 +264,19 @@ const jsonLd = [
     justify-content: center;
     font-size: 12px;
   }
+  /* Same fix as the homepage hero and Subscribe.astro: .risks sits directly on the
+     constant-yellow --pending fill in both themes, so everything inside it needs the fixed
+     --on-accent rather than var(--ink) (flips to near-white in dark mode) or inherited body
+     color — otherwise this becomes white text on yellow, a WCAG failure. Scoping --ink to
+     --on-accent on the section covers the h2/ul/li text that has no color rule of its own. */
   .risks {
     background: var(--pending);
     padding: 20px;
+    --ink: var(--on-accent);
+    /* h2/li below have no color rule of their own — they inherit whatever `color` computes
+       to HERE, not a live re-read of --ink, so the custom-property override above only takes
+       effect once it's actually assigned to this element's own `color` too. */
+    color: var(--ink);
   }
   .risks h2 {
     font-family: var(--font-display);
@@ -275,7 +285,7 @@ const jsonLd = [
     font-family: var(--font-data);
     font-size: 11px;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--on-accent);
     margin: -4px 0 12px;
   }
   dl {

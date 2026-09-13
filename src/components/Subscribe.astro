@@ -33,15 +33,21 @@
     display: grid;
     gap: 6px;
   }
+  /* .label/.sub sit directly on the constant-yellow --pending fill, so they need the fixed
+     --on-accent, not var(--ink) (flips to near-white in dark mode — white-on-yellow, a real
+     WCAG failure) or inherited body color. The submit button below has its own background
+     (var(--ink)) and correctly keeps following the theme, so this fix is scoped to just
+     these two text lines rather than the whole .subscribe container. */
   .label {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 20px;
+    color: var(--on-accent);
   }
   .sub {
     margin: 0 0 8px;
     font-size: 13px;
-    color: var(--ink);
+    color: var(--on-accent);
   }
   .row {
     display: flex;
@@ -50,8 +56,9 @@
   input[type='email'] {
     flex: 1;
     padding: 10px;
-    border: 1px solid var(--ink);
+    border: 1px solid var(--on-accent);
     background: var(--paper);
+    color: var(--ink);
     font-family: var(--font-body);
     min-width: 0;
   }

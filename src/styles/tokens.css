@@ -11,6 +11,15 @@
   --guest: #3d5afe;    /* sponsor color, Spotlight page only, swapped per sponsor */
   color-scheme: light;
 
+  /* Fixed dark text for anything sitting directly on --pending (or another accent fill that
+     never changes between themes). Deliberately NOT redeclared under [data-theme='dark'] —
+     the whole point is that it stays #0f1613 always. Text on these blocks used to just inherit
+     var(--ink), which is correct in light mode (--ink is dark there) but flips to near-white
+     in dark mode while the yellow background stays yellow — white-on-yellow, a real WCAG
+     failure. Anywhere text sits on --pending, use --on-accent instead of --ink/inherited body
+     color. */
+  --on-accent: #0f1613;
+
   /* The ticker bar and a few other "always-inverted" accent blocks (verification meter,
      mobile menu, author card header...) are built as background:var(--ink); color:var(--ledger).
      In dark mode --ink/--ledger swap roles like everything else — a black bar naturally becomes

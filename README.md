@@ -189,6 +189,15 @@ Two things are still template-only, deliberately:
   respects `prefers-reduced-motion`. An inline, blocking `<script>` at the very top of `<head>` in
   `BaseLayout.astro` sets `data-theme` before any CSS paints, so a returning dark-mode reader never
   sees a light flash first.
+  Found post-launch: the homepage hero, the Subscribe widget, and Spotlight's "Риски" block all
+  sit on the constant-yellow `--pending` fill, which doesn't change between themes — but their text
+  had no color of its own and just inherited `var(--ink)` from `<body>`, which flips to near-white
+  in dark mode. White text on yellow, a real WCAG failure. Fixed with a new `--on-accent: #0f1613`
+  token that is deliberately *not* redeclared under `[data-theme='dark']` — it always stays dark,
+  which is the point — applied as explicit `color` on the text in those three blocks, plus a local
+  `--ink: var(--on-accent)` override on the hero's container so `VerificationMeter` (which reads
+  `var(--ink)` internally with no color prop) renders correctly there too, without touching the
+  component itself.
 
 ## Language
 
