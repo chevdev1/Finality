@@ -5,6 +5,9 @@ export interface PexelsPhoto {
   src: string;
   width: number;
   height: number;
+  // Pexels' "medium" crop (~350px wide) — for list-row thumbnails, where downloading the same
+  // 940px "large" used on the article page itself would be a lot of bytes for a ~64px square.
+  thumb: string;
   photographer: string;
   photographerUrl: string;
   pageUrl: string;
@@ -36,6 +39,7 @@ export async function fetchThemedPhoto(query: string): Promise<PexelsPhoto | nul
         src: photo.src.large,
         width: 940,
         height: 650,
+        thumb: photo.src.medium,
         photographer: photo.photographer,
         photographerUrl: photo.photographer_url,
         pageUrl: photo.url,

@@ -1,5 +1,7 @@
 ---
 import VerificationMeter from './VerificationMeter.astro';
+import ArticleSeal from './ArticleSeal.astro';
+import { fetchThemedPhoto } from '../lib/pexels-client';
 
 interface Props {
   title: string;
@@ -8,9 +10,16 @@ interface Props {
   section: string;
   publishedAt: Date;
   checksCount: number;
+  slug: string;
+  imageQuery?: string;
 }
 
-const { title, dek, href, section, publishedAt, checksCount } = Astro.props;
+const { title, dek, href, section, publishedAt, checksCount, slug, imageQuery } = Astro.props;
+
+// Same cache the article page itself reads from (keyed by query string) — by the time any
+// list view renders, the photo for a given article has usually already been fetched once
+// for its own page this build, so this is a cache hit, not a second Pexels request.
+const photo = imageQuery ? await fetchThemedPhoto(imageQuery) : null;
 
 // Every article's publishedAt frontmatter is set to 00:00 UTC (an arbitrary editorial
 // timestamp, not a real time-of-day) — showing HH:MM here just repeated "00:00" down an
@@ -22,8 +31,15 @@ function fmtDate(d: Date) {
 ---
 
 <a class="row" href={href}>
+  <span class="thumb">
+    {photo ? (
+      <img src={photo.thumb} alt="" loading="lazy" width="120" height="120" />
+    ) : (
+      <ArticleSeal seed={slug} cols={4} rows={4} />
+    )}
+  </span>
   <span class="data time">{fmtDate(publishedAt)}</span>
-  <VerificationMeter filled={checksCount} size={10} />
+  <span class="meter"><VerificationMeter filled={checksCount} size={10} /></span>
   <span class="body">
     <span class="title">{title}</span>
     {dek && <span class="dek">{dek}</span>}
@@ -34,13 +50,33 @@ function fmtDate(d: Date) {
 <style>
   .row {
     display: grid;
-    grid-template-columns: 52px 90px 1fr auto;
+    grid-template-columns: 64px 52px 90px 1fr auto;
     align-items: center;
     gap: 16px;
     padding: 10px 0;
     border-bottom: 1px solid var(--rule);
     text-decoration: none;
     color: var(--ink);
+  }
+  .thumb {
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .thumb :global(.seal) {
+    height: 100%;
+    max-height: none;
+    border: none;
   }
   .title {
     text-decoration-line: underline;
@@ -76,13 +112,27 @@ function fmtDate(d: Date) {
   }
   @media (max-width: 640px) {
     .row {
-      grid-template-columns: 1fr;
-      gap: 6px;
+      grid-template-columns: 56px 1fr;
+      grid-template-areas:
+        'thumb body'
+        'thumb section';
+      gap: 4px 12px;
     }
-    .time {
+    .thumb {
+      grid-area: thumb;
+      width: 56px;
+      height: 56px;
+      align-self: start;
+    }
+    .time,
+    .meter {
       display: none;
     }
+    .body {
+      grid-area: body;
+    }
     .section {
+      grid-area: section;
       justify-self: start;
     }
   }

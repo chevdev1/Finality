@@ -69,6 +69,8 @@ const sectionVideo = (await getCollection('videos'))
           section={sectionLabel}
           publishedAt={n.data.publishedAt}
           checksCount={n.data.checks.length}
+          slug={n.id}
+          imageQuery={n.data.imageQuery}
         />
       ))}
     </div>

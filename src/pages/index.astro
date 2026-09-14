@@ -74,6 +74,8 @@ function fmtUpdated(d: Date) {
           section={SECTION_LABELS[n.data.section]}
           publishedAt={n.data.publishedAt}
           checksCount={n.data.checks.length}
+          slug={n.id}
+          imageQuery={n.data.imageQuery}
         />
       ))}
     </section>
