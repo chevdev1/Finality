@@ -45,6 +45,10 @@ const { name, role, bio, initials, slug } = Astro.props;
   .text {
     display: grid;
     gap: 4px;
+    /* Flex items default to min-width:auto — without this, a long role/bio line refuses to
+       wrap and pushes the card wider than its column instead of shrinking to fit it. */
+    min-width: 0;
+    flex: 1;
   }
   .name {
     font-weight: 700;

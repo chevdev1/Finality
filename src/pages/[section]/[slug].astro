@@ -93,22 +93,8 @@ const jsonLd = [
       <a href="/">Finality</a> / <a href={`/${entry.data.section}/`}>{SECTION_LABELS[entry.data.section]}</a>
     </nav>
 
-    <div class="dates">
-      <div>
-        <span class="kicker">Опубликовано</span>
-        <time datetime={entry.data.publishedAt.toISOString()} class="data">{fmtDate(entry.data.publishedAt)}</time>
-      </div>
-      <div>
-        <span class="kicker">Обновлено</span>
-        <time datetime={entry.data.updatedAt.toISOString()} class="data">{fmtDate(entry.data.updatedAt)}</time>
-      </div>
-    </div>
-
     <header class="art-header">
-      <div class="tags">
-        <span class="kicker">{SECTION_LABELS[entry.data.section]}</span>
-        <span class="status-word">{STATUS_LABELS[entry.data.status]}</span>
-      </div>
+      <span class="status-word">{STATUS_LABELS[entry.data.status]}</span>
       <h1>{entry.data.title}</h1>
       <p class="lead">{entry.data.dek}</p>
       {author && (
@@ -118,10 +104,6 @@ const jsonLd = [
         </a>
       )}
     </header>
-
-    <aside class="log-slot">
-      <VerificationLog checks={entry.data.checks} status={entry.data.status} />
-    </aside>
 
     <div class="prose">
       {photo ? <ArticleImage photo={photo} /> : <ArticleSeal seed={entry.id} />}
@@ -138,7 +120,18 @@ const jsonLd = [
       </div>
     </div>
 
-    <aside class="side">
+    <aside class="rail">
+      <div class="dates">
+        <div>
+          <span class="kicker">Опубликовано</span>
+          <time datetime={entry.data.publishedAt.toISOString()} class="data">{fmtDate(entry.data.publishedAt)}</time>
+        </div>
+        <div>
+          <span class="kicker">Обновлено</span>
+          <time datetime={entry.data.updatedAt.toISOString()} class="data">{fmtDate(entry.data.updatedAt)}</time>
+        </div>
+      </div>
+      <VerificationLog checks={entry.data.checks} status={entry.data.status} />
       <RelatedList items={related} />
       {author && (
         <AuthorCard
@@ -169,32 +162,24 @@ const jsonLd = [
     text-decoration: none;
     color: var(--graphite);
   }
-  .dates {
-    grid-column: 2;
-    grid-row: 2 / span 2;
-    display: grid;
-    gap: 16px;
-    align-content: start;
-    font-size: 13px;
-  }
-  .dates > div {
-    display: grid;
-    gap: 2px;
-  }
   .art-header {
     grid-column: 1;
     display: grid;
     gap: 12px;
     margin-top: 8px;
   }
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    align-items: center;
+  /* Section is already named one line up in the breadcrumb, and the status word repeats
+     again just below in the verification log's own summary — an eyebrow tag here used to
+     show both a second time, three repeats of the same two words within one screen. Just
+     the status survives here, since "still developing / confirmed" is genuinely useful
+     context to read before the headline, right where the breadcrumb doesn't cover it. */
+  .art-header .status-word {
+    color: var(--graphite);
+    font-size: 13px;
   }
   .art-header h1 {
     font-size: var(--step-h1);
+    margin: 0;
   }
   .lead {
     max-width: 64ch;
@@ -221,10 +206,6 @@ const jsonLd = [
     justify-content: center;
     font-family: var(--font-data);
     font-size: 12px;
-  }
-  .log-slot {
-    grid-column: 2;
-    grid-row: 3;
   }
   .prose {
     grid-column: 1;
@@ -263,21 +244,39 @@ const jsonLd = [
     margin: 8px 0 0;
     padding-left: 18px;
   }
-  .side {
+  /* Dates, the verification log, related links and the author card used to be four separate
+     grid items pinned to rows 2–4 in column 2, matching column 1's row structure (header,
+     then the full article body). Column 1's body row is as tall as the article — so "dates"
+     (spanning into that row) stretched into a box thousands of pixels tall with its two short
+     lines pinned to the top, leaving a huge dead gap before the next sidebar item started at
+     that row's boundary. One rail, spanning the same two rows as one item with its own
+     align-content:start, stacks its children by their own height instead of the article's. */
+  .rail {
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 2 / span 2;
     display: grid;
-    gap: 24px;
+    gap: 32px;
     align-content: start;
+    /* Grid items default to min-width:auto — without this, a wide child (the verification
+       log's summary row, unbroken related-article titles) forces the whole rail past its
+       280px track instead of wrapping inside it, spilling text off the right edge. */
+    min-width: 0;
+  }
+  .dates {
+    display: grid;
+    gap: 16px;
+    font-size: 13px;
+  }
+  .dates > div {
+    display: grid;
+    gap: 2px;
   }
 
   @media (max-width: 900px) {
     .article-layout {
       grid-template-columns: 1fr;
     }
-    .dates,
-    .log-slot,
-    .side {
+    .rail {
       grid-column: 1;
       grid-row: auto;
     }

@@ -62,10 +62,15 @@ function fmt(d: Date) {
   }
   summary {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
+    gap: 6px 12px;
     cursor: pointer;
     list-style: none;
+    /* Flex items default to min-width:auto, so "проверок пройдено" + "РАЗВИВАЕТСЯ" refused
+       to shrink and pushed the whole card past its column in a narrow sidebar — wrap + this
+       lets long status text drop to its own line instead of overflowing the card's border. */
+    min-width: 0;
   }
   summary::-webkit-details-marker {
     display: none;
