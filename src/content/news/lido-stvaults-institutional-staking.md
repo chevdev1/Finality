@@ -25,6 +25,7 @@ related:
   - ethereum-staking-etfs-non-securities
   - cronos-oracle-manipulation-75m-borrow
   - term-finance-governance-exploit
+  - ethereum-l2-93-percent-transactions
 ---
 
 **Главное**

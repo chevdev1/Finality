@@ -25,6 +25,7 @@ related:
   - nasdaq-texas-commodity-trust-rule
   - clarity-market-structure-test-vote
   - g20-statement-digital-assets-asheville
+  - irs-1099-da-cost-basis-2026
 ---
 
 **Главное**

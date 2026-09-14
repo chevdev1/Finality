@@ -23,6 +23,7 @@ related:
   - tether-kpmg-full-audit-usdt
   - us-bank-usbdc-stablecoin-stellar-pilot
   - sec-regulation-crypto-assets-classification
+  - irs-1099-da-cost-basis-2026
 ---
 
 **Главное**

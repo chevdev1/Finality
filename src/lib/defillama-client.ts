@@ -171,3 +171,47 @@ export function fmtDate(unixSeconds: number | null): string | null {
     day: 'numeric',
   });
 }
+
+// Per-slug TVL history for the sparkline in each protocol row. /protocol/{slug} returns the
+// full multi-year history (thousands of points) just to draw a 30-day line, so this is cached
+// per process the same way the two list endpoints are — one fetch per protocol per build, not
+// one per row render.
+const historyCache = new Map<string, { at: number; promise: Promise<number[]> }>();
+
+export async function fetchTvlHistory(slug: string, days = 30): Promise<number[]> {
+  const cached = historyCache.get(slug);
+  if (!cached || Date.now() - cached.at >= CACHE_TTL_MS) {
+    const promise = (async () => {
+      try {
+        const res = await fetch(`https://api.llama.fi/protocol/${slug}`);
+        if (!res.ok) return [];
+        const data = await res.json();
+        const tvl: { date: number; totalLiquidityUSD: number }[] = Array.isArray(data.tvl) ? data.tvl : [];
+        return tvl.slice(-days).map((p) => p.totalLiquidityUSD);
+      } catch {
+        return [];
+      }
+    })();
+    historyCache.set(slug, { at: Date.now(), promise });
+  }
+  return historyCache.get(slug)!.promise;
+}
+
+// Renders a minimal inline sparkline: one thin polyline, no axes, no fill, no legend — colored
+// by direction (last value vs first) using the same --up/--down tokens as everywhere else on
+// the site, not a third accent invented just for this chart.
+export function sparklinePath(values: number[], width = 64, height = 20): { points: string; up: boolean } | null {
+  if (values.length < 2) return null;
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const step = width / (values.length - 1);
+  const points = values
+    .map((v, i) => {
+      const x = i * step;
+      const y = height - ((v - min) / range) * height;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+  return { points, up: values[values.length - 1] >= values[0] };
+}

@@ -24,6 +24,7 @@ related:
   - g20-statement-digital-assets-asheville
   - bitcoin-etf-inflows-731m-day
   - cftc-backup-crypto-rules-clarity-stalls
+  - irs-1099-da-cost-basis-2026
 ---
 
 **Главное**

@@ -23,6 +23,7 @@ related:
   - ethereum-privacy-stewards-roadmap
   - ethereum-staking-etfs-non-securities
   - ai-agents-58-percent-trading-volume
+  - ethereum-l2-93-percent-transactions
 ---
 
 **Главное**

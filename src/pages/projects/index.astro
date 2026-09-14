@@ -7,6 +7,8 @@ import {
   fetchTopChains,
   fetchTopProtocols,
   fetchTopGainers,
+  fetchTvlHistory,
+  sparklinePath,
   chainIconUrl,
   chainPageUrl,
   fmtTvl,
@@ -20,6 +22,20 @@ const [chains, protocols, gainers] = await Promise.all([
   fetchTopProtocols(15),
   fetchTopGainers(10),
 ]);
+
+// One history fetch per unique protocol slug, not per row — the same protocol often shows up
+// in both the TVL table and the gainers table, and /protocol/{slug} is a much heavier request
+// than the two list endpoints above (it returns years of history to get 30 days out of it).
+const slugsNeedingHistory = [...new Set([...protocols, ...gainers].map((p) => p.slug).filter((s): s is string => !!s))];
+const historyBySlug = new Map(
+  await Promise.all(
+    slugsNeedingHistory.map(async (slug) => [slug, await fetchTvlHistory(slug, 30)] as const)
+  )
+);
+function sparkFor(slug: string | null) {
+  if (!slug) return null;
+  return sparklinePath(historyBySlug.get(slug) ?? []);
+}
 
 const totalTvl = chains.reduce((sum, c) => sum + c.tvl, 0);
 const spotlights = await getCollection('spotlight');
@@ -170,6 +186,20 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
                       {fmtDate(p.listedAt) && <div><span class="kicker">В реестре с</span><span class="data">{fmtDate(p.listedAt)}</span></div>}
                     </div>
 
+                    {(() => {
+                      const spark = sparkFor(p.slug);
+                      return (
+                        spark && (
+                          <div class="sparkline-row">
+                            <span class="kicker">TVL, 30 дней</span>
+                            <svg viewBox="0 0 64 20" class="sparkline" preserveAspectRatio="none" aria-hidden="true">
+                              <polyline points={spark.points} class:list={['spark-line', spark.up ? 'up' : 'down']} />
+                            </svg>
+                          </div>
+                        )
+                      );
+                    })()}
+
                     {p.chainBreakdown.length > 0 && (
                       <div class="chain-breakdown">
                         <span class="kicker">TVL по сетям</span>
@@ -251,6 +281,20 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
                       <div><span class="kicker">Аудиты</span><span>{p.audits === '0' ? 'не найдены' : p.audits}</span></div>
                       {fmtDate(p.listedAt) && <div><span class="kicker">В реестре с</span><span class="data">{fmtDate(p.listedAt)}</span></div>}
                     </div>
+
+                    {(() => {
+                      const spark = sparkFor(p.slug);
+                      return (
+                        spark && (
+                          <div class="sparkline-row">
+                            <span class="kicker">TVL, 30 дней</span>
+                            <svg viewBox="0 0 64 20" class="sparkline" preserveAspectRatio="none" aria-hidden="true">
+                              <polyline points={spark.points} class:list={['spark-line', spark.up ? 'up' : 'down']} />
+                            </svg>
+                          </div>
+                        )
+                      );
+                    })()}
 
                     {p.chainBreakdown.length > 0 && (
                       <div class="chain-breakdown">
@@ -612,6 +656,29 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
     display: grid;
     gap: 2px;
     font-size: 13px;
+  }
+  .sparkline-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+  }
+  .sparkline {
+    width: 120px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  .spark-line {
+    fill: none;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+  .spark-line.up {
+    stroke: var(--up);
+  }
+  .spark-line.down {
+    stroke: var(--down);
   }
   .chain-breakdown,
   .hallmarks {

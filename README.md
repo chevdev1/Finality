@@ -85,6 +85,13 @@ npm run preview   # serve the built output
   DOM siblings right after its markup, so a naive `bar.nextElementSibling` lookup for the target
   table actually landed on the `<script>` tag first — fixed by walking siblings forward to the
   first one with the `.table` class.
+  Each expanded protocol/gainer row also gets a real 30-day TVL sparkline — `fetchTvlHistory()` in
+  `defillama-client.ts` pulls the last 30 points from `/protocol/{slug}` (cached per slug per build,
+  since the same protocol often appears in both tables) and `sparklinePath()` turns them into a
+  `<polyline>`'s points — no charting library, no client JS, colored by `--up`/`--down` depending
+  on whether the 30-day trend is positive. This adds ~20 extra requests to the build (one per
+  unique protocol slug across both tables), pushing this page's build time from ~10s to ~25s —
+  worth it for real data over a fake trend line.
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
 - **Article imagery** — two tiers, by explicit client request to override the brief's
@@ -135,7 +142,7 @@ npm run preview   # serve the built output
 
 ## Content
 
-All 38 news articles are real, sourced reporting, not placeholder copy — a real event, written
+All 40 news articles are real, sourced reporting, not placeholder copy — a real event, written
 in our own words per the brief's §7 rule against copying source text, with a genuine primary or
 reporting source linked in the frontmatter (official incident reports and company press releases
 where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release,
@@ -178,7 +185,10 @@ tokenized-SGD settlement on Swift's shared ledger (FinTech Futures), and the Col
 firmware flaw that let attackers drain $116M from weak-randomness seed phrases (TRM Labs, Fortune).
 Also added reciprocal `related:` links from eight existing articles into these new ones, since
 one-directional links were leaving genuinely connected stories undiscoverable from the older side.
-38 articles total across all 9 sections.
+Then +2 more: Ethereum L2s now handling ~93-94% of all Ethereum transactions per growthepie (kept
+as a range since trackers disagree on the exact multiple — 13x vs 15x — rather than picking one
+number to look precise), and the IRS's Form 1099-DA cost-basis reporting starting with 2026-tax-year
+transactions (24/7 Wall St., Koinly). 40 articles total across all 9 sections.
 
 Author bylines (`src/content/authors/`) carry no `sameAs` links — the three authors are fictional
 pilot bylines, and a placeholder social link would be a fabricated identity claim sitting inside
@@ -269,7 +279,7 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  38 real, sourced articles across all 9 sections (4–5 per section) clear the brief's "10–12 real
+  40 real, sourced articles across all 9 sections (4–5 per section) clear the brief's "10–12 real
   stories" bar several times over.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a

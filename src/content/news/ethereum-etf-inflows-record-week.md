@@ -23,6 +23,7 @@ related:
   - ethereum-staking-etfs-non-securities
   - metamask-consensys-split-glamsterdam-delay
   - bitcoin-etf-inflows-731m-day
+  - ethereum-l2-93-percent-transactions
 ---
 
 **Главное**
