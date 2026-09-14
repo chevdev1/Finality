@@ -26,6 +26,7 @@ related:
   - tokenized-real-estate-lofty-growth
   - tokenized-stocks-volume-surge
   - tokenized-private-credit-overtakes-treasuries
+  - solana-leads-rwa-inflows
 ---
 
 **Главное**

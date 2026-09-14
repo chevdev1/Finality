@@ -21,6 +21,7 @@ related:
   - ai-agents-58-percent-trading-volume
   - binance-agent-os-ai-trading
   - kraken-openai-anthropic-preipo-perps
+  - india-npci-ai-agent-registry-upi
 ---
 
 **Главное**

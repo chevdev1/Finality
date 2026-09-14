@@ -142,7 +142,7 @@ npm run preview   # serve the built output
 
 ## Content
 
-All 40 news articles are real, sourced reporting, not placeholder copy — a real event, written
+All 52 news articles are real, sourced reporting, not placeholder copy — a real event, written
 in our own words per the brief's §7 rule against copying source text, with a genuine primary or
 reporting source linked in the frontmatter (official incident reports and company press releases
 where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release,
@@ -188,7 +188,18 @@ one-directional links were leaving genuinely connected stories undiscoverable fr
 Then +2 more: Ethereum L2s now handling ~93-94% of all Ethereum transactions per growthepie (kept
 as a range since trackers disagree on the exact multiple — 13x vs 15x — rather than picking one
 number to look precise), and the IRS's Form 1099-DA cost-basis reporting starting with 2026-tax-year
-transactions (24/7 Wall St., Koinly). 40 articles total across all 9 sections.
+transactions (24/7 Wall St., Koinly). Then +12 (client feedback: sections still felt thin), two
+per section for bitcoin/stablecoins/defi/ai/fintech and one each for rwa/security to round
+everything to 5-6: Strategy resuming BTC accumulation to 845,050 BTC and a Lightning Development
+Kit security patch (bitcoin); ARK Invest's stablecoin-concentration analysis and Circle's Arc
+mainnet launch (stablecoins); the KelpDAO/LayerZero $292M bridge hack — the year's largest DeFi
+exploit, root-caused to a 1-of-1 verifier config and DPRK attribution — and Morpho's $5B loan
+record (defi); India's NPCI building an AI-agent registry for UPI payments and a Forbes piece on
+AI-enabled scams closing in on hacks as a security threat (ai); Stripe's Bridge stablecoin volume
+growth and Circle's Nu Global partnership (fintech); Solana's dominance in RWA inflows and
+tokenized-stock volume (rwa); wallet-drainer losses actually falling 83% year over year — a rare
+"one category of crypto crime is improving" story reported with the same rigor as the bad-news
+ones (security). Added reciprocal `related:` links from 7 existing articles. 52 articles total.
 
 Author bylines (`src/content/authors/`) carry no `sameAs` links — the three authors are fictional
 pilot bylines, and a placeholder social link would be a fabricated identity claim sitting inside
@@ -279,7 +290,7 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  40 real, sourced articles across all 9 sections (4–5 per section) clear the brief's "10–12 real
+  52 real, sourced articles across all 9 sections (5–6 per section) clear the brief's "10–12 real
   stories" bar several times over.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a

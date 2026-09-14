@@ -24,6 +24,7 @@ related:
   - stolen-keys-not-code-bugs-defi-losses
   - defi-price-manipulation-attacks-2026
   - coldcard-firmware-flaw-116m-hack
+  - wallet-drainer-losses-decline-83-percent
 ---
 
 **Главное**

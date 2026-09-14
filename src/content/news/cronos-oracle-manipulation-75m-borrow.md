@@ -27,6 +27,7 @@ related:
   - term-finance-governance-exploit
   - defi-price-manipulation-attacks-2026
   - stolen-keys-not-code-bugs-defi-losses
+  - kelpdao-292-million-layerzero-hack
 ---
 
 **Что произошло.** 30 августа атакующий занял около $75 млн из Tectonic — крупнейшего кредитного протокола на Cronos — под обеспечение, за которым почти не стояло реального рынка. Он искусственно поднял цену собственного токена управления Tectonic, TONIC, примерно в 100 раз, а затем использовал завышенную оценку как залог для займа реальных активов.

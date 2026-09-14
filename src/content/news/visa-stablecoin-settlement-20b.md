@@ -26,6 +26,7 @@ related:
   - paypal-pyusdx-stablecoin-launch
   - us-bank-usbdc-stablecoin-stellar-pilot
   - singapore-banks-tokenized-sgd-swift
+  - stripe-bridge-stablecoin-growth
 ---
 
 **Главное**
