@@ -1,17 +1,21 @@
 ---
-// Client-side search + category filter over an already-rendered, static table. No client
+// Client-side search + category filter over an already-rendered, static list. No client
 // framework or store: the rows are plain HTML from the build, this just toggles the native
 // `hidden` attribute on the ones that don't match, which the browser hides for free.
-// Usage: place directly before the .table it should control — the script finds each bar's
-// target table via nextElementSibling, so multiple independent bars on one page just work.
+// Usage: place directly before the container it should control — the script finds each bar's
+// target via nextElementSibling, so multiple independent bars on one page just work.
 interface Props {
   categories: string[];
   placeholder?: string;
+  // Class of the sibling container holding the [data-row] items — '.table' on /projects,
+  // '.feed' for the homepage article list, etc. Kept a prop instead of a second hardcoded
+  // class so this component isn't tied to one page's markup.
+  targetClass?: string;
 }
-const { categories, placeholder = 'Найти протокол…' } = Astro.props;
+const { categories, placeholder = 'Найти протокол…', targetClass = 'table' } = Astro.props;
 ---
 
-<div class="filter-bar">
+<div class="filter-bar" data-target-class={targetClass}>
   <input
     type="search"
     class="search"
@@ -31,18 +35,19 @@ const { categories, placeholder = 'Найти протокол…' } = Astro.pro
 <script>
   function initFilterBar(bar: HTMLElement) {
     // Astro emits this component's own <script>/<style> tags as siblings right after its
-    // markup, so the actual target table isn't always literally the next element — walk
-    // forward to the first sibling that's the table itself.
-    let table = bar.nextElementSibling as HTMLElement | null;
-    while (table && !table.classList.contains('table')) {
-      table = table.nextElementSibling as HTMLElement | null;
+    // markup, so the actual target container isn't always literally the next element — walk
+    // forward to the first sibling with the configured class.
+    const targetClass = bar.dataset.targetClass || 'table';
+    let container = bar.nextElementSibling as HTMLElement | null;
+    while (container && !container.classList.contains(targetClass)) {
+      container = container.nextElementSibling as HTMLElement | null;
     }
-    if (!table) return;
+    if (!container) return;
 
     const search = bar.querySelector<HTMLInputElement>('[data-filter-search]');
     const chips = bar.querySelectorAll<HTMLButtonElement>('[data-filter-chip]');
     const empty = bar.querySelector<HTMLElement>('[data-filter-empty]');
-    const rows = table.querySelectorAll<HTMLElement>('[data-row]');
+    const rows = container.querySelectorAll<HTMLElement>('[data-row]');
 
     let activeCategory = 'all';
     let debounceId: number | undefined;

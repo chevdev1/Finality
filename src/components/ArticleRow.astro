@@ -30,7 +30,7 @@ function fmtDate(d: Date) {
 }
 ---
 
-<a class="row" href={href}>
+<a class="row" href={href} data-row data-name={title} data-category={section}>
   <span class="thumb">
     {photo ? (
       <img src={photo.thumb} alt="" loading="lazy" width="120" height="120" />
@@ -57,6 +57,14 @@ function fmtDate(d: Date) {
     border-bottom: 1px solid var(--rule);
     text-decoration: none;
     color: var(--ink);
+  }
+  /* .row's own display:grid is author CSS at the same specificity as the UA's
+     [hidden]{display:none} — author beats user-agent at a tie, so FilterBar.astro setting
+     .hidden on a row (as used on the homepage feed) silently did nothing visually, even
+     though the attribute itself was set correctly. An explicit, higher-specificity rule for
+     the hidden state is the fix already used elsewhere in this codebase for the same clash. */
+  .row[hidden] {
+    display: none;
   }
   .thumb {
     width: 76px;

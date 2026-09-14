@@ -8,6 +8,7 @@ import MarketsPanel from '../components/MarketsPanel.astro';
 import SpotlightTeaser from '../components/SpotlightTeaser.astro';
 import Subscribe from '../components/Subscribe.astro';
 import VideoWidget from '../components/VideoWidget.astro';
+import FilterBar from '../components/FilterBar.astro';
 import { SECTIONS } from '../content.config';
 import { SECTION_LABELS, STATUS_LABELS } from '../lib/labels';
 
@@ -20,6 +21,7 @@ const hero = news.find((n) => n.data.featured) ?? news[0];
 // author's page are where the rest of the archive actually lives.
 const FEED_SIZE = 12;
 const feed = news.filter((n) => n.id !== hero.id).slice(0, FEED_SIZE);
+const feedCategories = [...new Set(feed.map((n) => SECTION_LABELS[n.data.section]))].sort();
 const spotlights = await getCollection('spotlight');
 // project-template.md ships as an example for whoever writes the next Spotlight, not
 // something to publish — a bracketed field means it's still a template (see the same
@@ -61,11 +63,13 @@ function fmtUpdated(d: Date) {
       <VerificationLog checks={hero.data.checks} status={hero.data.status} open />
     </aside>
 
-    <section class="feed">
+    <div class="feed-wrap">
       <div class="feed-head">
         <h2>Последние материалы</h2>
         <span class="kicker">Сначала новые</span>
       </div>
+      <FilterBar categories={feedCategories} placeholder="Найти материал…" targetClass="feed" />
+      <section class="feed">
       {feed.map((n) => (
         <ArticleRow
           title={n.data.title}
@@ -78,7 +82,8 @@ function fmtUpdated(d: Date) {
           imageQuery={n.data.imageQuery}
         />
       ))}
-    </section>
+      </section>
+    </div>
 
     <aside class="rail">
       <MarketsPanel />
@@ -160,7 +165,7 @@ function fmtUpdated(d: Date) {
   .hero-log {
     grid-column: 1;
   }
-  .feed {
+  .feed-wrap {
     grid-column: 1;
   }
   .feed-head {
