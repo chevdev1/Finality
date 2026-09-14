@@ -90,7 +90,7 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
     </main>
     <footer class="site-footer">
       <div class="wrap footer-inner">
-        <p>Finality — часть сети из пяти изданий. Общая информация об издателе — на странице About.</p>
+        <p>Finality — часть сети из пяти изданий. Общая информация об издателе — на странице <a href="/about/">«О редакции»</a>.</p>
         <p class="kicker">© 2026 Finality</p>
       </div>
     </footer>
@@ -108,5 +108,13 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
   .footer-inner {
     display: grid;
     gap: 8px;
+  }
+  .footer-inner a {
+    color: var(--graphite);
+    text-decoration-color: var(--rule);
+    text-underline-offset: 2px;
+  }
+  .footer-inner a:hover {
+    color: var(--ink);
   }
 </style>

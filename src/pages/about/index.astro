@@ -1,0 +1,221 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const authors = await getCollection('authors');
+
+const CHECKS = [
+  { n: 1, label: 'Первоисточник найден и проставлен ссылкой', body: 'Каждая статья ссылается на официальный документ, пресс-релиз или отчёт издания, а не на пересказ через третьи руки.' },
+  { n: 2, label: 'Ончейн-данные подтверждают утверждение', body: 'Где применимо — цифры сверяются с блокчейном или публичным API напрямую, а не берутся на веру у источника.' },
+  { n: 3, label: 'Независимое второе издание сообщает то же самое', body: 'Один источник — повод для осторожности. Мы ищем независимое подтверждение, прежде чем присваивать статье статус «Завершено».' },
+  { n: 4, label: 'Официальное заявление стороны получено', body: 'Если новость касается компании или протокола, мы стараемся зафиксировать их официальную позицию, а не только версию пострадавшей или атакующей стороны.' },
+  { n: 5, label: 'Цифры сверены редакцией', body: 'Суммы, проценты и даты пересчитываются редакцией самостоятельно — расхождение источников само по себе повод для статьи, а не то, что мы замалчиваем.' },
+  { n: 6, label: 'Подпись выпускающего редактора', body: 'Финальная проверка перед публикацией: логика текста, соответствие цифр источникам, корректность связанных материалов.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'О редакции — Finality',
+    about: { '@type': 'Organization', name: 'Finality' },
+  },
+];
+---
+
+<BaseLayout
+  title="О редакции — Finality"
+  description="Как Finality проверяет новости, кто пишет материалы и что мы делаем, когда факты расходятся."
+  jsonLd={jsonLd}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href="/">Finality</a> / О редакции</nav>
+    <h1 class="title">О редакции</h1>
+    <p class="intro">
+      Finality — пилотное издание сети из пяти задуманных крипто- и финтех-медиа, посвящённое одной
+      идее: у каждой цифры в новости должен быть проверяемый источник. Ниже — как это устроено на
+      практике, а не только в лозунге.
+    </p>
+
+    <section class="block">
+      <h2>Методология проверки</h2>
+      <p class="lead">
+        Каждая статья проходит через журнал проверок — до шести пунктов, которые видны читателю
+        прямо на странице материала, с датой прохождения каждого. Не все шесть применимы к каждой
+        новости: например, «ончейн-данные» бессмысленны для новости о законопроекте.
+      </p>
+      <ol class="checks">
+        {CHECKS.map((c) => (
+          <li>
+            <span class="check-num data">{c.n}</span>
+            <div>
+              <p class="check-label">{c.label}</p>
+              <p class="check-body">{c.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="note">
+        Статус «Развивается» означает, что часть проверок ещё не пройдена — обычно потому, что
+        независимое второе издание пока не подтвердило детали или сторона не ответила на запрос.
+        Это не черновик: то, что уже опубликовано, уже проверено на момент публикации.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Редакция</h2>
+      <div class="team">
+        {authors.map((author) => (
+          <a href={`/author/${author.id}/`} class="team-card">
+            <span class="avatar" aria-hidden="true">{author.data.initials}</span>
+            <div>
+              <p class="name">{author.data.name}</p>
+              <p class="role kicker">{author.data.role}</p>
+              <p class="bio">{author.data.bio}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Что честно нужно сказать о пилоте</h2>
+      <p>
+        Finality — первый сайт запланированной сети, и на этом этапе часть редакционной обвязки
+        обозначена как таковая, а не выдаётся за нечто большее. Три автора выше — реальные
+        авторские позиции с реальной специализацией по темам, но без опубликованных фото и ссылок
+        на личные соцсети: добавлять плейсхолдер-ссылку в разметку было бы фабрикацией цифровой
+        личности, которой нет. Как только за каждым направлением закрепится живой редактор,
+        профиль будет обновлён.
+      </p>
+      <p>
+        Партнёрские материалы (например, на странице «Проекты») всегда помечены отдельной плашкой
+        и физически отделены от редакционных рейтингов — оплаченное размещение не может повлиять
+        на то, какая строка выше в таблице.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>Если мы ошиблись</h2>
+      <p>
+        Расхождение с фактами — это то, что должно исправляться публично, а не тихо переписываться.
+        Поводом для правки служит новый первоисточник или уточнение уже указанного, а не оценочное
+        несогласие с интерпретацией. На этапе пилота у Finality ещё нет отдельного публичного канала
+        для таких обращений — честнее сказать это прямо, чем сослаться на контакты, которых пока нет.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+    max-width: 760px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 40px;
+  }
+  .block {
+    margin-bottom: 40px;
+  }
+  .block h2 {
+    font-size: var(--step-h3);
+    margin-bottom: 12px;
+  }
+  .lead {
+    color: var(--graphite);
+    max-width: 62ch;
+    margin: 0 0 20px;
+  }
+  .checks {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .checks li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 14px;
+  }
+  .check-num {
+    color: var(--graphite);
+    font-size: 13px;
+  }
+  .check-label {
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  .check-body {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 60ch;
+  }
+  .note {
+    color: var(--graphite);
+    font-size: 13px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    max-width: 62ch;
+  }
+  .team {
+    display: grid;
+    gap: 16px;
+  }
+  .team-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 16px;
+  }
+  .team-card:hover {
+    background: var(--paper);
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ledger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-data);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .name {
+    margin: 0;
+    font-weight: 700;
+  }
+  .role {
+    margin: 2px 0 6px;
+  }
+  .bio {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 13px;
+    max-width: 52ch;
+  }
+</style>
