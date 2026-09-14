@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
+import FilterBar from '../../components/FilterBar.astro';
 import {
   fetchTopChains,
   fetchTopProtocols,
@@ -43,6 +44,12 @@ const newlyListed = [...protocols, ...gainers]
 function protocolPageUrl(p: ProtocolTvl) {
   return p.slug ? `https://defillama.com/protocol/${p.slug}` : 'https://defillama.com';
 }
+
+// Categories come straight from DeFiLlama's own `category` field — real values already in
+// the data (Lending, CEX, Liquid Staking...), not an invented taxonomy. Computed per table
+// so the chip list never offers a category with zero matching rows in that specific table.
+const protocolCategories = [...new Set(protocols.map((p) => p.category))].sort();
+const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
 ---
 
 <BaseLayout
@@ -129,9 +136,10 @@ function protocolPageUrl(p: ProtocolTvl) {
           {protocols.length === 0 && (
             <p class="empty-state">DeFiLlama не ответила при сборке страницы. Данные обновятся при следующей публикации.</p>
           )}
+          {protocols.length > 0 && <FilterBar categories={protocolCategories} />}
           <div class="table">
             {protocols.map((p, i) => (
-              <details class="row proto-row" name="protocols-table">
+              <details class="row proto-row" name="protocols-table" data-row data-name={p.name} data-category={p.category}>
                 <summary>
                   <span class="rank data">{i + 1}</span>
                   <span class="proto">
@@ -210,9 +218,10 @@ function protocolPageUrl(p: ProtocolTvl) {
           {gainers.length === 0 && (
             <p class="empty-state">DeFiLlama не ответила при сборке страницы. Данные обновятся при следующей публикации.</p>
           )}
+          {gainers.length > 0 && <FilterBar categories={gainerCategories} placeholder="Найти проект…" />}
           <div class="table">
             {gainers.map((p, i) => (
-              <details class="row proto-row" name="gainers-table">
+              <details class="row proto-row" name="gainers-table" data-row data-name={p.name} data-category={p.category}>
                 <summary>
                   <span class="rank data">{i + 1}</span>
                   <span class="proto">

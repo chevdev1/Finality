@@ -77,6 +77,14 @@ npm run preview   # serve the built output
   data-only modules built from arrays already fetched for the tables — "Project of the day" (the
   #1 gainer) and "Newly listed" (sorted by DeFiLlama's real `listedAt` field) — plus an honest
   empty-state message if the DeFiLlama API is down at build time instead of a silently empty table.
+  `src/components/FilterBar.astro` adds a debounced name search plus category chips above the
+  protocols and gainers tables — no client framework or store, it just toggles the native `hidden`
+  attribute on each row's `data-row`/`data-name`/`data-category`. Categories come straight from
+  DeFiLlama's own `category` field (computed per table, so no chip ever has zero matches), not an
+  invented taxonomy. One gotcha worth knowing: Astro emits a component's `<script>`/`<style>` as
+  DOM siblings right after its markup, so a naive `bar.nextElementSibling` lookup for the target
+  table actually landed on the `<script>` tag first — fixed by walking siblings forward to the
+  first one with the `.table` class.
 - **Signature component** — `src/components/VerificationMeter.astro` (the six-cell logo/status mark) and
   `src/components/VerificationLog.astro` (the expandable per-article check log).
 - **Article imagery** — two tiers, by explicit client request to override the brief's

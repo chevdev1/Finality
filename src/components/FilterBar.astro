@@ -1,0 +1,133 @@
+---
+// Client-side search + category filter over an already-rendered, static table. No client
+// framework or store: the rows are plain HTML from the build, this just toggles the native
+// `hidden` attribute on the ones that don't match, which the browser hides for free.
+// Usage: place directly before the .table it should control — the script finds each bar's
+// target table via nextElementSibling, so multiple independent bars on one page just work.
+interface Props {
+  categories: string[];
+  placeholder?: string;
+}
+const { categories, placeholder = 'Найти протокол…' } = Astro.props;
+---
+
+<div class="filter-bar">
+  <input
+    type="search"
+    class="search"
+    placeholder={placeholder}
+    aria-label={placeholder}
+    data-filter-search
+  />
+  <div class="chips" role="group" aria-label="Фильтр по категории">
+    <button type="button" class="chip is-active" data-filter-chip data-category="all">Все</button>
+    {categories.map((c) => (
+      <button type="button" class="chip" data-filter-chip data-category={c}>{c}</button>
+    ))}
+  </div>
+  <p class="empty" data-filter-empty hidden>Ничего не найдено по этому запросу/категории.</p>
+</div>
+
+<script>
+  function initFilterBar(bar: HTMLElement) {
+    // Astro emits this component's own <script>/<style> tags as siblings right after its
+    // markup, so the actual target table isn't always literally the next element — walk
+    // forward to the first sibling that's the table itself.
+    let table = bar.nextElementSibling as HTMLElement | null;
+    while (table && !table.classList.contains('table')) {
+      table = table.nextElementSibling as HTMLElement | null;
+    }
+    if (!table) return;
+
+    const search = bar.querySelector<HTMLInputElement>('[data-filter-search]');
+    const chips = bar.querySelectorAll<HTMLButtonElement>('[data-filter-chip]');
+    const empty = bar.querySelector<HTMLElement>('[data-filter-empty]');
+    const rows = table.querySelectorAll<HTMLElement>('[data-row]');
+
+    let activeCategory = 'all';
+    let debounceId: number | undefined;
+
+    function apply() {
+      const q = (search?.value ?? '').trim().toLowerCase();
+      let visible = 0;
+      rows.forEach((row) => {
+        const name = (row.dataset.name ?? '').toLowerCase();
+        const category = row.dataset.category ?? '';
+        const matchesSearch = !q || name.includes(q);
+        const matchesCategory = activeCategory === 'all' || category === activeCategory;
+        const show = matchesSearch && matchesCategory;
+        row.hidden = !show;
+        if (show) visible += 1;
+      });
+      if (empty) empty.hidden = visible > 0;
+    }
+
+    search?.addEventListener('input', () => {
+      window.clearTimeout(debounceId);
+      debounceId = window.setTimeout(apply, 150);
+    });
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        chips.forEach((c) => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        activeCategory = chip.dataset.category ?? 'all';
+        apply();
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('.filter-bar').forEach(initFilterBar);
+</script>
+
+<style>
+  .filter-bar {
+    display: grid;
+    gap: 10px;
+    margin: 4px 0 12px;
+  }
+  .search {
+    padding: 8px 10px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 13px;
+    max-width: 320px;
+  }
+  .search:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    font-family: var(--font-data);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--graphite);
+    cursor: pointer;
+  }
+  .chip:hover {
+    color: var(--ink);
+  }
+  .chip.is-active {
+    background: var(--ink);
+    color: var(--ledger);
+    border-color: var(--ink);
+  }
+  .empty {
+    color: var(--graphite);
+    font-size: 13px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+</style>
