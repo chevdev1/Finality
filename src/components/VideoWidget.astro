@@ -1,0 +1,133 @@
+---
+// Real, curated YouTube embeds from named news channels (CNBC Crypto World etc.) — not an
+// API integration, since there's no free/no-key video-news API worth trusting, and this
+// keeps the same "real, sourced" bar as every article. Facade pattern for performance: only
+// a static thumbnail image loads by default; the actual YouTube iframe (and everything
+// Google loads alongside it) is created on click, not on page load.
+interface Item {
+  title: string;
+  youtubeId: string;
+  channel: string;
+  note: string;
+}
+interface Props {
+  items: Item[];
+  heading?: string;
+}
+const { items, heading = 'Видео' } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="video-widget">
+    <span class="kicker heading">{heading}</span>
+    {items.map((v) => (
+      <div class="video" data-video data-youtube-id={v.youtubeId} data-title={v.title}>
+        <button type="button" class="thumb" data-play aria-label={`Смотреть: ${v.title}`}>
+          <img
+            src={`https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
+            alt=""
+            loading="lazy"
+            width="480"
+            height="360"
+          />
+          <span class="play-icon" aria-hidden="true">▶</span>
+        </button>
+        <p class="video-title">{v.title}</p>
+        <p class="video-meta kicker">{v.channel}</p>
+        <p class="video-note">{v.note}</p>
+      </div>
+    ))}
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-video]').forEach((container) => {
+    const btn = container.querySelector<HTMLButtonElement>('[data-play]');
+    btn?.addEventListener(
+      'click',
+      () => {
+        const id = container.dataset.youtubeId;
+        const title = container.dataset.title ?? 'YouTube video player';
+        if (!id) return;
+        const iframe = document.createElement('iframe');
+        // youtube-nocookie.com defers Google's tracking cookies until the viewer actually
+        // presses play, not merely because the page with a thumbnail loaded.
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+        iframe.title = title;
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.className = 'yt-iframe';
+        btn?.replaceWith(iframe);
+      },
+      { once: true }
+    );
+  });
+</script>
+
+<style>
+  .video-widget {
+    display: grid;
+    gap: 20px;
+  }
+  .heading {
+    color: var(--graphite);
+  }
+  .video {
+    display: grid;
+    gap: 6px;
+  }
+  .thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+    background: var(--ink);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.82;
+    transition: opacity 150ms ease;
+  }
+  .thumb:hover img {
+    opacity: 1;
+  }
+  .play-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    background: rgba(15, 22, 19, 0.28);
+  }
+  .yt-iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--rule);
+  }
+  .video-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .video-meta {
+    margin: 0;
+    color: var(--graphite);
+  }
+  .video-note {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 12px;
+  }
+</style>

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleRow from '../../components/ArticleRow.astro';
 import Pagination from '../../components/Pagination.astro';
+import VideoWidget from '../../components/VideoWidget.astro';
 import { SECTIONS } from '../../content.config';
 import { SECTION_LABELS } from '../../lib/labels';
 import { SECTION_INTROS } from '../../lib/section-intros';
@@ -19,6 +20,14 @@ const news = (await getCollection('news'))
 
 const { pageItems, totalPages } = paginate(news, 1);
 const sectionLabel = SECTION_LABELS[section] ?? section;
+
+// One video per section, at most — this is a text-first news hub, not a video hub, so a
+// single relevant clip earns its place better than a whole rail of them.
+const sectionVideo = (await getCollection('videos'))
+  .filter((v) => v.data.section === section)
+  .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
+  .slice(0, 1)
+  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
 ---
 
 <BaseLayout
@@ -46,6 +55,11 @@ const sectionLabel = SECTION_LABELS[section] ?? section;
     <nav class="crumbs"><a href="/">Finality</a> / {sectionLabel}</nav>
     <h1 class="section-title">{sectionLabel}</h1>
     <p class="intro">{SECTION_INTROS[section]}</p>
+    {sectionVideo.length > 0 && (
+      <div class="section-video">
+        <VideoWidget items={sectionVideo} heading="По теме на видео" />
+      </div>
+    )}
     <div class="feed">
       {pageItems.map((n) => (
         <ArticleRow
@@ -83,5 +97,11 @@ const sectionLabel = SECTION_LABELS[section] ?? section;
     max-width: 68ch;
     color: var(--graphite);
     margin: 16px 0 24px;
+  }
+  .section-video {
+    max-width: 360px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
   }
 </style>

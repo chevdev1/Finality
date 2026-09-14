@@ -7,6 +7,7 @@ import ArticleRow from '../components/ArticleRow.astro';
 import MarketsPanel from '../components/MarketsPanel.astro';
 import SpotlightTeaser from '../components/SpotlightTeaser.astro';
 import Subscribe from '../components/Subscribe.astro';
+import VideoWidget from '../components/VideoWidget.astro';
 import { SECTIONS } from '../content.config';
 import { SECTION_LABELS, STATUS_LABELS } from '../lib/labels';
 
@@ -25,6 +26,11 @@ const sectionCounts = SECTIONS.map((s) => ({
   slug: s,
   count: news.filter((n) => n.data.section === s).length,
 }));
+
+const videos = (await getCollection('videos'))
+  .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
+  .slice(0, 3)
+  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
 
 function fmtUpdated(d: Date) {
   return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
@@ -89,6 +95,7 @@ function fmtUpdated(d: Date) {
           ))}
         </div>
       </div>
+      <VideoWidget items={videos} />
       <Subscribe />
     </aside>
   </div>

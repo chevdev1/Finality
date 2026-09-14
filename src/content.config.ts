@@ -74,4 +74,16 @@ const spotlight = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight };
+const videos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/videos' }),
+  schema: z.object({
+    title: z.string(),
+    youtubeId: z.string(),
+    channel: z.string(),
+    section: z.enum(SECTIONS),
+    addedAt: z.coerce.date(),
+    note: z.string(),
+  }),
+});
+
+export const collections = { news, authors, spotlight, videos };
