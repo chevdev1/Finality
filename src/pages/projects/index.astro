@@ -115,6 +115,13 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
       </div>
     </div>
 
+    <div class="view-controls" role="radiogroup" aria-label="Вид отображения протоколов">
+      <input type="radio" name="view" id="view-table" class="visually-hidden" checked />
+      <label for="view-table">Таблица</label>
+      <input type="radio" name="view" id="view-cards" class="visually-hidden" />
+      <label for="view-cards">Карточки</label>
+    </div>
+
     <div class="layout">
       <div class="main">
         <section class="block">
@@ -153,7 +160,7 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
             <p class="empty-state">DeFiLlama не ответила при сборке страницы. Данные обновятся при следующей публикации.</p>
           )}
           {protocols.length > 0 && <FilterBar categories={protocolCategories} />}
-          <div class="table">
+          <div class="table protocol-table">
             {protocols.map((p, i) => (
               <details class="row proto-row" name="protocols-table" data-row data-name={p.name} data-category={p.category}>
                 <summary>
@@ -237,6 +244,35 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
               </details>
             ))}
           </div>
+          <div class="cards protocol-cards">
+            {protocols.map((p, i) => {
+              const spark = sparkFor(p.slug);
+              return (
+                <a class="proto-card" href={protocolPageUrl(p)} target="_blank" rel="noopener">
+                  <div class="card-top">
+                    <span class="rank data">{i + 1}</span>
+                    <span class="icon">
+                      {p.logo && <img src={p.logo} width="24" height="24" alt="" aria-hidden="true" loading="lazy" onerror="this.parentElement.style.visibility='hidden'" />}
+                    </span>
+                    <div class="card-name-wrap">
+                      <span class="card-name">{p.name}</span>
+                      <span class="kicker cat">{p.category}</span>
+                    </div>
+                  </div>
+                  <div class="card-nums">
+                    <span class="data card-tvl">{fmtTvl(p.tvl)}</span>
+                    <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>{fmtChange(p.change_1d)}</span>
+                  </div>
+                  {spark && (
+                    <svg viewBox="0 0 64 20" class="sparkline" preserveAspectRatio="none" aria-hidden="true">
+                      <polyline points={spark.points} class:list={['spark-line', spark.up ? 'up' : 'down']} />
+                    </svg>
+                  )}
+                  {p.description && <p class="card-desc">{p.description}</p>}
+                </a>
+              );
+            })}
+          </div>
         </section>
 
         <section class="block">
@@ -249,7 +285,7 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
             <p class="empty-state">DeFiLlama не ответила при сборке страницы. Данные обновятся при следующей публикации.</p>
           )}
           {gainers.length > 0 && <FilterBar categories={gainerCategories} placeholder="Найти проект…" />}
-          <div class="table">
+          <div class="table protocol-table">
             {gainers.map((p, i) => (
               <details class="row proto-row" name="gainers-table" data-row data-name={p.name} data-category={p.category}>
                 <summary>
@@ -332,6 +368,35 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
                 </div>
               </details>
             ))}
+          </div>
+          <div class="cards protocol-cards">
+            {gainers.map((p, i) => {
+              const spark = sparkFor(p.slug);
+              return (
+                <a class="proto-card" href={protocolPageUrl(p)} target="_blank" rel="noopener">
+                  <div class="card-top">
+                    <span class="rank data">{i + 1}</span>
+                    <span class="icon">
+                      {p.logo && <img src={p.logo} width="24" height="24" alt="" aria-hidden="true" loading="lazy" onerror="this.parentElement.style.visibility='hidden'" />}
+                    </span>
+                    <div class="card-name-wrap">
+                      <span class="card-name">{p.name}</span>
+                      <span class="kicker cat">{p.category}</span>
+                    </div>
+                  </div>
+                  <div class="card-nums">
+                    <span class="data card-tvl">{fmtTvl(p.tvl)}</span>
+                    <span class:list={['chg', 'data', (p.change_1d ?? 0) >= 0 ? 'up' : 'down']}>{fmtChange(p.change_1d)}</span>
+                  </div>
+                  {spark && (
+                    <svg viewBox="0 0 64 20" class="sparkline" preserveAspectRatio="none" aria-hidden="true">
+                      <polyline points={spark.points} class:list={['spark-line', spark.up ? 'up' : 'down']} />
+                    </svg>
+                  )}
+                  {p.description && <p class="card-desc">{p.description}</p>}
+                </a>
+              );
+            })}
           </div>
         </section>
 
@@ -475,6 +540,118 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
     opacity: 1;
     visibility: visible;
     transition: opacity 150ms ease 300ms, visibility 0s linear 300ms;
+  }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* Zero-JS view switch: two radios (visually hidden, native keyboard/focus behavior kept)
+     drive everything else through :has() on a shared ancestor of the toggle and the content —
+     the same "native control + CSS" approach as the mobile menu and every accordion on this
+     page, just using a newer selector instead of the [open] attribute. */
+  .view-controls {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .view-controls label {
+    padding: 7px 16px;
+    font-family: var(--font-data);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--graphite);
+    cursor: pointer;
+    border-left: 1px solid var(--rule);
+  }
+  .view-controls label:first-of-type {
+    border-left: none;
+  }
+  .view-controls #view-table:checked ~ label[for='view-table'],
+  .view-controls #view-cards:checked ~ label[for='view-cards'] {
+    background: var(--ink);
+    color: var(--ledger);
+  }
+  .cards {
+    display: none;
+  }
+  /* .filter-bar is rendered by the FilterBar.astro child component, so it carries that
+     component's own astro-cid attribute, not this page's — a plain selector here compiles
+     with THIS page's scope attribute appended and silently matches nothing in the real DOM.
+     :global() opts that one segment out of scoping so the selector can actually reach it —
+     the same cross-component-scoping gotcha already hit once with FilterBar's own script. */
+  .view-controls:has(#view-cards:checked) ~ .layout .protocol-table,
+  .view-controls:has(#view-cards:checked) ~ .layout :global(.filter-bar) {
+    display: none;
+  }
+  .view-controls:has(#view-cards:checked) ~ .layout .protocol-cards {
+    display: grid;
+  }
+  .protocol-cards {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .proto-card {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 150ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .proto-card:hover {
+      border-color: var(--ink);
+    }
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-top .rank {
+    color: var(--graphite);
+    font-size: 12px;
+  }
+  .card-name-wrap {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .card-name {
+    font-weight: 700;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .card-nums {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .card-tvl {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .card-desc {
+    margin: 0;
+    font-size: 12px;
+    color: var(--graphite);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .layout {
     display: grid;
