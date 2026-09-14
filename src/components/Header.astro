@@ -2,35 +2,49 @@
 import VerificationMeter from './VerificationMeter.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { SECTIONS } from '../content.config';
-import { SECTION_LABELS as sectionLabels } from '../lib/labels';
+import { SECTION_LABELS as sectionLabelsRu } from '../lib/labels';
+import { SECTION_LABELS_EN, UI, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+  altHref?: string;
+}
+const { locale = 'ru', altHref = '/en/' } = Astro.props;
+const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : sectionLabelsRu;
+const t = UI[locale];
+// /projects/ itself isn't translated this round (its real content — protocol names,
+// categories, TVL — already comes from DeFiLlama in English regardless of site locale), so
+// both languages link to the one real page rather than a fabricated /en/projects/ 404.
+const projectsHref = '/projects/';
 ---
 
 <header class="site-header">
   <div class="wrap bar">
-    <a href="/" class="logo">
+    <a href={locale === 'en' ? '/en/' : '/'} class="logo">
       <VerificationMeter filled={6} size={10} label="Finality" />
       <span class="wordmark">Finality</span>
     </a>
-    <nav class="nav" aria-label="Разделы">
+    <nav class="nav" aria-label={t.sectionsNavLabel}>
       {SECTIONS.map((s) => (
-        <a href={`/${s}/`}>{sectionLabels[s]}</a>
+        <a href={locale === 'en' ? `/en/${s}/` : `/${s}/`}>{sectionLabels[s]}</a>
       ))}
-      <a href="/projects/">Проекты</a>
+      <a href={projectsHref}>{t.projects}</a>
     </nav>
     <div class="actions">
-      <ThemeToggle />
-      <button class="search-btn" data-search-trigger aria-label="Поиск">
-        Поиск <kbd class="kbd-hint">⌘K</kbd>
+      <a class="lang-switch" href={altHref} hreflang={locale === 'ru' ? 'en' : 'ru'}>{t.langSwitch}</a>
+      <ThemeToggle locale={locale} />
+      <button class="search-btn" data-search-trigger aria-label={t.search}>
+        {t.search} <kbd class="kbd-hint">⌘K</kbd>
       </button>
       <details class="mobile-menu">
-        <summary class="menu-btn" aria-label="Открыть меню">
+        <summary class="menu-btn" aria-label={t.openMenu}>
           <span></span><span></span><span></span>
         </summary>
-        <nav class="mobile-menu-panel" aria-label="Разделы">
+        <nav class="mobile-menu-panel" aria-label={t.sectionsNavLabel}>
           {SECTIONS.map((s) => (
-            <a href={`/${s}/`}>{sectionLabels[s]}</a>
+            <a href={locale === 'en' ? `/en/${s}/` : `/${s}/`}>{sectionLabels[s]}</a>
           ))}
-          <a href="/projects/">Проекты</a>
+          <a href={projectsHref}>{t.projects}</a>
         </nav>
       </details>
     </div>
@@ -84,6 +98,23 @@ import { SECTION_LABELS as sectionLabels } from '../lib/labels';
     align-items: center;
     gap: 12px;
     flex-shrink: 0;
+  }
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--graphite);
+    font-family: var(--font-data);
+    font-size: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .lang-switch:hover {
+    color: var(--ink);
   }
   .search-btn {
     display: flex;

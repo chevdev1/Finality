@@ -1,0 +1,215 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VerificationMeter from '../../components/VerificationMeter.astro';
+import VerificationLog from '../../components/VerificationLog.astro';
+import ArticleRow from '../../components/ArticleRow.astro';
+import MarketsPanel from '../../components/MarketsPanel.astro';
+import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
+import Subscribe from '../../components/Subscribe.astro';
+import VideoWidget from '../../components/VideoWidget.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import { SECTIONS } from '../../content.config';
+import { SECTION_LABELS_EN, STATUS_LABELS_EN, UI } from '../../lib/i18n';
+
+const t = UI.en;
+
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+const hero = news.find((n) => n.data.featured) ?? news[0];
+const FEED_SIZE = 12;
+const feed = news.filter((n) => n.id !== hero.id).slice(0, FEED_SIZE);
+const feedCategories = [...new Set(feed.map((n) => SECTION_LABELS_EN[n.data.section]))].sort();
+const spotlights = await getCollection('spotlight');
+const spotlight = spotlights.find((s) => !s.data.project.includes('['));
+
+const sectionCounts = SECTIONS.map((s) => ({
+  slug: s,
+  count: news.filter((n) => n.data.section === s).length,
+}));
+
+const videos = (await getCollection('videos'))
+  .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
+  .slice(0, 3)
+  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
+
+function fmtUpdated(d: Date) {
+  return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+}
+---
+
+<BaseLayout
+  locale="en"
+  title="Finality — crypto news with a visible degree of confidence"
+  description="Crypto and fintech news with a verification log on every story: the more cells are filled in, the harder the fact."
+>
+  <div class="wrap">
+    <p class="notice">{t.notTranslatedNotice}</p>
+  </div>
+  <div class="wrap layout">
+    <section class="hero">
+      <div class="hero-top">
+        <span class="kicker">{SECTION_LABELS_EN[hero.data.section]}</span>
+        <span class="status-word">{STATUS_LABELS_EN[hero.data.status]}</span>
+        <span class="data">{t.updated} {fmtUpdated(hero.data.updatedAt)}</span>
+      </div>
+      <h1><a href={`/${hero.data.section}/${hero.id}/`}>{hero.data.title}</a></h1>
+      <p class="lead">{hero.data.dek}</p>
+      <VerificationMeter filled={hero.data.checks.length} animate size={16} />
+    </section>
+
+    <aside class="hero-log">
+      <VerificationLog checks={hero.data.checks} status={hero.data.status} open />
+    </aside>
+
+    <div class="feed-wrap">
+      <div class="feed-head">
+        <h2>{t.latestStories}</h2>
+        <span class="kicker">{t.newestFirst}</span>
+      </div>
+      <FilterBar categories={feedCategories} placeholder={t.findMaterial} targetClass="feed" />
+      <section class="feed">
+      {feed.map((n) => (
+        <ArticleRow
+          title={n.data.title}
+          dek={n.data.dek}
+          href={`/${n.data.section}/${n.id}/`}
+          section={SECTION_LABELS_EN[n.data.section]}
+          publishedAt={n.data.publishedAt}
+          checksCount={n.data.checks.length}
+          slug={n.id}
+          imageQuery={n.data.imageQuery}
+        />
+      ))}
+      </section>
+    </div>
+
+    <aside class="rail">
+      <MarketsPanel locale="en" />
+      {spotlight && (
+        <SpotlightTeaser
+          project={spotlight.data.project}
+          tagline={spotlight.data.tagline}
+          href={`/spotlight/${spotlight.id}/`}
+          guestColor={spotlight.data.guestColor}
+        />
+      )}
+      <div class="section-hubs">
+        <span class="kicker heading">{t.sectionsHeading}</span>
+        <div class="hub-grid">
+          {sectionCounts.map((s) => (
+            <a href={`/en/${s.slug}/`}>
+              <span>{SECTION_LABELS_EN[s.slug]}</span>
+              <VerificationMeter filled={Math.min(s.count, 6)} size={7} />
+            </a>
+          ))}
+        </div>
+      </div>
+      <VideoWidget items={videos} heading={t.videoHeading} />
+      <Subscribe locale="en" />
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr var(--rail-width);
+    gap: 32px;
+    padding-block: 24px 48px;
+  }
+  .notice {
+    margin: 20px 0 0;
+    padding: 10px 14px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--graphite);
+    font-size: 13px;
+  }
+  .hero {
+    grid-column: 1;
+    background: var(--pending);
+    padding: 32px;
+    display: grid;
+    gap: 14px;
+    --ink: var(--on-accent);
+  }
+  .hero-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+  }
+  .hero-top .kicker,
+  .hero-top .status-word,
+  .hero-top .data {
+    color: var(--on-accent);
+  }
+  .hero h1 {
+    font-size: var(--step-h1);
+  }
+  .hero h1 a {
+    text-decoration: none;
+    color: var(--on-accent);
+  }
+  .lead {
+    margin: 0;
+    max-width: 60ch;
+    color: var(--on-accent);
+  }
+  .hero-log {
+    grid-column: 1;
+  }
+  .feed-wrap {
+    grid-column: 1;
+  }
+  .feed-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .feed-head h2 {
+    font-size: var(--step-h3);
+  }
+  .rail {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  .section-hubs {
+    border: 1px solid var(--rule);
+    padding: 16px;
+    display: grid;
+    gap: 10px;
+    background: var(--paper);
+  }
+  .hub-grid {
+    display: grid;
+    gap: 8px;
+  }
+  .hub-grid a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .rail {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .hero {
+      padding: 20px;
+    }
+  }
+</style>

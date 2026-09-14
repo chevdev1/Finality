@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Ticker from '../components/Ticker.astro';
 import SearchIndex from '../components/SearchIndex.astro';
+import { UI, altPath, type Locale } from '../lib/i18n';
 
 interface Props {
   title: string;
@@ -10,13 +11,19 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   ogImage?: string;
   canonicalPath?: string;
+  locale?: Locale;
 }
 
-const { title, description, jsonLd = [], ogImage, canonicalPath } = Astro.props;
+const { title, description, jsonLd = [], ogImage, canonicalPath, locale = 'ru' } = Astro.props;
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
-const canonical = `${siteUrl}${canonicalPath ?? Astro.url.pathname}`;
+const pathname = canonicalPath ?? Astro.url.pathname;
+const canonical = `${siteUrl}${pathname}`;
 const resolvedOgImage = ogImage ?? `${siteUrl}/og-default.png`;
+const t = UI[locale];
+const ruAlt = altPath(pathname, 'ru');
+const enAlt = altPath(pathname, 'en');
+const hasRealAlternate = locale === 'ru' ? enAlt.exact : ruAlt.exact;
 
 const orgSchema = {
   '@context': 'https://schema.org',
@@ -42,10 +49,17 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {hasRealAlternate && (
+      <>
+        <link rel="alternate" hreflang="ru" href={`${siteUrl}${ruAlt.href}`} />
+        <link rel="alternate" hreflang="en" href={`${siteUrl}${enAlt.href}`} />
+        <link rel="alternate" hreflang="x-default" href={`${siteUrl}${ruAlt.href}`} />
+      </>
+    )}
     <script is:inline>
       // Runs before any CSS paints, so the page never flashes light then immediately
       // switches dark for a returning dark-mode reader. Kept out of ThemeToggle.astro
@@ -83,15 +97,15 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
   </head>
   <body>
     <Ticker />
-    <Header />
-    <SearchIndex />
+    <Header locale={locale} altHref={locale === 'ru' ? enAlt.href : ruAlt.href} />
+    <SearchIndex locale={locale} />
     <main>
       <slot />
     </main>
     <footer class="site-footer">
       <div class="wrap footer-inner">
-        <p>Finality — часть сети из пяти изданий. Общая информация об издателе — на странице <a href="/about/">«О редакции»</a>.</p>
-        <p class="kicker">© 2026 Finality</p>
+        <p>{t.footerText} <a href={locale === 'ru' ? '/about/' : '/en/about/'}>{t.footerAboutLink}</a>.</p>
+        <p class="kicker">{t.copyright}</p>
       </div>
     </footer>
   </body>

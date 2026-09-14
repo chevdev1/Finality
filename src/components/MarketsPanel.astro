@@ -1,5 +1,12 @@
 ---
 import { fetchQuotes, fetchStablecoinSupply, fmtUsd, fmtPct, fmtCompactUsd } from '../lib/coingecko-client';
+import { UI, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const t = UI[locale];
 
 // Build-time fetch, same rationale as Ticker.astro: the no-JS static page already
 // shows real numbers as of the last build; the client script refreshes them live.
@@ -22,7 +29,7 @@ const rows = [
   },
   {
     id: 'stablecoins',
-    label: 'USDT + USDC + DAI, капитализация',
+    label: t.stablecoinCap,
     value: stableSupply !== null ? fmtCompactUsd(stableSupply) : '—',
     chg: '',
     up: true,
@@ -32,7 +39,7 @@ const rows = [
 
 <div class="panel" data-markets>
   <div class="head">
-    <span class="kicker">Рынки</span>
+    <span class="kicker">{t.marketsLabel}</span>
     <span class="kicker demo">CoinGecko</span>
   </div>
   {rows.map((r) => (

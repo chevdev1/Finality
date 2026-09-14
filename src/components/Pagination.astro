@@ -1,26 +1,32 @@
 ---
+import type { Locale } from '../lib/i18n';
 interface Props {
   basePath: string; // e.g. "/defi"
   page: number;
   totalPages: number;
+  locale?: Locale;
 }
-const { basePath, page, totalPages } = Astro.props;
+const { basePath, page, totalPages, locale = 'ru' } = Astro.props;
 
 function pageUrl(n: number) {
   return n <= 1 ? `${basePath}/` : `${basePath}/page/${n}/`;
 }
+
+const copy = locale === 'en'
+  ? { nav: 'Pages', prev: '← Earlier', next: 'Later →', of: (p: number, t: number) => `Page ${p} of ${t}` }
+  : { nav: 'Страницы', prev: '← Раньше', next: 'Позже →', of: (p: number, t: number) => `Страница ${p} из ${t}` };
 ---
 
 {totalPages > 1 && (
-  <nav class="pagination" aria-label="Страницы">
+  <nav class="pagination" aria-label={copy.nav}>
     {page > 1 ? (
-      <a href={pageUrl(page - 1)} rel="prev">← Раньше</a>
+      <a href={pageUrl(page - 1)} rel="prev">{copy.prev}</a>
     ) : (
       <span></span>
     )}
-    <span class="kicker">Страница {page} из {totalPages}</span>
+    <span class="kicker">{copy.of(page, totalPages)}</span>
     {page < totalPages ? (
-      <a href={pageUrl(page + 1)} rel="next">Позже →</a>
+      <a href={pageUrl(page + 1)} rel="next">{copy.next}</a>
     ) : (
       <span></span>
     )}

@@ -1,0 +1,225 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const authors = await getCollection('authors');
+
+const CHECKS = [
+  { n: 1, label: 'Primary source found and linked', body: 'Every article links to an official document, press release, or outlet report — not a third-hand retelling.' },
+  { n: 2, label: 'On-chain data confirms the claim', body: "Where it applies, figures are checked directly against the blockchain or a public API, not taken on the source's word." },
+  { n: 3, label: 'An independent second outlet reports the same thing', body: 'One source is a reason for caution. We look for independent confirmation before marking a story "Confirmed."' },
+  { n: 4, label: "The other party's official statement is on record", body: "If a story involves a company or protocol, we try to record their official position, not just the affected or attacking side's version." },
+  { n: 5, label: 'Numbers checked by the editors', body: 'Amounts, percentages, and dates are recomputed independently by the editorial team — a discrepancy between sources is itself a reason to write about it, not something we paper over.' },
+  { n: 6, label: 'Signed off by the editor on duty', body: 'A final pass before publication: the logic of the piece, whether the numbers match their sources, whether related links are correct.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About — Finality',
+    about: { '@type': 'Organization', name: 'Finality' },
+  },
+];
+---
+
+<BaseLayout
+  locale="en"
+  title="About — Finality"
+  description="How Finality verifies news, who writes it, and what we do when the facts don't line up."
+  jsonLd={jsonLd}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href="/en/">Finality</a> / About</nav>
+    <h1 class="title">About</h1>
+    <p class="intro">
+      Finality is the pilot title of a planned five-outlet crypto and fintech media network, built
+      around one idea: every number in a news story should have a checkable source. Below is how
+      that actually works, not just the slogan version.
+    </p>
+
+    <section class="block">
+      <h2>Verification methodology</h2>
+      <p class="lead">
+        Every article runs through a verification log — up to six checks, visible to the reader
+        right on the story page, each with the date it was cleared. Not all six apply to every
+        story: "on-chain data," for instance, is meaningless for a story about a bill in Congress.
+      </p>
+      <ol class="checks">
+        {CHECKS.map((c) => (
+          <li>
+            <span class="check-num data">{c.n}</span>
+            <div>
+              <p class="check-label">{c.label}</p>
+              <p class="check-body">{c.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="note">
+        A "Developing" status means some checks haven't cleared yet — usually because an
+        independent second outlet hasn't confirmed the details, or a party hasn't responded to a
+        request for comment. It isn't a draft: whatever's already published was already verified
+        as of the moment it went live.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>The team</h2>
+      <div class="team">
+        {authors.map((author) => (
+          <a href={`/author/${author.id}/`} class="team-card">
+            <span class="avatar" aria-hidden="true">{author.data.initials}</span>
+            <div>
+              <p class="name">{author.data.name}</p>
+              <p class="role kicker">{author.data.role}</p>
+              <p class="bio">{author.data.bio}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>What's honest to say about being a pilot</h2>
+      <p>
+        Finality is the first site of a planned network, and at this stage part of the editorial
+        scaffolding is labeled as such rather than presented as more than it is. The three authors
+        above are real editorial beats with real topic specialization, but without published
+        photos or links to personal social accounts — adding a placeholder link would fabricate a
+        digital identity that doesn't exist. Once a real editor is attached to each beat, the
+        profile will be updated. Article bodies are also still Russian-only while translation
+        catches up with the rest of the site — see the notice on section pages.
+      </p>
+      <p>
+        Sponsored placements (for example, on the "Projects" page) are always marked with a
+        separate label and physically kept apart from the editorial rankings — a paid placement
+        cannot affect which row ranks higher in a table.
+      </p>
+    </section>
+
+    <section class="block">
+      <h2>If we got something wrong</h2>
+      <p>
+        A factual discrepancy is something that should be corrected in public, not quietly rewritten
+        away. Grounds for a correction are a new primary source or a clarification of one already
+        cited — not a disagreement with interpretation. At the pilot stage, Finality doesn't yet
+        have a dedicated public channel for this kind of report — better to say that plainly than
+        to point at contacts that don't exist yet.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+    max-width: 760px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 40px;
+  }
+  .block {
+    margin-bottom: 40px;
+  }
+  .block h2 {
+    font-size: var(--step-h3);
+    margin-bottom: 12px;
+  }
+  .lead {
+    color: var(--graphite);
+    max-width: 62ch;
+    margin: 0 0 20px;
+  }
+  .checks {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .checks li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 14px;
+  }
+  .check-num {
+    color: var(--graphite);
+    font-size: 13px;
+  }
+  .check-label {
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  .check-body {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 60ch;
+  }
+  .note {
+    color: var(--graphite);
+    font-size: 13px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    max-width: 62ch;
+  }
+  .team {
+    display: grid;
+    gap: 16px;
+  }
+  .team-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 16px;
+  }
+  .team-card:hover {
+    background: var(--paper);
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ledger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-data);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .name {
+    margin: 0;
+    font-weight: 700;
+  }
+  .role {
+    margin: 2px 0 6px;
+  }
+  .bio {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 13px;
+    max-width: 52ch;
+  }
+</style>

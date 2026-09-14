@@ -1,15 +1,21 @@
 ---
+import { UI, type Locale } from '../lib/i18n';
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const t = UI[locale];
 ---
 <form class="subscribe" data-subscribe-form>
-  <span class="label">Получать утренний брифинг в 7:00</span>
-  <p class="sub">Одно письмо каждое утро — только то, что прошло проверку.</p>
+  <span class="label">{t.subscribeLabel}</span>
+  <p class="sub">{t.subscribeSub}</p>
   <div class="row">
-    <input type="email" name="email" required placeholder="you@example.com" aria-label="Электронная почта" />
-    <button type="submit">Подписаться</button>
+    <input type="email" name="email" required placeholder="you@example.com" aria-label={t.subscribeEmailAria} />
+    <button type="submit">{t.subscribeButton}</button>
   </div>
 </form>
 
-<div class="toast" data-toast hidden role="status">Вы подписаны</div>
+<div class="toast" data-toast hidden role="status">{t.subscribeToast}</div>
 
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-subscribe-form]');
