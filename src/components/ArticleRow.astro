@@ -12,13 +12,17 @@ interface Props {
 
 const { title, dek, href, section, publishedAt, checksCount } = Astro.props;
 
-function fmtTime(d: Date) {
-  return d.toISOString().slice(11, 16);
+// Every article's publishedAt frontmatter is set to 00:00 UTC (an arbitrary editorial
+// timestamp, not a real time-of-day) — showing HH:MM here just repeated "00:00" down an
+// entire feed, reading like an unfilled placeholder rather than real data. The date is the
+// part that's actually true and actually useful when scanning weeks of articles.
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
 }
 ---
 
 <a class="row" href={href}>
-  <span class="data time">{fmtTime(publishedAt)}</span>
+  <span class="data time">{fmtDate(publishedAt)}</span>
   <VerificationMeter filled={checksCount} size={10} />
   <span class="body">
     <span class="title">{title}</span>

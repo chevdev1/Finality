@@ -56,7 +56,13 @@ const { items, heading = 'Видео' } = Astro.props;
         iframe.title = title;
         iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
         iframe.setAttribute('allowfullscreen', '');
+        // Astro's scoped CSS only ever reaches elements present in the server-rendered markup —
+        // it rewrites .yt-iframe into .yt-iframe[data-astro-cid-xxx] at build time, and an
+        // element created here at runtime never gets that attribute. The class alone silently
+        // matched nothing, so the iframe fell back to the browser's default 300×150 box instead
+        // of filling the card — inline styles apply regardless of scoping, so set size here too.
         iframe.className = 'yt-iframe';
+        iframe.style.cssText = 'display:block; width:100%; aspect-ratio:16/9; border:1px solid var(--rule);';
         btn?.replaceWith(iframe);
       },
       { once: true }

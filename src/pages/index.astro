@@ -15,7 +15,11 @@ const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
 );
 const hero = news.find((n) => n.data.featured) ?? news[0];
-const feed = news.filter((n) => n.id !== hero.id);
+// The archive has grown well past what a front page should dump in one unbroken scroll —
+// capped at a reasonable "recent" window; the section hubs (linked in the sidebar) and each
+// author's page are where the rest of the archive actually lives.
+const FEED_SIZE = 12;
+const feed = news.filter((n) => n.id !== hero.id).slice(0, FEED_SIZE);
 const spotlights = await getCollection('spotlight');
 // project-template.md ships as an example for whoever writes the next Spotlight, not
 // something to publish — a bracketed field means it's still a template (see the same
