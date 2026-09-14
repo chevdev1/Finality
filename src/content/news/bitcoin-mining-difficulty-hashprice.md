@@ -22,6 +22,7 @@ sources:
 related:
   - bitcoin-etf-inflows-731m-day
   - g20-statement-digital-assets-asheville
+  - bitcoin-miners-ai-pivot-treasury-sales
 ---
 
 **Главное**

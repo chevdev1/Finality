@@ -135,7 +135,7 @@ npm run preview   # serve the built output
 
 ## Content
 
-All 29 news articles are real, sourced reporting, not placeholder copy — a real event, written
+All 38 news articles are real, sourced reporting, not placeholder copy — a real event, written
 in our own words per the brief's §7 rule against copying source text, with a genuine primary or
 reporting source linked in the frontmatter (official incident reports and company press releases
 where those exist — e.g. Liquid Network's own incident report on X, U.S. Bancorp's press release,
@@ -162,8 +162,23 @@ rising hashprice, a DeFi governance-takeover exploit at Term Finance (a differen
 than the oracle-manipulation stories), and Lofty's tokenized real-estate platform, then +3 to even
 out the last thin spots — Ethereum Foundation's end-to-end privacy roadmap, Binance's Agent OS
 letting Claude/ChatGPT/Codex trade through a withdrawal-locked sub-account, and the London Stock
-Exchange's tokenization deal with Kraken's parent Payward. 29 articles total: seven sections at 3,
-two (security, rwa) at 4.
+Exchange's tokenization deal with Kraken's parent Payward. Then +9 (one per section, to answer the
+client's "sections feel thin when you click into them" feedback): Bitcoin miners liquidating
+treasury BTC to fund AI/HPC pivots (CoinDesk, Decrypt), Ethereum spot ETFs' best week on record at
+$824M (Crypto Briefing), Lido and Stakely's institutional/public stVaults launch (Metaverse Post,
+Lido's own blog), a 21-bank consortium (Goldman, Citi, BofA, UBS...) planning a joint USD
+stablecoin for H1 2027 (CoinDesk), CFTC chair Selig's fallback plan to write crypto market-structure
+rules under existing authority if CLARITY stalls (Government Enforcement Report, Law360), tokenized
+private credit overtaking Treasuries as the largest non-stablecoin RWA class — reported with an
+explicit note that trackers disagree by methodology, not because one report is wrong (BlockEden,
+Stobox), Olas's own blog post juxtaposing 19.95M agent transactions against a $107,808 lifetime
+marketplace turnover — used for the skeptical "activity isn't the same as economic value" angle
+rather than the hype framing (Olas's blog, a first-party source), DBS/OCBC/UOB's first live
+tokenized-SGD settlement on Swift's shared ledger (FinTech Futures), and the Coldcard hardware-wallet
+firmware flaw that let attackers drain $116M from weak-randomness seed phrases (TRM Labs, Fortune).
+Also added reciprocal `related:` links from eight existing articles into these new ones, since
+one-directional links were leaving genuinely connected stories undiscoverable from the older side.
+38 articles total across all 9 sections.
 
 Author bylines (`src/content/authors/`) carry no `sameAs` links — the three authors are fictional
 pilot bylines, and a placeholder social link would be a fabricated identity claim sitting inside
@@ -246,7 +261,7 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
   query strings — the host doesn't see the query string at all. `src/pages/[section]/page/[page].astro`
   generates real static pages at `/{section}/page/{n}/` instead, each with its own canonical
   pointing at itself (`src/components/Pagination.astro`). `HUB_PAGE_SIZE` (`src/lib/pagination.ts`)
-  is 6; every section currently has 1–3 articles, so no page-2 routes exist yet — they'll appear
+  is 6; every section currently has 4–5 articles, so no page-2 routes exist yet — they'll appear
   automatically once a section passes that count.
 
 ## Definition of done — where it stands
@@ -254,8 +269,8 @@ and branch `--font-display`/`--font-body` per locale — the token layer already
 Checked against the brief's §8 checklist:
 
 - **Functionality**: all five templates, ⌘K search, ticker pause on hover/hidden-tab — done.
-  29 real, sourced articles across all 9 sections (7 sections at 3, security and rwa at 4) clear
-  the brief's "10–12 real stories" bar several times over.
+  38 real, sourced articles across all 9 sections (4–5 per section) clear the brief's "10–12 real
+  stories" bar several times over.
 - **Execution quality**: fixed two real bugs found during this pass — the mobile hamburger menu
   only opened via JS (no fallback, so JS-off mobile users had no way to reach section nav; now a
   native `<details>`, zero JS) and a `⌘K`-hint selector that silently matched nothing (mobile

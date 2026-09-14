@@ -23,6 +23,7 @@ related:
   - us-bank-usbdc-stablecoin-stellar-pilot
   - genius-act-stablecoin-treasury-rules
   - visa-stablecoin-settlement-20b
+  - bank-stablecoin-consortium-21-banks
 ---
 
 **Главное**

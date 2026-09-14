@@ -25,6 +25,7 @@ related:
   - mastercard-agent-connect-launch
   - paypal-pyusdx-stablecoin-launch
   - us-bank-usbdc-stablecoin-stellar-pilot
+  - singapore-banks-tokenized-sgd-swift
 ---
 
 **Главное**

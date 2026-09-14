@@ -23,6 +23,7 @@ related:
   - liquid-reserve-wallet-btc-outflow
   - stolen-keys-not-code-bugs-defi-losses
   - defi-price-manipulation-attacks-2026
+  - coldcard-firmware-flaw-116m-hack
 ---
 
 **Главное**

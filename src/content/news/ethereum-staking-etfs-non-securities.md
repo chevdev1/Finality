@@ -24,7 +24,8 @@ sources:
 related:
   - ethereum-privacy-stewards-roadmap
   - metamask-consensys-split-glamsterdam-delay
-  - ai-agents-58-percent-trading-volume
+  - ethereum-etf-inflows-record-week
+  - lido-stvaults-institutional-staking
 ---
 
 **Главное**

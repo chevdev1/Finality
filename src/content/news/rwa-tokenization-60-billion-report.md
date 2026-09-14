@@ -25,6 +25,7 @@ related:
   - lse-kraken-tokenized-uk-stocks
   - tokenized-real-estate-lofty-growth
   - tokenized-stocks-volume-surge
+  - tokenized-private-credit-overtakes-treasuries
 ---
 
 **Главное**

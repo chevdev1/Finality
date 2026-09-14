@@ -23,6 +23,7 @@ related:
   - sec-regulation-crypto-assets-classification
   - g20-statement-digital-assets-asheville
   - bitcoin-etf-inflows-731m-day
+  - cftc-backup-crypto-rules-clarity-stalls
 ---
 
 **Главное**

@@ -23,6 +23,7 @@ related:
   - binance-agent-os-ai-trading
   - kraken-openai-anthropic-preipo-perps
   - defi-price-manipulation-attacks-2026
+  - olas-agents-20-million-transactions
 ---
 
 **Главное**
