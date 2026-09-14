@@ -50,7 +50,7 @@ function fmtDate(d: Date) {
 <style>
   .row {
     display: grid;
-    grid-template-columns: 64px 52px 90px 1fr auto;
+    grid-template-columns: 76px 52px 90px 1fr auto;
     align-items: center;
     gap: 16px;
     padding: 10px 0;
@@ -59,19 +59,41 @@ function fmtDate(d: Date) {
     color: var(--ink);
   }
   .thumb {
-    width: 64px;
-    height: 64px;
+    width: 76px;
+    height: 76px;
     border: 1px solid var(--rule);
     background: var(--paper);
     overflow: hidden;
     flex-shrink: 0;
     display: flex;
   }
+  /* A dozen different stock photographers' colors and crops, shrunk to 76px, read as noisy
+     and cheap sitting next to a serif headline — the same problem newspapers solved with a
+     house duotone rather than running photos as-shot. Desaturating plus a touch of warmth
+     (sepia) ties every photo to the page's own ink/cream palette instead of fighting it;
+     full color returns on hover as the reward for engaging, not the resting state. */
   .thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    filter: grayscale(75%) sepia(8%) contrast(1.05);
+    transition: filter 200ms ease, transform 200ms var(--ease-standard);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover .thumb img {
+      filter: grayscale(0%) sepia(0%) contrast(1);
+      transform: scale(1.08);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .thumb img {
+      transition: filter 200ms ease;
+      transform: none;
+    }
+    .row:hover .thumb img {
+      transform: none;
+    }
   }
   .thumb :global(.seal) {
     height: 100%;
