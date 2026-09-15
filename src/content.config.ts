@@ -91,4 +91,26 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight, videos };
+const events = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
+  schema: z.object({
+    date: z.coerce.date(),
+    // 'day' — an actual scheduled date (a vote, a launch). 'quarter' / 'year' — the source only
+    // commits to that much precision (e.g. "by Q4 2026", "in 2027"); `date` still holds a real
+    // Date for sorting, but the page renders "Q4 2026" / "2027" instead of a fabricated day.
+    precision: z.enum(['day', 'quarter', 'year']).default('day'),
+    title: z.string(),
+    title_en: z.string().optional(),
+    description: z.string(),
+    description_en: z.string().optional(),
+    section: z.enum(SECTIONS),
+    // 'confirmed' — a hard date set by an official body (a scheduled vote, an announced launch
+    // date). 'estimated' — inferred from a target/deadline mentioned in our own reporting, not
+    // a body's own published schedule.
+    status: z.enum(['confirmed', 'estimated']),
+    relatedArticle: z.string().optional(),
+    sources: z.array(z.object({ url: z.string().url(), title: z.string() })).min(1),
+  }),
+});
+
+export const collections = { news, authors, spotlight, videos, events };

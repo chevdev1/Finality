@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+  limit?: number;
+}
+const { locale = 'ru', limit = 3 } = Astro.props;
+
+const heading = locale === 'en' ? 'Upcoming' : 'Календарь';
+const seeAll = locale === 'en' ? 'Full calendar →' : 'Весь календарь →';
+const calendarHref = locale === 'en' ? '/en/calendar/' : '/calendar/';
+
+const events = (await getCollection('events'))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+  .slice(0, limit);
+
+function fmtShort(d: Date, precision: 'day' | 'quarter' | 'year'): string {
+  const year = d.getUTCFullYear();
+  if (precision === 'year') return String(year);
+  if (precision === 'quarter') {
+    const q = Math.floor(d.getUTCMonth() / 3) + 1;
+    return locale === 'en' ? `Q${q} ${year}` : `${q} кв. ${year}`;
+  }
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', {
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  }).replace('.', '');
+}
+---
+
+{events.length > 0 && (
+  <div class="upcoming">
+    <span class="kicker heading">{heading}</span>
+    <ul class="list">
+      {events.map((e) => (
+        <li>
+          <span class="data date">{fmtShort(e.data.date, e.data.precision)}</span>
+          <span class="title">{locale === 'en' ? (e.data.title_en ?? e.data.title) : e.data.title}</span>
+        </li>
+      ))}
+    </ul>
+    <a class="see-all" href={calendarHref}>{seeAll}</a>
+  </div>
+)}
+
+<style>
+  .upcoming {
+    display: grid;
+    gap: 10px;
+  }
+  .heading {
+    color: var(--graphite);
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .list li {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 13px;
+  }
+  .date {
+    color: var(--graphite);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .title {
+    line-height: 1.35;
+  }
+  .see-all {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    justify-self: start;
+  }
+</style>

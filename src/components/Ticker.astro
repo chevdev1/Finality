@@ -30,16 +30,16 @@ const rows = [
 
 function fmtPx(n: number | null, decimals: number) {
   if (n === null) return '—';
-  return n.toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return n.toLocaleString(locale === 'en' ? 'en-US' : 'ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
 function fmtUpdated(d: Date) {
-  return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
+  return d.toLocaleTimeString(locale === 'en' ? 'en-US' : 'ru-RU', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
 }
 const buildTime = fmtUpdated(new Date());
 ---
 
-<div class="ticker" data-ticker>
+<div class="ticker" data-ticker data-locale={locale}>
   <span class="badge">COINGECKO</span>
   <div class="track" data-track>
     {rows.map((r) => (
@@ -105,6 +105,7 @@ const buildTime = fmtUpdated(new Date());
     // since the last poll — this is the brief's "price flash" motion spec (§5),
     // now driven by a real feed instead of a simulated one.
     const ids = ['bitcoin', 'ethereum', 'solana', 'tether'] as const;
+    const jsLocale = ticker.dataset.locale === 'en' ? 'en-US' : 'ru-RU';
     async function poll() {
       if (!paused) {
         const quotes = await fetchQuotes();
@@ -119,7 +120,7 @@ const buildTime = fmtUpdated(new Date());
               const chg = el.querySelector<HTMLElement>('[data-chg]');
               const arrow = el.querySelector<HTMLElement>('[data-arrow]');
               const pct = el.querySelector<HTMLElement>('[data-pct]');
-              const nextText = q.usd.toLocaleString('ru-RU', {
+              const nextText = q.usd.toLocaleString(jsLocale, {
                 minimumFractionDigits: decimals,
                 maximumFractionDigits: decimals,
               });
@@ -135,7 +136,7 @@ const buildTime = fmtUpdated(new Date());
               }
             }
           }
-          const updated = new Date().toLocaleTimeString('ru-RU', {
+          const updated = new Date().toLocaleTimeString(jsLocale, {
             hour: '2-digit',
             minute: '2-digit',
             timeZone: 'UTC',

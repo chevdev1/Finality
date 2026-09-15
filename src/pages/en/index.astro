@@ -9,6 +9,7 @@ import SpotlightTeaser from '../../components/SpotlightTeaser.astro';
 import Subscribe from '../../components/Subscribe.astro';
 import VideoWidget from '../../components/VideoWidget.astro';
 import FilterBar from '../../components/FilterBar.astro';
+import UpcomingEvents from '../../components/UpcomingEvents.astro';
 import { SECTIONS } from '../../content.config';
 import { SECTION_LABELS_EN, STATUS_LABELS_EN, UI } from '../../lib/i18n';
 
@@ -88,6 +89,7 @@ function fmtUpdated(d: Date) {
 
     <aside class="rail">
       <MarketsPanel locale="en" />
+      <UpcomingEvents locale="en" />
       {spotlight && (
         <SpotlightTeaser
           project={spotlight.data.project}

@@ -13,6 +13,7 @@ const { locale = 'ru', altHref = '/en/' } = Astro.props;
 const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : sectionLabelsRu;
 const t = UI[locale];
 const projectsHref = locale === 'en' ? '/en/projects/' : '/projects/';
+const calendarHref = locale === 'en' ? '/en/calendar/' : '/calendar/';
 ---
 
 <header class="site-header">
@@ -26,6 +27,7 @@ const projectsHref = locale === 'en' ? '/en/projects/' : '/projects/';
         <a href={locale === 'en' ? `/en/${s}/` : `/${s}/`}>{sectionLabels[s]}</a>
       ))}
       <a href={projectsHref}>{t.projects}</a>
+      <a href={calendarHref}>{t.calendar}</a>
     </nav>
     <div class="actions">
       <a class="lang-switch" href={altHref} hreflang={locale === 'ru' ? 'en' : 'ru'}>{t.langSwitch}</a>
@@ -42,6 +44,7 @@ const projectsHref = locale === 'en' ? '/en/projects/' : '/projects/';
             <a href={locale === 'en' ? `/en/${s}/` : `/${s}/`}>{sectionLabels[s]}</a>
           ))}
           <a href={projectsHref}>{t.projects}</a>
+      <a href={calendarHref}>{t.calendar}</a>
         </nav>
       </details>
     </div>

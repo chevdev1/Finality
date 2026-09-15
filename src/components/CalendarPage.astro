@@ -1,0 +1,270 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+import { SECTION_LABELS_EN } from '../lib/i18n';
+import { SECTION_LABELS as SECTION_LABELS_RU } from '../lib/labels';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : SECTION_LABELS_RU;
+const homeHref = locale === 'en' ? '/en/' : '/';
+
+const RU = {
+  pageTitle: 'Календарь событий — Finality',
+  pageDescription: 'Предстоящие даты и дедлайны в крипто- и финтех-регулировании, запусках протоколов и обновлениях сетей — с источником у каждой строки.',
+  jsonLdName: 'Календарь событий — Finality',
+  jsonLdAbout: 'Календарь предстоящих событий крипторынка',
+  crumbsCurrent: 'Календарь',
+  h1: 'Календарь событий',
+  intro: 'Даты и дедлайны, о которых Finality уже писала в новостях, собранные в одном месте — голосования, запуски сетей, регуляторные сроки. Точная дата помечена как «подтверждено»; если источник называет только квартал или год, это показано как оценка, а не выдумана точность, которой нет.',
+  confirmed: 'Подтверждено',
+  estimated: 'Оценочно',
+  readArticle: 'Читать статью →',
+  source: 'Источник',
+  empty: 'Пока нет предстоящих событий в календаре.',
+  quarterPrefix: 'кв.',
+};
+
+const EN = {
+  pageTitle: 'Events Calendar — Finality',
+  pageDescription: 'Upcoming dates and deadlines in crypto and fintech regulation, protocol launches, and network upgrades — with a source behind every row.',
+  jsonLdName: 'Events Calendar — Finality',
+  jsonLdAbout: 'Calendar of upcoming crypto market events',
+  crumbsCurrent: 'Calendar',
+  h1: 'Events Calendar',
+  intro: "Dates and deadlines Finality has already reported on, collected in one place — votes, network launches, regulatory deadlines. An exact date is marked \"confirmed\"; where a source only commits to a quarter or a year, that's shown as an estimate rather than inventing a precision that isn't there.",
+  confirmed: 'Confirmed',
+  estimated: 'Estimated',
+  readArticle: 'Read the story →',
+  source: 'Source',
+  empty: 'No upcoming events in the calendar yet.',
+  quarterPrefix: 'Q',
+};
+
+const T = locale === 'en' ? EN : RU;
+
+const events = (await getCollection('events')).sort(
+  (a, b) => a.data.date.valueOf() - b.data.date.valueOf()
+);
+
+function fmtEventDate(d: Date, precision: 'day' | 'quarter' | 'year'): string {
+  const year = d.getUTCFullYear();
+  if (precision === 'year') return String(year);
+  if (precision === 'quarter') {
+    const q = Math.floor(d.getUTCMonth() / 3) + 1;
+    return locale === 'en' ? `${T.quarterPrefix}${q} ${year}` : `${q}-й ${T.quarterPrefix} ${year}`;
+  }
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
+function dayBadge(d: Date, precision: 'day' | 'quarter' | 'year') {
+  if (precision !== 'day') return null;
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', { day: '2-digit', timeZone: 'UTC' });
+}
+
+function monthBadge(d: Date, precision: 'day' | 'quarter' | 'year') {
+  if (precision !== 'day') return null;
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', { month: 'short', timeZone: 'UTC' }).replace('.', '');
+}
+---
+
+<BaseLayout
+  locale={locale}
+  title={T.pageTitle}
+  description={T.pageDescription}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: T.jsonLdName,
+      about: T.jsonLdAbout,
+    },
+  ]}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href={homeHref}>Finality</a> / {T.crumbsCurrent}</nav>
+    <h1 class="title">{T.h1}</h1>
+    <p class="intro">{T.intro}</p>
+
+    {events.length === 0 && <p class="empty-state">{T.empty}</p>}
+
+    <div class="events">
+      {events.map((e) => {
+        const day = dayBadge(e.data.date, e.data.precision);
+        const month = monthBadge(e.data.date, e.data.precision);
+        const articleHref = e.data.relatedArticle ? `/${e.data.section}/${e.data.relatedArticle}/` : null;
+        return (
+          <article class="event">
+            <div class:list={['date-badge', { fuzzy: e.data.precision !== 'day' }]}>
+              {day ? (
+                <>
+                  <span class="data day">{day}</span>
+                  <span class="month">{month}</span>
+                </>
+              ) : (
+                <span class="data fuzzy-label">{fmtEventDate(e.data.date, e.data.precision)}</span>
+              )}
+            </div>
+            <div class="event-body">
+              <div class="event-head">
+                <span class="kicker section">{sectionLabels[e.data.section]}</span>
+                <span class:list={['status-tag', e.data.status]}>
+                  {e.data.status === 'confirmed' ? T.confirmed : T.estimated}
+                </span>
+              </div>
+              <h2 class="event-title">
+                {locale === 'en' ? (e.data.title_en ?? e.data.title) : e.data.title}
+              </h2>
+              <p class="event-desc">
+                {locale === 'en' ? (e.data.description_en ?? e.data.description) : e.data.description}
+              </p>
+              <div class="event-links">
+                {articleHref && <a href={articleHref}>{T.readArticle}</a>}
+                <a href={e.data.sources[0].url} target="_blank" rel="noopener" class="source-link">{T.source}: {e.data.sources[0].title} ↗</a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+    max-width: 780px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 32px;
+  }
+  .empty-state {
+    color: var(--graphite);
+    font-size: 13px;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .events {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .event {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .date-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 2px;
+  }
+  .date-badge .day {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .date-badge .month {
+    font-family: var(--font-data);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--graphite);
+    margin-top: 2px;
+  }
+  .date-badge.fuzzy {
+    align-items: flex-start;
+    padding-top: 4px;
+  }
+  .fuzzy-label {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .event-body {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+  .event-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .status-tag {
+    font-family: var(--font-data);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 6px;
+    border: 1px solid var(--rule);
+    color: var(--graphite);
+  }
+  .status-tag.confirmed {
+    border-color: var(--up);
+    color: var(--up);
+  }
+  .event-title {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .event-desc {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 60ch;
+  }
+  .event-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin-top: 4px;
+  }
+  .event-links a {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .source-link {
+    font-weight: 400 !important;
+    color: var(--graphite) !important;
+    font-size: 12px !important;
+  }
+
+  @media (max-width: 560px) {
+    .event {
+      grid-template-columns: 52px 1fr;
+      gap: 12px;
+    }
+    .date-badge .day {
+      font-size: 19px;
+    }
+  }
+</style>
