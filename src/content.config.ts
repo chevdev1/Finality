@@ -46,6 +46,8 @@ const authors = defineCollection({
     name: z.string(),
     role: z.string(),
     bio: z.string(),
+    role_en: z.string().optional(),
+    bio_en: z.string().optional(),
     initials: z.string().max(2),
     sameAs: z.array(z.string().url()).default([]),
   }),
@@ -85,6 +87,7 @@ const videos = defineCollection({
     section: z.enum(SECTIONS),
     addedAt: z.coerce.date(),
     note: z.string(),
+    note_en: z.string().optional(),
   }),
 });
 

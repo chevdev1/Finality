@@ -152,10 +152,10 @@ export async function fetchTopGainers(limit = 10): Promise<ProtocolTvl[]> {
     .slice(0, limit);
 }
 
-export function fmtTvl(n: number): string {
+export function fmtTvl(n: number, locale: 'ru' | 'en' = 'ru'): string {
   if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
   if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
-  return '$' + n.toLocaleString('ru-RU');
+  return '$' + n.toLocaleString(locale === 'en' ? 'en-US' : 'ru-RU');
 }
 
 export function fmtChange(n: number | null): string {
@@ -163,9 +163,9 @@ export function fmtChange(n: number | null): string {
   return (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
 }
 
-export function fmtDate(unixSeconds: number | null): string | null {
+export function fmtDate(unixSeconds: number | null, locale: 'ru' | 'en' = 'ru'): string | null {
   if (!unixSeconds) return null;
-  return new Date(unixSeconds * 1000).toLocaleDateString('ru-RU', {
+  return new Date(unixSeconds * 1000).toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

@@ -32,7 +32,7 @@ const sectionCounts = SECTIONS.map((s) => ({
 const videos = (await getCollection('videos'))
   .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
   .slice(0, 3)
-  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
+  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note, note_en: v.data.note_en }));
 
 function fmtUpdated(d: Date) {
   return d.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
@@ -107,7 +107,7 @@ function fmtUpdated(d: Date) {
           ))}
         </div>
       </div>
-      <VideoWidget items={videos} heading={t.videoHeading} />
+      <VideoWidget items={videos} heading={t.videoHeading} locale="en" />
       <Subscribe locale="en" />
     </aside>
   </div>

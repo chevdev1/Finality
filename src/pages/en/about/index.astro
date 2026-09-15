@@ -72,8 +72,8 @@ const jsonLd = [
             <span class="avatar" aria-hidden="true">{author.data.initials}</span>
             <div>
               <p class="name">{author.data.name}</p>
-              <p class="role kicker">{author.data.role}</p>
-              <p class="bio">{author.data.bio}</p>
+              <p class="role kicker">{author.data.role_en ?? author.data.role}</p>
+              <p class="bio">{author.data.bio_en ?? author.data.bio}</p>
             </div>
           </a>
         ))}

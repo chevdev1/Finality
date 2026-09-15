@@ -5,4 +5,5 @@ channel: "CNBC Crypto World"
 section: bitcoin
 addedAt: 2026-09-14T00:00:00Z
 note: "Контекст движения цены, о котором Finality писала в статьях о притоках в биткоин-ETF."
+note_en: "Context for this price move — Finality has covered the bitcoin ETF inflows behind it in our own reporting."
 ---

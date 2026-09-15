@@ -25,7 +25,7 @@ const sectionVideo = (await getCollection('videos'))
   .filter((v) => v.data.section === section)
   .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
   .slice(0, 1)
-  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
+  .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note, note_en: v.data.note_en }));
 ---
 
 <BaseLayout
@@ -57,7 +57,7 @@ const sectionVideo = (await getCollection('videos'))
     <p class="notice">{t.notTranslatedNotice}</p>
     {sectionVideo.length > 0 && (
       <div class="section-video">
-        <VideoWidget items={sectionVideo} heading="Related video" />
+        <VideoWidget items={sectionVideo} heading="Related video" locale="en" />
       </div>
     )}
     <div class="feed">

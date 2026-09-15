@@ -4,25 +4,31 @@
 // keeps the same "real, sourced" bar as every article. Facade pattern for performance: only
 // a static thumbnail image loads by default; the actual YouTube iframe (and everything
 // Google loads alongside it) is created on click, not on page load.
+import type { Locale } from '../lib/i18n';
+
 interface Item {
   title: string;
   youtubeId: string;
   channel: string;
   note: string;
+  note_en?: string;
 }
 interface Props {
   items: Item[];
   heading?: string;
+  locale?: Locale;
 }
-const { items, heading = 'Видео' } = Astro.props;
+const { items, heading, locale = 'ru' } = Astro.props;
+const resolvedHeading = heading ?? (locale === 'en' ? 'Video' : 'Видео');
+const watchLabel = locale === 'en' ? 'Watch' : 'Смотреть';
 ---
 
 {items.length > 0 && (
   <div class="video-widget">
-    <span class="kicker heading">{heading}</span>
+    <span class="kicker heading">{resolvedHeading}</span>
     {items.map((v) => (
       <div class="video" data-video data-youtube-id={v.youtubeId} data-title={v.title}>
-        <button type="button" class="thumb" data-play aria-label={`Смотреть: ${v.title}`}>
+        <button type="button" class="thumb" data-play aria-label={`${watchLabel}: ${v.title}`}>
           <img
             src={`https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
             alt=""
@@ -34,7 +40,7 @@ const { items, heading = 'Видео' } = Astro.props;
         </button>
         <p class="video-title">{v.title}</p>
         <p class="video-meta kicker">{v.channel}</p>
-        <p class="video-note">{v.note}</p>
+        <p class="video-note">{locale === 'en' ? (v.note_en ?? v.note) : v.note}</p>
       </div>
     ))}
   </div>

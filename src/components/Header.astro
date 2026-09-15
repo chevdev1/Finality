@@ -12,10 +12,7 @@ interface Props {
 const { locale = 'ru', altHref = '/en/' } = Astro.props;
 const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : sectionLabelsRu;
 const t = UI[locale];
-// /projects/ itself isn't translated this round (its real content — protocol names,
-// categories, TVL — already comes from DeFiLlama in English regardless of site locale), so
-// both languages link to the one real page rather than a fabricated /en/projects/ 404.
-const projectsHref = '/projects/';
+const projectsHref = locale === 'en' ? '/en/projects/' : '/projects/';
 ---
 
 <header class="site-header">

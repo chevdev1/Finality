@@ -5,4 +5,5 @@ channel: "CNBC Crypto World"
 section: policy
 addedAt: 2026-09-14T00:00:00Z
 note: "Разбор того же регуляторного сдвига, о котором Finality писал в разделе «Регулирование»."
+note_en: "A look at the same regulatory shift Finality covered in the Policy section."
 ---

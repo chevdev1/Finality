@@ -118,17 +118,20 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
 
   const isHome = bare === '/';
   const isAbout = bare === '/about/' || bare === '/about';
+  const isProjects = bare === '/projects/' || bare === '/projects';
   const sectionMatch = bare.match(/^\/([a-z]+)\/$/);
   const isSection = !!sectionMatch && (SECTIONS as readonly string[]).includes(sectionMatch[1]);
 
   if (targetLocale === 'en') {
     if (isHome) return { href: '/en/', exact: true };
     if (isAbout) return { href: '/en/about/', exact: true };
+    if (isProjects) return { href: '/en/projects/', exact: true };
     if (isSection) return { href: `/en${bare}`, exact: true };
     return { href: '/en/', exact: false };
   }
   if (isHome) return { href: '/', exact: true };
   if (isAbout) return { href: '/about/', exact: true };
+  if (isProjects) return { href: '/projects/', exact: true };
   if (isSection) return { href: bare, exact: true };
   return { href: '/', exact: false };
 }
