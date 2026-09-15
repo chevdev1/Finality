@@ -1,0 +1,261 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+import { SECTION_LABELS_EN } from '../lib/i18n';
+import { SECTION_LABELS as SECTION_LABELS_RU } from '../lib/labels';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : SECTION_LABELS_RU;
+const homeHref = locale === 'en' ? '/en/' : '/';
+
+const RU = {
+  pageTitle: 'Трекер регулирования — Finality',
+  pageDescription: 'Статус активных законопроектов и правил, влияющих на крипторынок — CLARITY, GENIUS, SEC и CFTC — с источником у каждой строки.',
+  jsonLdName: 'Трекер регулирования — Finality',
+  jsonLdAbout: 'Статус регуляторных инициатив в криптоиндустрии',
+  crumbsCurrent: 'Регулирование',
+  h1: 'Трекер регулирования',
+  intro: 'Законопроекты и правила ведомств, которые определяют, что можно и нельзя делать крипто-компаниям в США — на одной странице, со статусом на сегодня, а не только с историей их принятия. Ничего здесь не помечено как «принято», если это не так по последней проверенной статье.',
+  stageEarly: 'Ранняя стадия',
+  stageActive: 'В процессе',
+  stageStalled: 'Застопорилось',
+  stageFinal: 'Завершено',
+  nextStep: 'Далее',
+  readArticle: 'Читать статью →',
+  source: 'Источник',
+  updated: 'Обновлено',
+  empty: 'Пока нет отслеживаемых инициатив.',
+};
+
+const EN = {
+  pageTitle: 'Regulatory Tracker — Finality',
+  pageDescription: 'Status of active bills and rules affecting the crypto market — CLARITY, GENIUS, SEC, and CFTC — with a source behind every row.',
+  jsonLdName: 'Regulatory Tracker — Finality',
+  jsonLdAbout: 'Status of crypto regulatory initiatives',
+  crumbsCurrent: 'Regulation',
+  h1: 'Regulatory Tracker',
+  intro: "Bills and agency rules that determine what US crypto companies can and can't do — on one page, with today's status rather than just a history of how they got here. Nothing here is marked \"finalized\" unless our most recently checked article confirms it.",
+  stageEarly: 'Early stage',
+  stageActive: 'In progress',
+  stageStalled: 'Stalled',
+  stageFinal: 'Finalized',
+  nextStep: 'Next',
+  readArticle: 'Read the story →',
+  source: 'Source',
+  updated: 'Updated',
+  empty: 'No tracked initiatives yet.',
+};
+
+const T = locale === 'en' ? EN : RU;
+const stageLabel = { early: T.stageEarly, active: T.stageActive, stalled: T.stageStalled, final: T.stageFinal };
+const stageOrder = { active: 0, stalled: 1, early: 2, final: 3 };
+
+const regulations = (await getCollection('regulations')).sort((a, b) => {
+  const order = stageOrder[a.data.stage] - stageOrder[b.data.stage];
+  if (order !== 0) return order;
+  return b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf();
+});
+
+function fmtUpdated(d: Date) {
+  return d.toLocaleDateString(locale === 'en' ? 'en-US' : 'ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'UTC',
+  });
+}
+---
+
+<BaseLayout
+  locale={locale}
+  title={T.pageTitle}
+  description={T.pageDescription}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: T.jsonLdName,
+      about: T.jsonLdAbout,
+    },
+  ]}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href={homeHref}>Finality</a> / {T.crumbsCurrent}</nav>
+    <h1 class="title">{T.h1}</h1>
+    <p class="intro">{T.intro}</p>
+
+    {regulations.length === 0 && <p class="empty-state">{T.empty}</p>}
+
+    <div class="items">
+      {regulations.map((r) => {
+        const articleHref = r.data.relatedArticle ? `/${r.data.section}/${r.data.relatedArticle}/` : null;
+        return (
+          <article class="item">
+            <div class="item-head">
+              <span class:list={['stage-tag', r.data.stage]}>{stageLabel[r.data.stage]}</span>
+              <span class="kicker section">{sectionLabels[r.data.section]}</span>
+              <span class="kicker body-name">{locale === 'en' ? (r.data.body_en ?? r.data.body) : r.data.body}</span>
+            </div>
+            <h2 class="item-title">{locale === 'en' ? (r.data.name_en ?? r.data.name) : r.data.name}</h2>
+            <p class="item-summary">{locale === 'en' ? (r.data.summary_en ?? r.data.summary) : r.data.summary}</p>
+            <p class="status-line">
+              <span class:list={['status-dot', r.data.stage]} aria-hidden="true"></span>
+              {locale === 'en' ? (r.data.statusLabel_en ?? r.data.statusLabel) : r.data.statusLabel}
+            </p>
+            {(r.data.nextStep || r.data.nextStep_en) && (
+              <p class="next-step">
+                <span class="kicker">{T.nextStep}</span>{' '}
+                {locale === 'en' ? (r.data.nextStep_en ?? r.data.nextStep) : r.data.nextStep}
+              </p>
+            )}
+            <div class="item-links">
+              {articleHref && <a href={articleHref}>{T.readArticle}</a>}
+              <a href={r.data.sources[0].url} target="_blank" rel="noopener" class="source-link">{T.source}: {r.data.sources[0].title} ↗</a>
+              <span class="updated-note data">{T.updated} {fmtUpdated(r.data.updatedAt)}</span>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+    max-width: 780px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 32px;
+  }
+  .empty-state {
+    color: var(--graphite);
+    font-size: 13px;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .items {
+    display: grid;
+    border-top: 1px solid var(--rule);
+  }
+  .item {
+    display: grid;
+    gap: 8px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .item-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .stage-tag {
+    font-family: var(--font-data);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 6px;
+    border: 1px solid var(--rule);
+    color: var(--graphite);
+  }
+  .stage-tag.active {
+    border-color: var(--up);
+    color: var(--up);
+  }
+  .stage-tag.stalled {
+    border-color: var(--down);
+    color: var(--down);
+  }
+  .stage-tag.final {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .body-name {
+    margin-left: auto;
+  }
+  .item-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .item-summary {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 62ch;
+  }
+  .status-line {
+    margin: 4px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--graphite);
+    flex-shrink: 0;
+  }
+  .status-dot.active {
+    background: var(--up);
+  }
+  .status-dot.stalled {
+    background: var(--down);
+  }
+  .status-dot.final {
+    background: var(--ink);
+  }
+  .next-step {
+    margin: 0;
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .next-step .kicker {
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .item-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 20px;
+    margin-top: 6px;
+  }
+  .item-links a {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .source-link {
+    font-weight: 400 !important;
+    color: var(--graphite) !important;
+    font-size: 12px !important;
+  }
+  .updated-note {
+    font-size: 11px;
+    color: var(--graphite);
+    margin-left: auto;
+  }
+</style>

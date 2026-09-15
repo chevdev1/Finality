@@ -113,4 +113,28 @@ const events = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight, videos, events };
+const regulations = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/regulations' }),
+  schema: z.object({
+    name: z.string(),
+    name_en: z.string().optional(),
+    body: z.string(),
+    body_en: z.string().optional(),
+    summary: z.string(),
+    summary_en: z.string().optional(),
+    // Coarse stage for sorting/coloring — the actual nuance lives in statusLabel, since a
+    // handful of buckets can't capture "stalled in the Senate" vs "drafting rules as a
+    // contingency" vs "comment period" precisely enough on their own.
+    stage: z.enum(['early', 'active', 'stalled', 'final']),
+    statusLabel: z.string(),
+    statusLabel_en: z.string().optional(),
+    nextStep: z.string().optional(),
+    nextStep_en: z.string().optional(),
+    section: z.enum(SECTIONS),
+    relatedArticle: z.string().optional(),
+    sources: z.array(z.object({ url: z.string().url(), title: z.string() })).min(1),
+    updatedAt: z.coerce.date(),
+  }),
+});
+
+export const collections = { news, authors, spotlight, videos, events, regulations };
