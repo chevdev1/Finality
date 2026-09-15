@@ -1,6 +1,8 @@
 ---
 title: "Mastercard запустила Agent Connect — единую интеграцию для покупок через ИИ-агентов"
 dek: "Сервис даёт продавцам одну точку входа для показа товаров, сборки корзины и оплаты с подтверждением клиента на разных ИИ-платформах для шопинга."
+title_en: "Mastercard launches Agent Connect — a single integration for AI-agent purchases"
+dek_en: "The service gives merchants one entry point to list products, build a cart, and take payment with customer confirmation across different AI shopping platforms."
 section: fintech
 status: final
 publishedAt: 2026-09-09T00:00:00Z

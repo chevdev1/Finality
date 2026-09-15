@@ -1,6 +1,8 @@
 ---
 title: "SEC предложила разделить крипторынок на пять категорий активов"
 dek: "Regulation Crypto Assets вводит отдельный режим размещения для инвестиционных контрактов на основе крипто активов — только один из пяти классов считается ценной бумагой по умолчанию."
+title_en: "SEC proposes splitting the crypto market into five asset categories"
+dek_en: "Regulation Crypto Assets introduces a separate offering regime for investment contracts built on crypto assets — only one of the five classes defaults to being treated as a security."
 section: policy
 status: developing
 publishedAt: 2026-08-21T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "Крипто-платформы потеряли $3,6 млрд из-за взломов за полтора года — несмотря на аудиты"
 dek: "88% украденных средств пришлось на площадки, прошедшие независимый аудит безопасности. Атаки концентрируются там, куда обычные проверки не заглядывают."
+title_en: "Crypto platforms lost $3.6B to hacks in eighteen months — despite audits"
+dek_en: "88% of stolen funds came from platforms that had passed an independent security audit. Attacks are concentrating exactly where standard reviews don't look."
 section: security
 status: final
 publishedAt: 2026-09-05T00:00:00Z

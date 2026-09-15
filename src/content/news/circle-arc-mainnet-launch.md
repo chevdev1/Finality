@@ -1,6 +1,8 @@
 ---
 title: "Circle запускает публичный мейннет Arc — блокчейн для расчётов в стейблкоинах со встроенным «агентским» стеком"
 dek: "16 сентября выходит полный набор продуктов: приватность транзакций, инфраструктура для автономных ИИ-агентов и поддержка токенизированных реальных активов."
+title_en: "Circle launches public Arc mainnet — a stablecoin-settlement blockchain with a built-in \"agentic\" stack"
+dek_en: "The full product suite ships September 16: transaction privacy, infrastructure for autonomous AI agents, and support for tokenized real-world assets."
 section: stablecoins
 status: developing
 publishedAt: 2026-09-12T00:00:00Z

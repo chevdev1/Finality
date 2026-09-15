@@ -1,6 +1,8 @@
 ---
 title: "Впервые в истории кража ключей обогнала баги в коде как причина потерь в DeFi"
 dek: "По данным Forbes и CertiK, с начала 2026 года DeFi-протоколы потеряли не менее $1,3 млрд, и компрометация приватных ключей — теперь главный вектор атак."
+title_en: "For the first time, key theft has overtaken code bugs as the leading cause of DeFi losses"
+dek_en: "According to Forbes and CertiK, DeFi protocols have lost at least $1.3B since the start of 2026, and private-key compromise is now the top attack vector."
 section: security
 status: final
 publishedAt: 2026-09-10T00:00:00Z

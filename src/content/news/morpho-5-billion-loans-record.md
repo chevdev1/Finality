@@ -1,6 +1,8 @@
 ---
 title: "Morpho достиг $5 млрд выданных займов — и сокращает отставание от Aave"
 dek: "95% займов Morpho номинированы в стейблкоинах, 62% — в USDC. У Aave по-прежнему больше — $12,6 млрд против $4,83 млрд, но разрыв сокращается после июньского раунда финансирования Morpho."
+title_en: "Morpho hits $5B in outstanding loans — and is closing the gap with Aave"
+dek_en: "95% of Morpho's loans are denominated in stablecoins, 62% in USDC. Aave still leads — $12.6B versus $4.83B — but the gap is narrowing after Morpho's June funding round."
 section: defi
 status: final
 publishedAt: 2026-09-01T00:00:00Z

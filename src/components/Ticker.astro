@@ -1,5 +1,12 @@
 ---
 import { fetchQuotes, fmtUsd } from '../lib/coingecko-client';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const updatedLabel = locale === 'en' ? 'Updated' : 'Обновлено';
 
 // Build-time fetch so the static, no-JS fallback already shows real prices as of the
 // last build, not placeholder numbers. The client script below re-fetches periodically
@@ -46,7 +53,7 @@ const buildTime = fmtUpdated(new Date());
         )}
       </span>
     ))}
-    <span class="item updated data" data-updated>Обновлено {buildTime}</span>
+    <span class="item updated data" data-updated data-updated-label={updatedLabel}>{updatedLabel} {buildTime}</span>
   </div>
 </div>
 
@@ -134,7 +141,8 @@ const buildTime = fmtUpdated(new Date());
             timeZone: 'UTC',
           }) + ' UTC';
           for (const el of ticker!.querySelectorAll<HTMLElement>('[data-updated]')) {
-            el.textContent = `Обновлено ${updated}`;
+            const label = el.dataset.updatedLabel || 'Обновлено';
+            el.textContent = `${label} ${updated}`;
           }
         }
       }

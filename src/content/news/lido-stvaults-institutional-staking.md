@@ -1,6 +1,8 @@
 ---
 title: "Lido и Stakely запустили публичное и институциональное хранилища стейкинга на stVaults"
 dek: "Институциональные vault-ы дают клиентам контроль над кастодией, правами доступа, комиссиями и ликвидностью — но остаются частью инфраструктуры Lido."
+title_en: "Lido and Stakely launch public and institutional staking vaults on stVaults"
+dek_en: "Institutional vaults give clients control over custody, access rights, fees, and liquidity — while remaining part of Lido's infrastructure."
 section: defi
 status: final
 publishedAt: 2026-09-09T00:00:00Z

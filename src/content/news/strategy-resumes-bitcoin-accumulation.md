@@ -1,6 +1,8 @@
 ---
 title: "Strategy возобновила скупку биткоина после 10-недельной паузы — казна выросла до 845 050 BTC"
 dek: "Компания Майкла Сэйлора купила ещё 4603 BTC за $369,7 млн, профинансировав покупку выпуском новых акций. Это около 4% от всего предложения биткоина."
+title_en: "Strategy resumes bitcoin buying after a 10-week pause — treasury grows to 845,050 BTC"
+dek_en: "Michael Saylor's company bought another 4,603 BTC for $369.7M, funding the purchase with a new share issuance. That's about 4% of all bitcoin supply."
 section: bitcoin
 status: final
 publishedAt: 2026-09-03T00:00:00Z

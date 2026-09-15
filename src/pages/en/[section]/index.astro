@@ -63,8 +63,8 @@ const sectionVideo = (await getCollection('videos'))
     <div class="feed">
       {pageItems.map((n) => (
         <ArticleRow
-          title={n.data.title}
-          dek={n.data.dek}
+          title={n.data.title_en ?? n.data.title}
+          dek={n.data.dek_en ?? n.data.dek}
           href={`/${n.data.section}/${n.id}/`}
           section={sectionLabel}
           publishedAt={n.data.publishedAt}

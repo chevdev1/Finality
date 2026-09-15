@@ -1,6 +1,8 @@
 ---
 title: "Токенизированная недвижимость: платформа Lofty держит $100 млн в активах при пороге входа $50"
 dek: "Частный кредит и недвижимость растут быстрее казначейских облигаций внутри рынка токенизированных активов, который увеличился с $6 млрд до $31 млрд менее чем за 18 месяцев."
+title_en: "Tokenized real estate: Lofty holds $100M in assets with a $50 entry threshold"
+dek_en: "Private credit and real estate are growing faster than treasuries within the tokenized-asset market, which has grown from $6B to $31B in under 18 months."
 section: rwa
 status: final
 publishedAt: 2026-09-03T00:00:00Z

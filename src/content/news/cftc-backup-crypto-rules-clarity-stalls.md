@@ -1,6 +1,8 @@
 ---
 title: "CFTC готовит собственные правила крипторынка на случай, если билль CLARITY забуксует в Сенате"
 dek: "Глава CFTC Майкл Селиг поручил штабу агентства прорабатывать нормы на основе уже имеющихся полномочий — параллельно с процедурным голосованием в Сенате 15 сентября."
+title_en: "CFTC is drafting its own crypto market rules in case the CLARITY bill stalls in the Senate"
+dek_en: "CFTC chair Michael Selig has directed staff to work out rules under the agency's existing authority — in parallel with the Senate's September 15 procedural vote."
 section: policy
 status: developing
 publishedAt: 2026-09-12T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "21 банк, включая Goldman Sachs и Citi, готовят совместный долларовый стейблкоин к 2027 году"
 dek: "Токен станет частным обязательством отдельной компании, обеспеченным резервами самих банков — без участия баланса ФРС. Запуск ориентирован на дату вступления в силу закона GENIUS."
+title_en: "21 banks, including Goldman Sachs and Citi, are preparing a joint dollar stablecoin for 2027"
+dek_en: "The token would be a private liability of a separate company, backed by the banks' own reserves — with no Fed balance sheet involved. Launch is timed to the GENIUS Act's effective date."
 section: stablecoins
 status: developing
 publishedAt: 2026-09-01T00:00:00Z

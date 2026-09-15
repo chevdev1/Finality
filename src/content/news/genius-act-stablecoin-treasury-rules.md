@@ -1,6 +1,8 @@
 ---
 title: "Минфин США предложил правила выпуска стейблкоинов по закону GENIUS"
 dek: "Проект правил определяет, что именно считается выпуском и продажей платёжного стейблкоина. Без лицензии эмитировать их станет незаконно с 18 января 2027 года."
+title_en: "US Treasury proposes rules for stablecoin issuance under the GENIUS Act"
+dek_en: "The draft rules define exactly what counts as issuing and selling a payment stablecoin. Issuing one without a license becomes illegal starting January 18, 2027."
 section: stablecoins
 status: developing
 publishedAt: 2026-08-18T00:00:00Z

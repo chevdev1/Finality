@@ -1,6 +1,8 @@
 ---
 title: "Число атак через манипуляцию ценой на DeFi-кредиторов достигло рекордных 32 за год"
 dek: "По данным TRM Labs, 2026 год стал рекордным по числу подобных атак — больше, чем за любой предыдущий год."
+title_en: "Price-manipulation attacks on DeFi lenders hit a record 32 for the year"
+dek_en: "According to TRM Labs, 2026 is a record year for this type of attack — more than any year before it."
 section: defi
 status: final
 publishedAt: 2026-09-06T00:00:00Z

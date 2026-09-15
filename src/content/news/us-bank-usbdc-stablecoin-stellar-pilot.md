@@ -1,6 +1,8 @@
 ---
 title: "U.S. Bank провёл первый живой трансграничный платёж в собственном стейблкоине USBDC"
 dek: "Шестой по величине банк США протестировал перевод между своими подразделениями в Северной Америке и Европе на блокчейне Stellar."
+title_en: "U.S. Bank completes first live cross-border payment in its own USBDC stablecoin"
+dek_en: "The sixth-largest US bank tested a transfer between its North American and European divisions on the Stellar blockchain."
 section: stablecoins
 status: final
 publishedAt: 2026-09-10T00:00:00Z

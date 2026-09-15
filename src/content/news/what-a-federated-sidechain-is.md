@@ -1,6 +1,8 @@
 ---
 title: "Что такое федеративный сайдчейн"
 dek: "Простое объяснение модели хранения средств, лежащей в основе инцидента с Liquid Network 6 сентября."
+title_en: "What a federated sidechain is"
+dek_en: "A plain-language explanation of the funds-custody model behind the September 6 Liquid Network incident."
 section: security
 status: final
 publishedAt: 2026-09-08T00:00:00Z

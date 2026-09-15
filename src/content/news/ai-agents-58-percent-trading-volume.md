@@ -1,6 +1,8 @@
 ---
 title: "ИИ-боты обеспечивают уже 58% всего объёма торгов на крипторынке"
 dek: "Агенты перестали быть просто инструментом исполнения сделок: они самостоятельно формируют взгляд на рынок, распределяют капитал и управляют риском без участия человека в реальном времени."
+title_en: "AI bots now account for 58% of all crypto trading volume"
+dek_en: "Agents have stopped being just trade-execution tools: they now form their own market view, allocate capital, and manage risk without human involvement in real time."
 section: ai
 status: developing
 publishedAt: 2026-09-03T00:00:00Z

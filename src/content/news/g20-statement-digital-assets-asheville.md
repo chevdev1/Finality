@@ -1,6 +1,8 @@
 ---
 title: "G20 пообещал «чёткие пути» для цифровых активов — но снова без конкретики"
 dek: "Министры финансов и главы центробанков G20 признали цифровые активы двигателем экономического роста, не назвав ни правил, ни сроков."
+title_en: "G20 promises \"clear pathways\" for digital assets — again with no specifics"
+dek_en: "G20 finance ministers and central bank governors acknowledged digital assets as a driver of economic growth, without naming any rules or timelines."
 section: bitcoin
 status: final
 publishedAt: 2026-09-01T00:00:00Z

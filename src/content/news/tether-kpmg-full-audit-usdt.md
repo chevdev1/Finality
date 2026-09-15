@@ -1,6 +1,8 @@
 ---
 title: "Tether впервые заказал полный аудит резервов USDT — у KPMG"
 dek: "Раньше компания раскрывала резервы только через ежеквартальные проверки BDO. Circle тем временем публикует данные по USDC еженедельно с ежемесячной проверкой от «большой четвёрки»."
+title_en: "Tether commissions its first full audit of USDT reserves — from KPMG"
+dek_en: "The company previously disclosed reserves only through quarterly reviews by BDO. Circle, meanwhile, publishes USDC data weekly with a monthly Big Four review."
 section: stablecoins
 status: developing
 publishedAt: 2026-08-25T00:00:00Z

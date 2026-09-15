@@ -1,6 +1,8 @@
 ---
 title: "Circle привозит USDC и EURC в Nu Global — доступ получат 140 млн клиентов в 35+ странах"
 dek: "Интеграция должна ускорить трансграничные переводы через мультивалютные счета Nu Global, конкурирующей платформы международных платежей."
+title_en: "Circle brings USDC and EURC to Nu Global — 140 million customers in 35+ countries get access"
+dek_en: "The integration is meant to speed up cross-border transfers through Nu Global's multi-currency accounts, a rival international payments platform."
 section: fintech
 status: final
 publishedAt: 2026-09-09T00:00:00Z

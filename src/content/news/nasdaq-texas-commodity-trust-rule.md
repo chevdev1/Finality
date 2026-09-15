@@ -1,6 +1,8 @@
 ---
 title: "SEC одобрила правило Nasdaq Texas, прямо называющее BTC, ETH, SOL и XRP биржевыми товарами"
 dek: "Поправка к правилу 5711(d) впервые перечисляет конкретные цифровые активы, которые соответствуют товарным трастовым стандартам биржи."
+title_en: "SEC approves Nasdaq Texas rule explicitly naming BTC, ETH, SOL, and XRP as exchange commodities"
+dek_en: "The amendment to Rule 5711(d) lists specific digital assets meeting the exchange's commodity-trust standards for the first time."
 section: policy
 status: final
 publishedAt: 2026-09-09T00:00:00Z

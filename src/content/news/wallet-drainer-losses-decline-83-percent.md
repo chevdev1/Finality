@@ -1,6 +1,8 @@
 ---
 title: "Потери от wallet-дрейнеров упали на 83% за год — редкий случай, когда конкретный вид крипто-мошенничества идёт на спад"
 dek: "С $494 млн в 2024 году до примерно $83,85 млн в 2025-м; число пострадавших кошельков снизилось на 68%. Но общее число взломов бирж и протоколов при этом не сократилось."
+title_en: "Wallet-drainer losses fell 83% in a year — a rare case of a specific crypto scam type declining"
+dek_en: "From $494M in 2024 to about $83.85M in 2025; the number of affected wallets dropped 68%. But the overall number of exchange and protocol hacks didn't decrease."
 section: security
 status: final
 publishedAt: 2026-08-20T00:00:00Z

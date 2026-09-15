@@ -96,7 +96,7 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
     ))}
   </head>
   <body>
-    <Ticker />
+    <Ticker locale={locale} />
     <Header locale={locale} altHref={locale === 'ru' ? enAlt.href : ruAlt.href} />
     <SearchIndex locale={locale} />
     <main>

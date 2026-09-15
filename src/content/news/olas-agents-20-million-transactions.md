@@ -1,6 +1,8 @@
 ---
 title: "У ИИ-агентов Olas почти 20 млн ончейн-транзакций — но оборот их маркетплейса составил всего $108 тысяч"
 dek: "Сам протокол называет это «реальной, проверяемой активностью», а не спамом. Цифры не противоречат друг другу — просто считают разное."
+title_en: "Olas AI agents have logged almost 20 million on-chain transactions — but their marketplace turnover is just $108,000"
+dek_en: "The protocol itself calls this \"real, verifiable activity,\" not spam. The numbers aren't actually contradictory — they're just measuring different things."
 section: ai
 status: final
 publishedAt: 2026-08-15T00:00:00Z

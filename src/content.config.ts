@@ -23,6 +23,8 @@ const news = defineCollection({
   schema: z.object({
     title: z.string(),
     dek: z.string(),
+    title_en: z.string().optional(),
+    dek_en: z.string().optional(),
     section: z.enum(SECTIONS),
     status: z.enum(['developing', 'final']),
     publishedAt: z.coerce.date(),

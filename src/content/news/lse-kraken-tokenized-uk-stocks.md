@@ -1,6 +1,8 @@
 ---
 title: "Лондonская биржа договорилась с материнской компанией Kraken о токенизации 100 крупнейших акций Великобритании"
 dek: "Payward и LSE запустят xStocks на крупнейшие листинговые компании Лондона в 2027 году — но пока не для британских инвесторов."
+title_en: "London Stock Exchange strikes deal with Kraken's parent company to tokenize the UK's 100 largest stocks"
+dek_en: "Payward and LSE will launch xStocks on London's largest listed companies in 2027 — but not yet for UK investors."
 section: rwa
 status: developing
 publishedAt: 2026-09-01T00:00:00Z

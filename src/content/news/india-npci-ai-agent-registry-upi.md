@@ -1,6 +1,8 @@
 ---
 title: "Индия строит реестр для проверки ИИ-агентов, которые смогут платить через UPI"
 dek: "Национальная платёжная корпорация Индии начнёт с небольших повторяющихся покупок вроде продуктов — лимиты трат, проверка личности и аудиторский след обязательны с самого начала."
+title_en: "India is building a registry to vet AI agents that will be able to pay through UPI"
+dek_en: "India's National Payments Corporation will start with small recurring purchases like groceries — spending limits, identity verification, and an audit trail are mandatory from day one."
 section: ai
 status: developing
 publishedAt: 2026-09-11T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "Сенат назначил на 15 сентября процедурное голосование по биллю CLARITY"
 dek: "Нужно 60 голосов, чтобы преодолеть филибастер. В индустрии всё больше считают, что в 2026 году билль принять не успеют."
+title_en: "Senate schedules a September 15 procedural vote on the CLARITY bill"
+dek_en: "60 votes are needed to break a filibuster. Industry sentiment is increasingly that the bill won't pass in 2026."
 section: policy
 status: developing
 publishedAt: 2026-09-01T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "Kraken запустил бессрочные фьючерсы на доступ к pre-IPO OpenAI и Anthropic"
 dek: "Контракты с плечом до 5x дают синтетическую экспозицию на оценку компаний без права на акции, голос или дивиденды. Для США, ЕЭЗ, Канады, Австралии и Новой Зеландии продукт закрыт."
+title_en: "Kraken launches perpetual futures on access to pre-IPO OpenAI and Anthropic"
+dek_en: "Contracts with up to 5x leverage give synthetic exposure to the companies' valuations, with no rights to shares, votes, or dividends. The product is closed to the US, EEA, Canada, Australia, and New Zealand."
 section: ai
 status: final
 publishedAt: 2026-09-06T00:00:00Z

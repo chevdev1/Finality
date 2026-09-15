@@ -1,6 +1,8 @@
 ---
 title: "Фонд Ethereum переименовал команду приватности и выпустил дорожную карту на «прайват-байрайт, прайват-рид, прайват-пруф»"
 dek: "Privacy Stewards of Ethereum (бывшая Privacy & Scaling Explorations) описали план сделать приватные ончейн-действия дешёвыми и повсеместными без потери комплаенса."
+title_en: "Ethereum Foundation renamed its privacy team and published a roadmap for \"private write, private read, private proof\""
+dek_en: "Privacy Stewards of Ethereum (formerly Privacy & Scaling Explorations) laid out a plan to make private on-chain actions cheap and ubiquitous without losing compliance."
 section: ethereum
 status: developing
 publishedAt: 2026-09-02T00:00:00Z

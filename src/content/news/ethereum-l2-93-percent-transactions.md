@@ -1,6 +1,8 @@
 ---
 title: "Около 93% всех транзакций Ethereum теперь проходят через L2 — Base и Arbitrum держат почти 80% их TVL"
 dek: "По данным growthepie, L2-сети обрабатывают в 13–15 раз больше транзакций, чем сам мейннет. Рынок при этом консолидируется вокруг двух сетей из 73 активных."
+title_en: "About 93% of all Ethereum transactions now run through L2s — Base and Arbitrum hold almost 80% of their TVL"
+dek_en: "According to growthepie, L2 networks process 13-15 times more transactions than mainnet itself. The market is meanwhile consolidating around two networks out of 73 active ones."
 section: ethereum
 status: final
 publishedAt: 2026-09-08T00:00:00Z

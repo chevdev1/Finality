@@ -1,6 +1,8 @@
 ---
 title: "Рынок токенизированных активов вырос до $60 млрд — но только казначейские облигации готовы к масштабу"
 dek: "Отчёт насчитал более 7000 продуктов в 12 классах активов. Токенизированные казначейские облигации США достигли $15 млрд — единственный класс, добравшийся до промышленной зрелости."
+title_en: "The tokenized asset market has grown to $60B — but only treasuries are ready to scale"
+dek_en: "The report counted more than 7,000 products across 12 asset classes. Tokenized US treasuries reached $15B — the only class to reach industrial-scale maturity."
 section: rwa
 status: final
 publishedAt: 2026-09-02T00:00:00Z

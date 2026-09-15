@@ -1,6 +1,8 @@
 ---
 title: "Binance выдал ИИ-агентам торговую лицензию через Agent OS — с ограничениями потоньше, чем кажется"
 dek: "Claude, ChatGPT, Codex и другие MCP-совместимые агенты могут торговать через изолированный суб-аккаунт без прав на вывод средств. Критики говорят, что защита не так надёжна, как выглядит на бумаге."
+title_en: "Binance granted AI agents a trading license via Agent OS — with thinner guardrails than they look"
+dek_en: "Claude, ChatGPT, Codex, and other MCP-compatible agents can trade through an isolated sub-account with no withdrawal rights. Critics say the protection isn't as solid as it looks on paper."
 section: ai
 status: developing
 publishedAt: 2026-08-20T00:00:00Z

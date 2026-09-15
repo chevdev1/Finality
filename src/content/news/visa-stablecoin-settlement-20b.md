@@ -1,6 +1,8 @@
 ---
 title: "Расчёты Visa в стейблкоинах превысили $20 млрд в годовом выражении"
 dek: "Объём вырос более чем в 15 раз год к году. Более 160 карточных программ на сети Visa уже используют стейблкоины, а онлайн-кредитование от Credit Coop сокращает расходы на финансирование до 30%."
+title_en: "Visa's stablecoin settlement volume surpassed $20B annualized"
+dek_en: "Volume grew more than 15x year over year. Over 160 card programs on the Visa network already use stablecoins, and online lending from Credit Coop is cutting funding costs by up to 30%."
 section: fintech
 status: final
 publishedAt: 2026-09-08T00:00:00Z

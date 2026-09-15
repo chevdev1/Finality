@@ -4,6 +4,8 @@
 // `hidden` attribute on the ones that don't match, which the browser hides for free.
 // Usage: place directly before the container it should control — the script finds each bar's
 // target via nextElementSibling, so multiple independent bars on one page just work.
+import type { Locale } from '../lib/i18n';
+
 interface Props {
   categories: string[];
   placeholder?: string;
@@ -11,8 +13,12 @@ interface Props {
   // '.feed' for the homepage article list, etc. Kept a prop instead of a second hardcoded
   // class so this component isn't tied to one page's markup.
   targetClass?: string;
+  locale?: Locale;
 }
-const { categories, placeholder = 'Найти протокол…', targetClass = 'table' } = Astro.props;
+const { categories, placeholder = 'Найти протокол…', targetClass = 'table', locale = 'ru' } = Astro.props;
+const allLabel = locale === 'en' ? 'All' : 'Все';
+const categoryFilterLabel = locale === 'en' ? 'Filter by category' : 'Фильтр по категории';
+const emptyLabel = locale === 'en' ? 'No results for this search or category.' : 'Ничего не найдено по этому запросу/категории.';
 ---
 
 <div class="filter-bar" data-target-class={targetClass}>
@@ -23,13 +29,13 @@ const { categories, placeholder = 'Найти протокол…', targetClass 
     aria-label={placeholder}
     data-filter-search
   />
-  <div class="chips" role="group" aria-label="Фильтр по категории">
-    <button type="button" class="chip is-active" data-filter-chip data-category="all">Все</button>
+  <div class="chips" role="group" aria-label={categoryFilterLabel}>
+    <button type="button" class="chip is-active" data-filter-chip data-category="all">{allLabel}</button>
     {categories.map((c) => (
       <button type="button" class="chip" data-filter-chip data-category={c}>{c}</button>
     ))}
   </div>
-  <p class="empty" data-filter-empty hidden>Ничего не найдено по этому запросу/категории.</p>
+  <p class="empty" data-filter-empty hidden>{emptyLabel}</p>
 </div>
 
 <script>

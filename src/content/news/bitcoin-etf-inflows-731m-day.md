@@ -1,6 +1,8 @@
 ---
 title: "Биткоин-ETF привлекли $731 млн за день — лучший результат с января"
 dek: "После оттока в $236 млн 1 сентября спотовые фонды на биткоин резко развернулись: IBIT от BlackRock обеспечил больше 60% притока."
+title_en: "Bitcoin ETFs pulled in $731M in a single day — the best result since January"
+dek_en: "After a $236M outflow on September 1, spot bitcoin funds reversed sharply: BlackRock's IBIT accounted for more than 60% of the inflow."
 section: bitcoin
 status: final
 publishedAt: 2026-09-03T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "ИИ-мошенничество приближается к взломам как основной угрозе безопасности в крипте"
 dek: "Более 207 отдельных эксплойтов подтверждено за первую половину 2026 года, использование ИИ в крипто-преступлениях выросло почти вдвое за год, а потери от дипфейк-мошенничества уже превысили итог всего 2025 года."
+title_en: "AI-driven scams are closing in on hacks as crypto's top security threat"
+dek_en: "Over 207 distinct exploits were confirmed in the first half of 2026, AI use in crypto crime nearly doubled year over year, and deepfake-scam losses have already surpassed all of 2025's total."
 section: ai
 status: developing
 publishedAt: 2026-08-28T00:00:00Z

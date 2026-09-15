@@ -1,6 +1,8 @@
 ---
 title: "Публичные майнеры биткоина распродают резервы, чтобы профинансировать переход в ИИ-инфраструктуру"
 dek: "Core Scientific, Bitdeer и Riot вместе сократили казну более чем на 15 000 BTC. Подписано свыше $70 млрд контрактов на аренду мощностей ИИ-компаниям."
+title_en: "Public bitcoin miners are selling reserves to fund a pivot into AI infrastructure"
+dek_en: "Core Scientific, Bitdeer, and Riot together cut their treasuries by more than 15,000 BTC. Over $70B in compute-leasing contracts with AI companies have been signed."
 section: bitcoin
 status: final
 publishedAt: 2026-09-10T00:00:00Z

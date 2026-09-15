@@ -1,6 +1,8 @@
 ---
 title: "DBS, OCBC и UOB провели первые расчёты в токенизированных сингапурских долларах на леджере Swift"
 dek: "Три крупнейших банка Сингапура впервые провели межбанковские платежи через общий блокчейн-леджер Swift, обменявшись платёжными сообщениями и обязательствами по токенизированным депозитам."
+title_en: "DBS, OCBC, and UOB complete first settlements in tokenized Singapore dollars on Swift's ledger"
+dek_en: "Singapore's three largest banks made their first interbank payments through a shared Swift blockchain ledger, exchanging payment messages and tokenized-deposit obligations."
 section: fintech
 status: final
 publishedAt: 2026-09-10T00:00:00Z

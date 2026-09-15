@@ -1,6 +1,8 @@
 ---
 title: "Объём торгов токенизированными акциями вырос в 33 раза за восемь месяцев"
 dek: "Месячный оборот подскочил с $237 млн в январе до $7,9 млрд в августе. Рынок держат на себе две площадки — bStocks и Robinhood."
+title_en: "Tokenized stock trading volume grew 33x in eight months"
+dek_en: "Monthly turnover jumped from $237M in January to $7.9B in August. Two platforms — bStocks and Robinhood — carry the bulk of the market."
 section: rwa
 status: final
 publishedAt: 2026-09-09T00:00:00Z

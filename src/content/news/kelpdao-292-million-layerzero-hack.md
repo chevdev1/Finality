@@ -1,6 +1,8 @@
 ---
 title: "Крупнейший взлом DeFi в 2026 году: как $292 млн ушли из моста KelpDAO через скомпрометированную инфраструктуру LayerZero"
 dek: "Атакующие социально сконструировали разработчика LayerZero, получили доступ к RPC-нодам и завалили остальные DDoS-атакой — мост пропустил поддельное подтверждение из-за настройки с одним верификатором."
+title_en: "The biggest DeFi hack of 2026: how $292M left the KelpDAO bridge through compromised LayerZero infrastructure"
+dek_en: "Attackers socially engineered a LayerZero developer, gained access to RPC nodes, and DDoSed the rest — the bridge accepted a forged confirmation because of a single-verifier setup."
 section: defi
 status: final
 publishedAt: 2026-04-20T00:00:00Z

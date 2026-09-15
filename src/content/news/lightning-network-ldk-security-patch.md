@@ -1,6 +1,8 @@
 ---
 title: "Разработчики закрыли два бага в Lightning Development Kit, способных увести средства из канала"
 dek: "Обновление LDK 0.2.6 устраняет уязвимость, позволявшую недобросовестному партнёру по каналу похитить часть средств при сплайсинге, и баг, блокировавший восстановление данных канала после сбоя."
+title_en: "Developers patched two Lightning Development Kit bugs that could drain funds from a channel"
+dek_en: "The LDK 0.2.6 update fixes a flaw that let a dishonest channel counterparty siphon off funds during splicing, plus a bug that blocked channel-data recovery after a crash."
 section: bitcoin
 status: final
 publishedAt: 2026-09-09T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "Токенизированные частные кредиты обошли казначейские облигации как крупнейший класс RWA"
 dek: "По оценке rwa.xyz, на ончейне активно свыше $18,9 млрд частных кредитов при $33,7 млрд совокупных выдач — но разные трекеры считают рынок по-разному, и разброс в оценках велик."
+title_en: "Tokenized private credit overtakes treasuries as the largest RWA asset class"
+dek_en: "According to rwa.xyz, more than $18.9B in private credit is active on-chain against $33.7B in cumulative originations — but different trackers measure the market very differently, and the spread in estimates is large."
 section: rwa
 status: developing
 publishedAt: 2026-09-04T00:00:00Z

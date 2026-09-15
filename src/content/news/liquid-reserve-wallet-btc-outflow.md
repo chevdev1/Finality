@@ -1,6 +1,8 @@
 ---
 title: "Из резервного кошелька Liquid ушло 4000 BTC на $320 млн — часть средств уже вернули"
 dek: "Атакующие использовали баг в кэше проверки range proof в Elements. Разработчики называют случившееся «белым» хаком: 3400 BTC уже возвращены."
+title_en: "4,000 BTC worth $320M left Liquid's reserve wallet — some funds already returned"
+dek_en: "Attackers exploited a bug in Elements' range-proof verification cache. Developers are calling it a \"white-hat\" hack: 3,400 BTC has already been returned."
 section: security
 status: developing
 publishedAt: 2026-09-07T09:00:00Z

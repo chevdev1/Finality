@@ -1,6 +1,8 @@
 ---
 title: "Рынок стейблкоинов стал ещё концентрированнее: только Tether и Circle остаются крупнее $10 млрд"
 dek: "По оценке ARK Invest, USDT и USDC вместе контролируют 85% рынка. В 2022 году порог в $10 млрд превышали четыре эмитента — сейчас только два."
+title_en: "The stablecoin market is getting even more concentrated: only Tether and Circle remain above $10B"
+dek_en: "According to ARK Invest, USDT and USDC together control 85% of the market. In 2022, four issuers crossed the $10B threshold — now only two do."
 section: stablecoins
 status: final
 publishedAt: 2026-09-11T00:00:00Z

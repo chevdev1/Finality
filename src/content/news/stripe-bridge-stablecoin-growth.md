@@ -1,6 +1,8 @@
 ---
 title: "Объём транзакций Bridge вырос вчетверо после интеграции в Stripe — платежи в стейблкоинах приблизились к $400 млрд за год"
 dek: "Партнёрство Bridge с Visa, позволяющее выпускать карты, привязанные к стейблкоин-кошелькам, расширяется до 60 стран к третьему кварталу 2026 года."
+title_en: "Bridge's transaction volume quadrupled after Stripe integration — stablecoin payments near $400B a year"
+dek_en: "Bridge's partnership with Visa, which lets companies issue cards linked to stablecoin wallets, is expanding to 60 countries by Q3 2026."
 section: fintech
 status: final
 publishedAt: 2026-09-02T00:00:00Z

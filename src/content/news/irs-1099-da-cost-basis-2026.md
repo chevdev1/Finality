@@ -1,6 +1,8 @@
 ---
 title: "IRS начинает требовать от бирж отчитываться о себестоимости крипто-сделок начиная с 2026 налогового года"
 dek: "Форма 1099-DA впервые покажет не только выручку от продажи, но и cost basis — но только для активов, купленных после 1 января 2026 года и хранившихся на той же бирже."
+title_en: "IRS starts requiring exchanges to report cost basis on crypto trades starting tax year 2026"
+dek_en: "Form 1099-DA will for the first time show cost basis, not just sale proceeds — but only for assets bought after January 1, 2026 and held on the same exchange."
 section: policy
 status: final
 publishedAt: 2026-08-28T00:00:00Z

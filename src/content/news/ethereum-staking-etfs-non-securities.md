@@ -1,6 +1,8 @@
 ---
 title: "Застейканный ETH превысил 41 млн монет после того, как SEC признала стейкинг-награды не ценной бумагой"
 dek: "Совместное разъяснение SEC и CFTC от марта убрало юридический барьер, который больше года держал стейкинговые ETF на паузе. Доля застейканного предложения выросла до 34,23%."
+title_en: "Staked ETH topped 41 million coins after the SEC ruled staking rewards aren't a security"
+dek_en: "A joint SEC-CFTC clarification in March removed the legal barrier that had kept staking ETFs on hold for over a year. The staked share of supply climbed to 34.23%."
 section: ethereum
 status: final
 publishedAt: 2026-04-01T00:00:00Z

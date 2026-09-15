@@ -1,6 +1,8 @@
 ---
 title: "Cronos откатил блокчейн после займа на $75 млн под разогнанный на 100x токен Tectonic"
 dek: "Атакующий поднял цену токена TONIC в 100 раз, занял под него реальные активы, а сеть отменила часть атаки полным откатом состояния."
+title_en: "Cronos rolled back the chain after a $75M loan against a token pumped 100x"
+dek_en: "An attacker pumped the TONIC token's price 100x, borrowed real assets against it, and the network reversed part of the attack with a full state rollback."
 section: defi
 status: final
 publishedAt: 2026-08-31T00:00:00Z

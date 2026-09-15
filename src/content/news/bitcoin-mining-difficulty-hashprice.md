@@ -1,6 +1,8 @@
 ---
 title: "Сложность майнинга биткоина упала на 19% от октябрьского максимума — но доходность майнеров растёт"
 dek: "Хешрейт держится около 934 EH/s, а хешпрайс за 30 дней вырос с $32,42 до $39,63 за PH/s в день — майнеры зарабатывают больше при том же объёме мощностей."
+title_en: "Bitcoin mining difficulty fell 19% from its October peak — but miner revenue is rising"
+dek_en: "Hashrate is holding around 934 EH/s, while 30-day hashprice climbed from $32.42 to $39.63 per PH/s per day — miners are earning more for the same capacity."
 section: bitcoin
 status: final
 publishedAt: 2026-09-07T00:00:00Z

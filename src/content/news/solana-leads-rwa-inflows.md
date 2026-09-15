@@ -1,6 +1,8 @@
 ---
 title: "Solana обошла все остальные сети по притоку RWA-капитала — $348 млн за 30 дней"
 dek: "Совокупные токенизированные активы на Solana выросли до $4,23 млрд у почти 400 тысяч держателей. Через DEX-сети на Solana проходит 95–97% всего мирового объёма торгов токенизированными акциями."
+title_en: "Solana leads all networks in RWA inflows — $348M in 30 days"
+dek_en: "Total tokenized assets on Solana have grown to $4.23B across almost 400,000 holders. DEX networks on Solana handle 95-97% of all global tokenized-stock trading volume."
 section: rwa
 status: final
 publishedAt: 2026-09-05T00:00:00Z

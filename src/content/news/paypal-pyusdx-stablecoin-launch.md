@@ -1,6 +1,8 @@
 ---
 title: "PayPal запустил инструмент для выпуска собственных стейблкоинов на базе PYUSD"
 dek: "PYUSDx позволяет любой компании создать свой стейблкоин, обеспеченный PayPal USD. В первый день на нём заработали три проекта с суммарным объёмом свыше $100 млн."
+title_en: "PayPal launches a tool for issuing custom stablecoins built on PYUSD"
+dek_en: "PYUSDx lets any company create its own stablecoin backed by PayPal USD. On day one, three projects launched on it with a combined volume over $100M."
 section: fintech
 status: final
 publishedAt: 2026-09-09T00:00:00Z

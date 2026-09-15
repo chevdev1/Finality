@@ -1,6 +1,8 @@
 ---
 title: "MetaMask отделился от Consensys, а обновление Glamsterdam сдвинули на четвёртый квартал"
 dek: "Consensys разделяет потребительский и институциональный бизнес до конца года; активация Glamsterdam в основной сети перенесена, тестовая сеть Sepolia форкнется 28 сентября."
+title_en: "MetaMask splits off from Consensys, and the Glamsterdam upgrade slips to Q4"
+dek_en: "Consensys is separating its consumer and institutional businesses by year end; Glamsterdam's mainnet activation is delayed, and the Sepolia testnet will fork on September 28."
 section: ethereum
 status: developing
 publishedAt: 2026-09-09T00:00:00Z

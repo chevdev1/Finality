@@ -1,6 +1,8 @@
 ---
 title: "Спотовые Ethereum-ETF привлекли рекордные $824 млн за неделю — лучший результат с момента запуска"
 dek: "BlackRock's ETHA обеспечил $567 млн из общего притока. Фонды держат уже 5,2% рыночной капитализации Ethereum."
+title_en: "Spot Ethereum ETFs pulled in a record $824M in a week — the best result since launch"
+dek_en: "BlackRock's ETHA accounted for $567M of the total inflow. Funds now hold 5.2% of Ethereum's market cap."
 section: ethereum
 status: final
 publishedAt: 2026-09-01T00:00:00Z

@@ -1,6 +1,8 @@
 ---
 title: "Пятилетний баг в прошивке аппаратных кошельков Coldcard привёл к краже $116 млн в биткоине"
 dek: "Уязвимость в прошивке 2021 года ослабляла случайность при генерации сид-фразы. Атакующие вычислили приватные ключи и вывели около 1816 BTC более чем с 5200 адресов."
+title_en: "A five-year-old firmware bug in Coldcard hardware wallets led to a $116M bitcoin theft"
+dek_en: "A flaw in the 2021 firmware weakened randomness during seed-phrase generation. Attackers derived private keys and drained about 1,816 BTC from more than 5,200 addresses."
 section: security
 status: final
 publishedAt: 2026-08-04T00:00:00Z

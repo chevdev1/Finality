@@ -14,8 +14,8 @@ const news = await getCollection('news');
 // Indexes dek alongside title now — searching only titles meant a reader who remembered a
 // fact or number from an article's lead, but not its exact headline wording, found nothing.
 const index = news.map((n) => ({
-  title: n.data.title,
-  dek: n.data.dek,
+  title: locale === 'en' ? (n.data.title_en ?? n.data.title) : n.data.title,
+  dek: locale === 'en' ? (n.data.dek_en ?? n.data.dek) : n.data.dek,
   section: sectionLabels[n.data.section],
   url: `/${n.data.section}/${n.id}/`,
 }));
