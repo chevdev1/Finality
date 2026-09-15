@@ -1,0 +1,151 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'ru' } = Astro.props;
+const homeHref = locale === 'en' ? '/en/' : '/';
+
+const RU = {
+  pageTitle: 'Глоссарий — Finality',
+  pageDescription: 'Термины из статей Finality, объяснённые простым языком — с примером в реальной новости у каждого.',
+  jsonLdName: 'Глоссарий — Finality',
+  jsonLdAbout: 'Глоссарий терминов крипторынка',
+  crumbsCurrent: 'Глоссарий',
+  h1: 'Глоссарий',
+  intro: 'Термины, которые встречаются в статьях Finality и требуют объяснения за пределами одного предложения в скобках. У каждого — пример из реальной опубликованной новости, а не абстрактное определение из учебника.',
+  empty: 'Пока нет терминов в глоссарии.',
+};
+
+const EN = {
+  pageTitle: 'Glossary — Finality',
+  pageDescription: "Terms from Finality's own reporting, explained in plain language — each with a real example from a published story.",
+  jsonLdName: 'Glossary — Finality',
+  jsonLdAbout: 'Glossary of crypto market terms',
+  crumbsCurrent: 'Glossary',
+  h1: 'Glossary',
+  intro: "Terms that come up in Finality's reporting and need more than a one-line aside to explain. Each one comes with an example from a real published story, not an abstract textbook definition.",
+  empty: 'No glossary terms yet.',
+};
+
+const T = locale === 'en' ? EN : RU;
+
+const terms = (await getCollection('glossary')).sort((a, b) => {
+  const ta = locale === 'en' ? (a.data.term_en ?? a.data.term) : a.data.term;
+  const tb = locale === 'en' ? (b.data.term_en ?? b.data.term) : b.data.term;
+  return ta.localeCompare(tb, locale === 'en' ? 'en' : 'ru');
+});
+---
+
+<BaseLayout
+  locale={locale}
+  title={T.pageTitle}
+  description={T.pageDescription}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: T.jsonLdName,
+      about: T.jsonLdAbout,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'DefinedTermSet',
+      name: T.jsonLdName,
+      hasDefinedTerm: terms.map((t) => ({
+        '@type': 'DefinedTerm',
+        name: locale === 'en' ? (t.data.term_en ?? t.data.term) : t.data.term,
+        description: locale === 'en' ? (t.data.definition_en ?? t.data.definition) : t.data.definition,
+      })),
+    },
+  ]}
+>
+  <div class="wrap page">
+    <nav class="crumbs"><a href={homeHref}>Finality</a> / {T.crumbsCurrent}</nav>
+    <h1 class="title">{T.h1}</h1>
+    <p class="intro">{T.intro}</p>
+
+    {terms.length === 0 && <p class="empty-state">{T.empty}</p>}
+
+    <dl class="terms">
+      {terms.map((t) => (
+        <div class="term-row" id={t.id}>
+          <dt class="term-name">{locale === 'en' ? (t.data.term_en ?? t.data.term) : t.data.term}</dt>
+          <dd class="term-body">
+            <p class="definition">{locale === 'en' ? (t.data.definition_en ?? t.data.definition) : t.data.definition}</p>
+            {t.data.relatedHref && (
+              <a class="related-link" href={t.data.relatedHref}>
+                {locale === 'en' ? (t.data.relatedLabel_en ?? t.data.relatedLabel) : t.data.relatedLabel} →
+              </a>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 24px 48px;
+    max-width: 720px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 32px;
+  }
+  .empty-state {
+    color: var(--graphite);
+    font-size: 13px;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .terms {
+    margin: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .term-row {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 72px;
+  }
+  .term-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .term-body {
+    margin: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .definition {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 62ch;
+  }
+  .related-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    justify-self: start;
+  }
+</style>

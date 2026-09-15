@@ -137,4 +137,19 @@ const regulations = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight, videos, events, regulations };
+const glossary = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/glossary' }),
+  schema: z.object({
+    term: z.string(),
+    term_en: z.string().optional(),
+    definition: z.string(),
+    definition_en: z.string().optional(),
+    // Arbitrary internal path rather than a news collection() lookup — a term can point to an
+    // article, but also to /projects/ or /regulation/, which aren't in the news collection.
+    relatedHref: z.string().optional(),
+    relatedLabel: z.string().optional(),
+    relatedLabel_en: z.string().optional(),
+  }),
+});
+
+export const collections = { news, authors, spotlight, videos, events, regulations, glossary };

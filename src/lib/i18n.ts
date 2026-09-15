@@ -52,6 +52,7 @@ export const UI: Record<Locale, Record<string, string>> = {
     projects: 'Проекты',
     calendar: 'Календарь',
     tracker: 'Трекер',
+    glossary: 'Глоссарий',
     search: 'Поиск',
     searchPlaceholder: 'Поиск по заголовкам…',
     searchClose: 'Esc — закрыть',
@@ -82,6 +83,7 @@ export const UI: Record<Locale, Record<string, string>> = {
     projects: 'Projects',
     calendar: 'Calendar',
     tracker: 'Tracker',
+    glossary: 'Glossary',
     search: 'Search',
     searchPlaceholder: 'Search headlines…',
     searchClose: 'Esc to close',
@@ -125,6 +127,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   const isProjects = bare === '/projects/' || bare === '/projects';
   const isCalendar = bare === '/calendar/' || bare === '/calendar';
   const isTracker = bare === '/regulation/' || bare === '/regulation';
+  const isGlossary = bare === '/glossary/' || bare === '/glossary';
   const sectionMatch = bare.match(/^\/([a-z]+)\/$/);
   const isSection = !!sectionMatch && (SECTIONS as readonly string[]).includes(sectionMatch[1]);
 
@@ -134,6 +137,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
     if (isProjects) return { href: '/en/projects/', exact: true };
     if (isCalendar) return { href: '/en/calendar/', exact: true };
     if (isTracker) return { href: '/en/regulation/', exact: true };
+    if (isGlossary) return { href: '/en/glossary/', exact: true };
     if (isSection) return { href: `/en${bare}`, exact: true };
     return { href: '/en/', exact: false };
   }
@@ -142,6 +146,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   if (isProjects) return { href: '/projects/', exact: true };
   if (isCalendar) return { href: '/calendar/', exact: true };
   if (isTracker) return { href: '/regulation/', exact: true };
+  if (isGlossary) return { href: '/glossary/', exact: true };
   if (isSection) return { href: bare, exact: true };
   return { href: '/', exact: false };
 }
