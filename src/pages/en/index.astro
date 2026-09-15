@@ -56,11 +56,11 @@ function fmtUpdated(d: Date) {
       </div>
       <h1><a href={`/${hero.data.section}/${hero.id}/`}>{hero.data.title}</a></h1>
       <p class="lead">{hero.data.dek}</p>
-      <VerificationMeter filled={hero.data.checks.length} animate size={16} />
+      <VerificationMeter filled={hero.data.checks.length} animate size={16} label={`${hero.data.checks.length} of 6 checks passed`} />
     </section>
 
     <aside class="hero-log">
-      <VerificationLog checks={hero.data.checks} status={hero.data.status} open />
+      <VerificationLog checks={hero.data.checks} status={hero.data.status} locale="en" open />
     </aside>
 
     <div class="feed-wrap">
@@ -80,6 +80,7 @@ function fmtUpdated(d: Date) {
           checksCount={n.data.checks.length}
           slug={n.id}
           imageQuery={n.data.imageQuery}
+          locale="en"
         />
       ))}
       </section>
@@ -101,7 +102,7 @@ function fmtUpdated(d: Date) {
           {sectionCounts.map((s) => (
             <a href={`/en/${s.slug}/`}>
               <span>{SECTION_LABELS_EN[s.slug]}</span>
-              <VerificationMeter filled={Math.min(s.count, 6)} size={7} />
+              <VerificationMeter filled={Math.min(s.count, 6)} size={7} label={`${s.count} stories`} />
             </a>
           ))}
         </div>

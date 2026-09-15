@@ -2,6 +2,7 @@
 import VerificationMeter from './VerificationMeter.astro';
 import ArticleSeal from './ArticleSeal.astro';
 import { fetchThemedPhoto } from '../lib/pexels-client';
+import type { Locale } from '../lib/i18n';
 
 interface Props {
   title: string;
@@ -12,9 +13,11 @@ interface Props {
   checksCount: number;
   slug: string;
   imageQuery?: string;
+  locale?: Locale;
 }
 
-const { title, dek, href, section, publishedAt, checksCount, slug, imageQuery } = Astro.props;
+const { title, dek, href, section, publishedAt, checksCount, slug, imageQuery, locale = 'ru' } = Astro.props;
+const meterLabel = locale === 'en' ? `${checksCount} of 6 checks passed` : `${checksCount} из 6 проверок пройдено`;
 
 // Same cache the article page itself reads from (keyed by query string) — by the time any
 // list view renders, the photo for a given article has usually already been fetched once
@@ -39,7 +42,7 @@ function fmtDate(d: Date) {
     )}
   </span>
   <span class="data time">{fmtDate(publishedAt)}</span>
-  <span class="meter"><VerificationMeter filled={checksCount} size={10} /></span>
+  <span class="meter"><VerificationMeter filled={checksCount} size={10} label={meterLabel} /></span>
   <span class="body">
     <span class="title">{title}</span>
     {dek && <span class="dek">{dek}</span>}

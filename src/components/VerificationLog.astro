@@ -1,6 +1,7 @@
 ---
 import VerificationMeter from './VerificationMeter.astro';
 import { STATUS_LABELS } from '../lib/labels';
+import { STATUS_LABELS_EN, type Locale } from '../lib/i18n';
 
 interface CheckDef {
   id: number;
@@ -11,11 +12,12 @@ interface Props {
   checks: { id: number; at: Date }[];
   status: 'developing' | 'final';
   open?: boolean;
+  locale?: Locale;
 }
 
-const { checks, status, open = false } = Astro.props;
+const { checks, status, open = false, locale = 'ru' } = Astro.props;
 
-const CHECK_DEFS: CheckDef[] = [
+const CHECK_DEFS_RU: CheckDef[] = [
   { id: 1, label: 'Первоисточник найден и проставлен ссылкой' },
   { id: 2, label: 'Ончейн-данные подтверждают утверждение' },
   { id: 3, label: 'Независимое второе издание сообщает то же самое' },
@@ -23,6 +25,20 @@ const CHECK_DEFS: CheckDef[] = [
   { id: 5, label: 'Цифры сверены редакцией' },
   { id: 6, label: 'Подпись выпускающего редактора' },
 ];
+
+const CHECK_DEFS_EN: CheckDef[] = [
+  { id: 1, label: 'Primary source found and linked' },
+  { id: 2, label: 'On-chain data confirms the claim' },
+  { id: 3, label: 'An independent second outlet reports the same thing' },
+  { id: 4, label: "The other party's official statement is on record" },
+  { id: 5, label: 'Numbers checked by the editors' },
+  { id: 6, label: 'Signed off by the editor on duty' },
+];
+
+const CHECK_DEFS = locale === 'en' ? CHECK_DEFS_EN : CHECK_DEFS_RU;
+const statusLabel = locale === 'en' ? STATUS_LABELS_EN[status] : STATUS_LABELS[status];
+const countLabel = locale === 'en' ? `${checks.length} of 6 checks passed` : `${checks.length} из 6 проверок пройдено`;
+const openLabel = locale === 'en' ? 'OPEN' : 'ОТКРЫТО';
 
 const byId = new Map(checks.map((c) => [c.id, c.at]));
 const filled = checks.length;
@@ -34,9 +50,9 @@ function fmt(d: Date) {
 
 <details class="log" open={open}>
   <summary>
-    <VerificationMeter filled={filled} />
-    <span class="data status-count">{filled} из 6 проверок пройдено</span>
-    <span class="status-word">{STATUS_LABELS[status]}</span>
+    <VerificationMeter filled={filled} label={countLabel} />
+    <span class="data status-count">{countLabel}</span>
+    <span class="status-word">{statusLabel}</span>
   </summary>
   <div class="rows-wrapper">
     <div class="rows">
@@ -46,7 +62,7 @@ function fmt(d: Date) {
           <div class="row">
             <span class="cell-mini" class:list={{ on: !!at }} aria-hidden="true"></span>
             <span class="check-label">{def.label}</span>
-            <span class="data check-time">{at ? fmt(at) : 'ОТКРЫТО'}</span>
+            <span class="data check-time">{at ? fmt(at) : openLabel}</span>
           </div>
         );
       })}
