@@ -10,15 +10,53 @@ const { locale = 'ru' } = Astro.props;
 const t = UI[locale];
 const sectionLabels = locale === 'en' ? SECTION_LABELS_EN : SECTION_LABELS;
 
+const kindLabel = locale === 'en'
+  ? { calendar: 'Calendar', regulation: 'Tracker', glossary: 'Glossary' }
+  : { calendar: 'Календарь', regulation: 'Трекер', glossary: 'Глоссарий' };
+
 const news = await getCollection('news');
 // Indexes dek alongside title now — searching only titles meant a reader who remembered a
 // fact or number from an article's lead, but not its exact headline wording, found nothing.
-const index = news.map((n) => ({
+const articleItems = news.map((n) => ({
   title: locale === 'en' ? (n.data.title_en ?? n.data.title) : n.data.title,
   dek: locale === 'en' ? (n.data.dek_en ?? n.data.dek) : n.data.dek,
   section: sectionLabels[n.data.section],
   url: `/${n.data.section}/${n.id}/`,
 }));
+
+// The site grew three more real destinations (Calendar, Regulatory Tracker, Glossary) since
+// search was first built, and none of them were ever added to the index — a reader searching
+// "CLARITY" or "TVL" found only news articles mentioning the word, never the calendar entry,
+// tracker row, or glossary definition that's arguably the more relevant hit. `section` doubles
+// as the result kicker for every item type, so these just carry the destination's name there.
+const events = await getCollection('events');
+const calendarHref = locale === 'en' ? '/en/calendar/' : '/calendar/';
+const calendarItems = events.map((e) => ({
+  title: locale === 'en' ? (e.data.title_en ?? e.data.title) : e.data.title,
+  dek: locale === 'en' ? (e.data.description_en ?? e.data.description) : e.data.description,
+  section: kindLabel.calendar,
+  url: calendarHref,
+}));
+
+const regulations = await getCollection('regulations');
+const regulationHref = locale === 'en' ? '/en/regulation/' : '/regulation/';
+const regulationItems = regulations.map((r) => ({
+  title: locale === 'en' ? (r.data.name_en ?? r.data.name) : r.data.name,
+  dek: locale === 'en' ? (r.data.summary_en ?? r.data.summary) : r.data.summary,
+  section: kindLabel.regulation,
+  url: regulationHref,
+}));
+
+const glossary = await getCollection('glossary');
+const glossaryHref = locale === 'en' ? '/en/glossary/' : '/glossary/';
+const glossaryItems = glossary.map((g) => ({
+  title: locale === 'en' ? (g.data.term_en ?? g.data.term) : g.data.term,
+  dek: locale === 'en' ? (g.data.definition_en ?? g.data.definition) : g.data.definition,
+  section: kindLabel.glossary,
+  url: `${glossaryHref}#${g.id}`,
+}));
+
+const index = [...articleItems, ...calendarItems, ...regulationItems, ...glossaryItems];
 ---
 
 <script type="application/json" id="search-index" set:html={JSON.stringify(index)} />
@@ -26,7 +64,7 @@ const index = news.map((n) => ({
 <div class="search-overlay" data-search-overlay hidden>
   <div class="search-panel" role="dialog" aria-modal="true" aria-label={t.search}>
     <input type="text" data-search-input placeholder={t.searchPlaceholder} autocomplete="off" />
-    <div class="results" data-search-results></div>
+    <div class="results" data-search-results data-no-results={t.searchNoResults}></div>
     <p class="hint">{t.searchClose}</p>
   </div>
 </div>
@@ -55,11 +93,15 @@ const index = news.map((n) => ({
     getOverlay()?.setAttribute('hidden', '');
     const input = getInput();
     if (input) input.value = '';
-    render([]);
+    render([], '');
   }
-  function render(items: { title: string; dek: string; section: string; url: string }[]) {
+  function render(items: { title: string; dek: string; section: string; url: string }[], query: string) {
     const results = getResults();
     if (!results) return;
+    if (query && items.length === 0) {
+      results.innerHTML = `<p class="no-results">${results.dataset.noResults ?? ''}</p>`;
+      return;
+    }
     results.innerHTML = items
       .slice(0, 8)
       .map(
@@ -105,9 +147,20 @@ const index = news.map((n) => ({
       if (e.target === overlay) close();
     });
     input?.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) return render([]);
-      render(index.filter((i) => i.title.toLowerCase().includes(q) || i.dek.toLowerCase().includes(q)));
+      const raw = input.value.trim();
+      if (!raw) return render([], '');
+      // Split into words and require every one to appear somewhere in title+dek, in any
+      // order — a plain substring match on the whole query missed "trump genius" against a
+      // title like "Trump signs GENIUS Act" (right words, wrong order) and anything where the
+      // reader's word order just didn't match the headline's.
+      const words = raw.toLowerCase().split(/\s+/).filter(Boolean);
+      render(
+        index.filter((i) => {
+          const haystack = `${i.title} ${i.dek}`.toLowerCase();
+          return words.every((w) => haystack.includes(w));
+        }),
+        raw
+      );
     });
   });
 </script>
@@ -162,5 +215,11 @@ const index = news.map((n) => ({
     margin: 10px 8px 0;
     font-size: 11px;
     color: var(--graphite);
+  }
+  .no-results {
+    margin: 0;
+    padding: 16px 8px;
+    color: var(--graphite);
+    font-size: 14px;
   }
 </style>
