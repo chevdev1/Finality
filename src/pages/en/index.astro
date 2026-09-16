@@ -30,9 +30,13 @@ const sectionCounts = SECTIONS.map((s) => ({
   count: news.filter((n) => n.data.section === s).length,
 }));
 
-const videos = (await getCollection('videos'))
-  .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
-  .slice(0, 3)
+// See ru/index.astro for why this is 1, preferring the hero's own section, not 3-most-recent.
+const allVideos = (await getCollection('videos')).sort(
+  (a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf()
+);
+const heroSectionVideo = allVideos.find((v) => v.data.section === hero.data.section);
+const videos = [heroSectionVideo ?? allVideos[0]]
+  .filter(Boolean)
   .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note, note_en: v.data.note_en }));
 
 function fmtUpdated(d: Date) {

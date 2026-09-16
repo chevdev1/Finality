@@ -34,9 +34,17 @@ const sectionCounts = SECTIONS.map((s) => ({
   count: news.filter((n) => n.data.section === s).length,
 }));
 
-const videos = (await getCollection('videos'))
-  .sort((a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf())
-  .slice(0, 3)
+// One video, like every section hub — the sidebar isn't a video hub, and with a video now in
+// all 9 sections the old "3 most recent" pool is mostly same-day ties, so it used to surface
+// 3 long cards with no real editorial reason to be together. Preferring the hero's own section
+// keeps it relevant to what a reader is actually looking at; if that section has none, fall
+// back to whatever is newest overall.
+const allVideos = (await getCollection('videos')).sort(
+  (a, b) => b.data.addedAt.valueOf() - a.data.addedAt.valueOf()
+);
+const heroSectionVideo = allVideos.find((v) => v.data.section === hero.data.section);
+const videos = [heroSectionVideo ?? allVideos[0]]
+  .filter(Boolean)
   .map((v) => ({ title: v.data.title, youtubeId: v.data.youtubeId, channel: v.data.channel, note: v.data.note }));
 
 function fmtUpdated(d: Date) {
