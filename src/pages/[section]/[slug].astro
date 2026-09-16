@@ -226,6 +226,19 @@ const jsonLd = [
   .prose :global(p) {
     margin: 1em 0;
   }
+  /* Glossary cross-links are the first <a> tags to ever appear inside article body markdown —
+     without this, they'd fall back to the browser default (blue, underlined), clashing with
+     the serif body copy. Styled like the site's other inline text links (e.g. detail-links on
+     /projects/): underline in --rule, not a full blue link. */
+  .prose :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule);
+    text-underline-offset: 2px;
+  }
+  .prose :global(a:hover) {
+    text-decoration-color: var(--ink);
+  }
   .prose :global(.data-inset) {
     border: 1px solid var(--rule);
     background: var(--paper);
