@@ -31,6 +31,7 @@ sources:
 related:
   - liquid-reserve-wallet-btc-outflow
   - stolen-keys-not-code-bugs-defi-losses
+  - coldcard-firmware-flaw-116m-hack
 ---
 
 ## Модель хранения средств

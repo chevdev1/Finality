@@ -24,6 +24,7 @@ sources:
 related:
   - sec-regulation-crypto-assets-classification
   - clarity-market-structure-test-vote
+  - clarity-act-cloture-vote-fails
 ---
 
 ## Что изменилось формально

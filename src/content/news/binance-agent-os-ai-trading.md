@@ -26,6 +26,7 @@ sources:
 related:
   - kraken-openai-anthropic-preipo-perps
   - ai-agents-58-percent-trading-volume
+  - olas-agents-20-million-transactions
 ---
 
 ## Что даёт Agent OS

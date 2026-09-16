@@ -24,6 +24,7 @@ sources:
 related:
   - metamask-consensys-split-glamsterdam-delay
   - ethereum-staking-etfs-non-securities
+  - ethereum-hegota-eip-tier-list
 ---
 
 ## Что означают три направления

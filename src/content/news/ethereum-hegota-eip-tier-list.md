@@ -28,6 +28,7 @@ sources:
 related:
   - metamask-consensys-split-glamsterdam-delay
   - ethereum-privacy-stewards-roadmap
+  - ethereum-l2-93-percent-transactions
 ---
 
 ## Что такое Hegotá и почему рейтинг — это новость

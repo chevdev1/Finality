@@ -26,6 +26,7 @@ sources:
 related:
   - clarity-market-structure-test-vote
   - sec-regulation-crypto-assets-classification
+  - clarity-act-cloture-vote-fails
 ---
 
 ## Что подписали

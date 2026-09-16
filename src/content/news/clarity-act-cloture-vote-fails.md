@@ -32,6 +32,7 @@ sources:
 related:
   - clarity-market-structure-test-vote
   - cftc-backup-crypto-rules-clarity-stalls
+  - sec-regulation-crypto-assets-classification
 ---
 
 ## Что показало голосование
