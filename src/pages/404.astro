@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VerificationMeter from '../components/VerificationMeter.astro';
+import { SECTIONS } from '../content.config';
+import { SECTION_LABELS } from '../lib/labels';
+import { SECTION_LABELS_EN } from '../lib/i18n';
+---
+
+<BaseLayout
+  locale="ru"
+  title="Страница не найдена — Finality"
+  description="Такой страницы не существует. Page not found."
+  noindex
+>
+  <div class="wrap page">
+    <VerificationMeter filled={0} size={20} label="0 из 6 проверок пройдено" />
+    <h1 class="code">404</h1>
+
+    <section class="block">
+      <p class="lead">
+        Такой страницы не существует — возможно, ссылка устарела или в адресе опечатка.
+        Ни одна проверка для неё не пройдена по той же причине: проверять нечего.
+      </p>
+      <div class="actions">
+        <a class="btn" href="/">На главную</a>
+        <button type="button" class="btn btn-ghost" data-search-trigger>Поиск <kbd>⌘K</kbd></button>
+      </div>
+      <nav class="sections" aria-label="Разделы">
+        {SECTIONS.map((s) => (
+          <a href={`/${s}/`}>{SECTION_LABELS[s]}</a>
+        ))}
+      </nav>
+    </section>
+
+    <hr />
+
+    <section class="block">
+      <p class="lead">
+        This page doesn't exist — the link may be outdated or the address has a typo.
+      </p>
+      <div class="actions">
+        <a class="btn" href="/en/">Home</a>
+      </div>
+      <nav class="sections" aria-label="Sections">
+        {SECTIONS.map((s) => (
+          <a href={`/en/${s}/`}>{SECTION_LABELS_EN[s]}</a>
+        ))}
+      </nav>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: 48px 64px;
+    max-width: 640px;
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+  .code {
+    font-size: 72px;
+    line-height: 1;
+    margin: 0;
+  }
+  .block {
+    display: grid;
+    gap: 16px;
+  }
+  .lead {
+    margin: 0;
+    color: var(--graphite);
+    max-width: 56ch;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--ledger);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .btn-ghost {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .btn kbd {
+    font-family: var(--font-data);
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .sections a {
+    font-size: 13px;
+    color: var(--graphite);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .sections a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+  hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 8px 0;
+  }
+</style>

@@ -12,9 +12,10 @@ interface Props {
   ogImage?: string;
   canonicalPath?: string;
   locale?: Locale;
+  noindex?: boolean;
 }
 
-const { title, description, jsonLd = [], ogImage, canonicalPath, locale = 'ru' } = Astro.props;
+const { title, description, jsonLd = [], ogImage, canonicalPath, locale = 'ru', noindex = false } = Astro.props;
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const pathname = canonicalPath ?? Astro.url.pathname;
@@ -79,7 +80,14 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Finality"
+      href={locale === 'en' ? `${siteUrl}/en/rss.xml` : `${siteUrl}/rss.xml`}
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Finality" />
