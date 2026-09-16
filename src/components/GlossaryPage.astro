@@ -38,6 +38,17 @@ const terms = (await getCollection('glossary')).sort((a, b) => {
   const tb = locale === 'en' ? (b.data.term_en ?? b.data.term) : b.data.term;
   return ta.localeCompare(tb, locale === 'en' ? 'en' : 'ru');
 });
+
+// relatedHref is stored RU-first (e.g. "/projects/", "/regulation/") since most entries point
+// to an article, which has no English version to redirect to. But a handful point to another
+// standalone section that DOES have a full /en/ counterpart — on the English glossary those
+// need the /en/ prefix too, or the reader clicks through and lands back in Russian chrome.
+const TRANSLATED_ROUTES = ['/projects/', '/calendar/', '/regulation/', '/glossary/', '/about/'];
+function resolveHref(href: string | undefined) {
+  if (!href) return href;
+  if (locale === 'en' && TRANSLATED_ROUTES.includes(href)) return `/en${href}`;
+  return href;
+}
 ---
 
 <BaseLayout
@@ -77,7 +88,7 @@ const terms = (await getCollection('glossary')).sort((a, b) => {
           <dd class="term-body">
             <p class="definition">{locale === 'en' ? (t.data.definition_en ?? t.data.definition) : t.data.definition}</p>
             {t.data.relatedHref && (
-              <a class="related-link" href={t.data.relatedHref}>
+              <a class="related-link" href={resolveHref(t.data.relatedHref)}>
                 {locale === 'en' ? (t.data.relatedLabel_en ?? t.data.relatedLabel) : t.data.relatedLabel} →
               </a>
             )}
