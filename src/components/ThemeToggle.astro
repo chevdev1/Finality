@@ -13,26 +13,33 @@ const label = locale === 'en' ? 'Toggle theme' : 'Переключить тем�
 </button>
 
 <script>
-  const KEY = 'finality-theme';
-  const btn = document.getElementById('theme-toggle');
+  // With <ClientRouter /> navigation replacing the page instead of a hard reload, this
+  // element (and any listener attached to it) is destroyed and re-created on every
+  // navigation — so re-running init on 'astro:page-load' (which also fires once for the
+  // very first load) is both correct and non-duplicating here, unlike a document-level
+  // listener would be.
+  document.addEventListener('astro:page-load', () => {
+    const KEY = 'finality-theme';
+    const btn = document.getElementById('theme-toggle');
 
-  btn?.addEventListener('click', () => {
-    const root = document.documentElement;
-    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    btn?.addEventListener('click', () => {
+      const root = document.documentElement;
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!reduce) {
-      root.classList.add('theme-transitioning');
-      window.setTimeout(() => root.classList.remove('theme-transitioning'), 300);
-    }
+      if (!reduce) {
+        root.classList.add('theme-transitioning');
+        window.setTimeout(() => root.classList.remove('theme-transitioning'), 300);
+      }
 
-    root.dataset.theme = next;
-    try {
-      localStorage.setItem(KEY, next);
-    } catch {
-      // Private browsing / storage disabled — theme still applies for this page view,
-      // it just won't be remembered on the next one.
-    }
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem(KEY, next);
+      } catch {
+        // Private browsing / storage disabled — theme still applies for this page view,
+        // it just won't be remembered on the next one.
+      }
+    });
   });
 </script>
 

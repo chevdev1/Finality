@@ -60,17 +60,46 @@ const buildTime = fmtUpdated(new Date());
 <script>
   import { fetchQuotes } from '../lib/coingecko-client';
 
-  const ticker = document.querySelector<HTMLElement>('[data-ticker]');
-  const track = ticker?.querySelector<HTMLElement>('[data-track]');
-  if (ticker && track) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let paused = document.hidden;
+  // The ticker lives on every page via BaseLayout, so with <ClientRouter /> its rAF loop and
+  // 60s poll chain would otherwise restart on every single navigation without ever stopping
+  // the previous page's — an unbounded pile of overlapping animation frames and, worse,
+  // duplicate network fetches that grows for as long as the visit lasts. An "epoch" counter
+  // bumped right before each swap gives every in-flight loop a cheap, ordering-safe way to
+  // notice it's stale and quietly stop recursing, with no explicit ID bookkeeping needed.
+  declare global {
+    interface Window {
+      __tickerPaused?: boolean;
+      __tickerEpoch?: number;
+      __tickerVisibilityInit?: boolean;
+    }
+  }
 
-    ticker.addEventListener('mouseenter', () => (paused = true));
-    ticker.addEventListener('mouseleave', () => (paused = false));
+  // document.hidden/visibilitychange is document-level and document itself is never replaced
+  // by <ClientRouter />, so this listener (unlike everything below) must be registered only
+  // once for the whole session — re-adding it on every navigation would stack up duplicate
+  // handlers all writing to the same shared flag.
+  if (!window.__tickerVisibilityInit) {
+    window.__tickerPaused = document.hidden;
     document.addEventListener('visibilitychange', () => {
-      paused = document.hidden;
+      window.__tickerPaused = document.hidden;
     });
+    window.__tickerVisibilityInit = true;
+  }
+
+  document.addEventListener('astro:before-swap', () => {
+    window.__tickerEpoch = (window.__tickerEpoch ?? 0) + 1;
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    const myEpoch = window.__tickerEpoch ?? 0;
+    const ticker = document.querySelector<HTMLElement>('[data-ticker]');
+    const track = ticker?.querySelector<HTMLElement>('[data-track]');
+    if (!ticker || !track) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    ticker.addEventListener('mouseenter', () => (window.__tickerPaused = true));
+    ticker.addEventListener('mouseleave', () => (window.__tickerPaused = false));
 
     // Only duplicate the item set (for a seamless loop) when it doesn't already fill the
     // ticker's width. Rendering two copies unconditionally used to make the last couple of
@@ -89,9 +118,10 @@ const buildTime = fmtUpdated(new Date());
       const half = singleWidth;
 
       function step(now: number) {
+        if (myEpoch !== window.__tickerEpoch) return; // a later page has taken over
         const dt = (now - last) / 1000;
         last = now;
-        if (!paused) {
+        if (!window.__tickerPaused) {
           x -= speed * dt;
           if (Math.abs(x) >= half) x += half;
           track!.style.transform = `translateX(${x}px)`;
@@ -107,8 +137,10 @@ const buildTime = fmtUpdated(new Date());
     const ids = ['bitcoin', 'ethereum', 'solana', 'tether'] as const;
     const jsLocale = ticker.dataset.locale === 'en' ? 'en-US' : 'ru-RU';
     async function poll() {
-      if (!paused) {
+      if (myEpoch !== window.__tickerEpoch) return;
+      if (!window.__tickerPaused) {
         const quotes = await fetchQuotes();
+        if (myEpoch !== window.__tickerEpoch) return; // navigated away during the fetch
         if (quotes) {
           for (const id of ids) {
             const q = quotes[id];
@@ -150,7 +182,7 @@ const buildTime = fmtUpdated(new Date());
       setTimeout(poll, 60000);
     }
     setTimeout(poll, 60000);
-  }
+  });
 </script>
 
 <style>

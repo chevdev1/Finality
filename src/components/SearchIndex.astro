@@ -32,24 +32,33 @@ const index = news.map((n) => ({
 </div>
 
 <script>
-  const overlay = document.querySelector<HTMLElement>('[data-search-overlay]');
-  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
-  const results = document.querySelector<HTMLElement>('[data-search-results]');
-  const dataEl = document.getElementById('search-index');
-  const index: { title: string; dek: string; section: string; url: string }[] = dataEl
-    ? JSON.parse(dataEl.textContent || '[]')
-    : [];
+  // open/close/render always re-query the live DOM rather than closing over elements
+  // captured once — that's what lets the single, page-load-spanning keydown listener below
+  // stay correct after a <ClientRouter /> navigation swaps in a whole new overlay/input/
+  // results triplet (and a new per-page search-index dataset) without needing to know
+  // about it.
+  function getOverlay() {
+    return document.querySelector<HTMLElement>('[data-search-overlay]');
+  }
+  function getInput() {
+    return document.querySelector<HTMLInputElement>('[data-search-input]');
+  }
+  function getResults() {
+    return document.querySelector<HTMLElement>('[data-search-results]');
+  }
 
   function open() {
-    overlay?.removeAttribute('hidden');
-    input?.focus();
+    getOverlay()?.removeAttribute('hidden');
+    getInput()?.focus();
   }
   function close() {
-    overlay?.setAttribute('hidden', '');
+    getOverlay()?.setAttribute('hidden', '');
+    const input = getInput();
     if (input) input.value = '';
     render([]);
   }
-  function render(items: typeof index) {
+  function render(items: { title: string; dek: string; section: string; url: string }[]) {
+    const results = getResults();
     if (!results) return;
     results.innerHTML = items
       .slice(0, 8)
@@ -60,22 +69,46 @@ const index = news.map((n) => ({
       .join('');
   }
 
-  document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      open();
-    }
-    if (e.key === 'Escape') close();
-  });
+  // Attached exactly once for the whole session — document itself isn't replaced by
+  // <ClientRouter />, so re-registering this on every 'astro:page-load' would stack up one
+  // duplicate keydown handler per navigation (each firing open()/close() again on the same
+  // keypress).
+  if (!window.__financeSearchKeysInit) {
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        open();
+      }
+      if (e.key === 'Escape') close();
+    });
+    window.__financeSearchKeysInit = true;
+  }
 
-  document.querySelectorAll('[data-search-trigger]').forEach((el) => el.addEventListener('click', open));
-  overlay?.addEventListener('click', (e) => {
-    if (e.target === overlay) close();
-  });
-  input?.addEventListener('input', () => {
-    const q = input.value.trim().toLowerCase();
-    if (!q) return render([]);
-    render(index.filter((i) => i.title.toLowerCase().includes(q) || i.dek.toLowerCase().includes(q)));
+  declare global {
+    interface Window {
+      __financeSearchKeysInit?: boolean;
+    }
+  }
+
+  // Everything below IS page-specific (this page's own search-index dataset, this page's
+  // own overlay/input/trigger elements) and must be re-wired on every navigation.
+  document.addEventListener('astro:page-load', () => {
+    const overlay = getOverlay();
+    const input = getInput();
+    const dataEl = document.getElementById('search-index');
+    const index: { title: string; dek: string; section: string; url: string }[] = dataEl
+      ? JSON.parse(dataEl.textContent || '[]')
+      : [];
+
+    document.querySelectorAll('[data-search-trigger]').forEach((el) => el.addEventListener('click', open));
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) return render([]);
+      render(index.filter((i) => i.title.toLowerCase().includes(q) || i.dek.toLowerCase().includes(q)));
+    });
   });
 </script>
 

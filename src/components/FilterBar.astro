@@ -39,6 +39,9 @@ const emptyLabel = locale === 'en' ? 'No results for this search or category.' :
 </div>
 
 <script>
+  // Re-run per navigation: with <ClientRouter />, .filter-bar elements are destroyed and
+  // re-created on every page swap, so this needs 'astro:page-load' rather than one-shot
+  // execution at parse time (which would only ever cover the very first page).
   function initFilterBar(bar: HTMLElement) {
     // Astro emits this component's own <script>/<style> tags as siblings right after its
     // markup, so the actual target container isn't always literally the next element — walk
@@ -88,7 +91,9 @@ const emptyLabel = locale === 'en' ? 'No results for this search or category.' :
     });
   }
 
-  document.querySelectorAll<HTMLElement>('.filter-bar').forEach(initFilterBar);
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('.filter-bar').forEach(initFilterBar);
+  });
 </script>
 
 <style>

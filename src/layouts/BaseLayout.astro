@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Ticker from '../components/Ticker.astro';
 import SearchIndex from '../components/SearchIndex.astro';
 import { UI, altPath, type Locale } from '../lib/i18n';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -102,6 +103,8 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
     {allSchema.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
+
+    <ClientRouter />
   </head>
   <body>
     <Ticker locale={locale} />

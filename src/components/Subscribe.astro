@@ -18,17 +18,19 @@ const t = UI[locale];
 <div class="toast" data-toast hidden role="status">{t.subscribeToast}</div>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>('[data-subscribe-form]');
-  const toast = document.querySelector<HTMLElement>('[data-toast]');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    form.reset();
-    toast?.removeAttribute('hidden');
-    toast?.classList.add('in');
-    setTimeout(() => {
-      toast?.classList.remove('in');
-      setTimeout(() => toast?.setAttribute('hidden', ''), 150);
-    }, 2200);
+  document.addEventListener('astro:page-load', () => {
+    const form = document.querySelector<HTMLFormElement>('[data-subscribe-form]');
+    const toast = document.querySelector<HTMLElement>('[data-toast]');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.reset();
+      toast?.removeAttribute('hidden');
+      toast?.classList.add('in');
+      setTimeout(() => {
+        toast?.classList.remove('in');
+        setTimeout(() => toast?.setAttribute('hidden', ''), 150);
+      }, 2200);
+    });
   });
 </script>
 

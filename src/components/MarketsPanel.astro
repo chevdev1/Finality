@@ -56,8 +56,28 @@ const rows = [
 <script>
   import { fetchQuotes, fetchStablecoinSupply, fmtUsd, fmtPct, fmtCompactUsd } from '../lib/coingecko-client';
 
-  const panel = document.querySelector<HTMLElement>('[data-markets]');
-  if (panel) {
+  // MarketsPanel only lives on the homepage, so with <ClientRouter /> a reader bouncing
+  // home -> section -> home repeatedly would otherwise stack up one setInterval per visit,
+  // each still fetching every 60s against a panel element detached from the live page.
+  // Stashing the id on window (survives across this module re-running) and clearing it
+  // right before every swap keeps exactly one interval alive at a time.
+  declare global {
+    interface Window {
+      __marketsIntervalId?: ReturnType<typeof setInterval>;
+    }
+  }
+
+  document.addEventListener('astro:before-swap', () => {
+    if (window.__marketsIntervalId !== undefined) {
+      clearInterval(window.__marketsIntervalId);
+      window.__marketsIntervalId = undefined;
+    }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    const panel = document.querySelector<HTMLElement>('[data-markets]');
+    if (!panel) return;
+
     async function refresh() {
       if (document.hidden) return;
       const [quotes, stableSupply] = await Promise.all([fetchQuotes(), fetchStablecoinSupply()]);
@@ -81,8 +101,8 @@ const rows = [
         if (value) value.textContent = fmtCompactUsd(stableSupply);
       }
     }
-    setInterval(refresh, 60000);
-  }
+    window.__marketsIntervalId = setInterval(refresh, 60000);
+  });
 </script>
 
 <style>
