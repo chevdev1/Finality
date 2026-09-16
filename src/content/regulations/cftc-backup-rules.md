@@ -8,8 +8,8 @@ summary_en: "CFTC chair Michael Selig has directed staff to draft crypto market 
 stage: early
 statusLabel: "Внутренняя проработка, формального проекта правил ещё нет"
 statusLabel_en: "Internal drafting stage — no formal proposed rule yet"
-nextStep: "Ждёт исхода голосования по CLARITY 15 сентября"
-nextStep_en: "Awaiting the outcome of the September 15 CLARITY vote"
+nextStep: "Условие плана Б наступило — CLARITY провалил голосование 15 сентября; о конкретных следующих шагах CFTC пока не сообщалось"
+nextStep_en: "The fallback condition has now occurred — CLARITY failed its September 15 vote; CFTC hasn't announced concrete next steps yet"
 section: policy
 relatedArticle: cftc-backup-crypto-rules-clarity-stalls
 sources:

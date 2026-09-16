@@ -6,14 +6,14 @@ body_en: "US Congress / Senate"
 summary: "Билль о разграничении полномочий SEC и CFTC над крипторынком — центральный законопроект о структуре рынка, вокруг которого выстроена вся остальная регуляторная неопределённость 2026 года."
 summary_en: "A bill dividing SEC and CFTC authority over the crypto market — the central market-structure legislation that most of 2026's regulatory uncertainty hangs on."
 stage: stalled
-statusLabel: "Забуксовал в Сенате — под вопросом, успеют ли принять в 2026 году"
-statusLabel_en: "Stalled in the Senate — increasingly in doubt for 2026"
-nextStep: "Процедурное голосование 15 сентября (нужно 60 голосов, чтобы преодолеть филибастер)"
-nextStep_en: "Procedural vote on September 15 (60 votes needed to break a filibuster)"
+statusLabel: "Провалил процедурное голосование 15 сентября — заморожен минимум до 2027 года"
+statusLabel_en: "Failed its September 15 cloture vote — frozen until at least 2027"
+nextStep: "Формальный путь к пересмотру есть, но лидеру большинства пришлось бы заново собирать коалицию с нуля"
+nextStep_en: "A formal path to reconsideration exists, but the majority leader would have to rebuild the coalition from scratch"
 section: policy
-relatedArticle: clarity-market-structure-test-vote
+relatedArticle: clarity-act-cloture-vote-fails
 sources:
-  - url: "https://www.cnbc.com/2026/09/01/crypto-enters-september-with-policy-gamble-hanging-by-a-thread.html"
-    title: "CNBC: Crypto enters September with legislative policy gamble hanging by a thread"
-updatedAt: 2026-09-14T00:00:00Z
+  - url: "https://www.cryptotimes.io/2026/09/16/clarity-act-fails-in-senate-as-cloture-vote-falls-short-of-60-votes/"
+    title: "The Crypto Times: CLARITY Act Fails in Senate as Cloture Vote Falls Short of 60 Votes"
+updatedAt: 2026-09-16T00:00:00Z
 ---

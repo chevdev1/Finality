@@ -22,6 +22,7 @@ sources:
   - url: "https://coinmarketcap.com/cmc-ai/ethereum/latest-updates/"
     title: "CoinMarketCap: Ethereum latest updates"
 related:
+  - ethereum-hegota-eip-tier-list
   - ethereum-privacy-stewards-roadmap
   - ethereum-staking-etfs-non-securities
   - ai-agents-58-percent-trading-volume

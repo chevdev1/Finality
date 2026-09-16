@@ -1,14 +1,14 @@
 ---
 date: 2026-09-15T00:00:00Z
 precision: day
-title: "Сенат США голосует по биллю CLARITY"
-title_en: "US Senate votes on the CLARITY bill"
-description: "Процедурное голосование, нужное для преодоления филибастера — 60 голосов «за». Индустрия всё больше сомневается, что билль о структуре крипторынка успеют принять в 2026 году."
-description_en: "A procedural vote needed to break a filibuster — 60 votes required. Industry sentiment is increasingly that the crypto market-structure bill won't pass in 2026."
+title: "Сенат США голосует по биллю CLARITY — голосование провалено"
+title_en: "US Senate votes on the CLARITY bill — the vote failed"
+description: "Процедурное голосование не набрало нужных 60 голосов «за» — билль о структуре крипторынка фактически заморожен до 2027 года."
+description_en: "The procedural vote came up short of the 60 votes needed — the crypto market-structure bill is effectively frozen until 2027."
 section: policy
 status: confirmed
-relatedArticle: clarity-market-structure-test-vote
+relatedArticle: clarity-act-cloture-vote-fails
 sources:
-  - url: "https://www.cnbc.com/2026/09/01/crypto-enters-september-with-policy-gamble-hanging-by-a-thread.html"
-    title: "CNBC: Crypto enters September with legislative policy gamble hanging by a thread"
+  - url: "https://www.cryptotimes.io/2026/09/16/clarity-act-fails-in-senate-as-cloture-vote-falls-short-of-60-votes/"
+    title: "The Crypto Times: CLARITY Act Fails in Senate as Cloture Vote Falls Short of 60 Votes"
 ---
