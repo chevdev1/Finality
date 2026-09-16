@@ -53,10 +53,10 @@ function fmtDate(d: Date) {
 <style>
   .row {
     display: grid;
-    grid-template-columns: 76px 52px 90px 1fr auto;
+    grid-template-columns: 120px 52px 90px 1fr auto;
     align-items: center;
     gap: 16px;
-    padding: 10px 0;
+    padding: 14px 0;
     border-bottom: 1px solid var(--rule);
     text-decoration: none;
     color: var(--ink);
@@ -70,8 +70,8 @@ function fmtDate(d: Date) {
     display: none;
   }
   .thumb {
-    width: 76px;
-    height: 76px;
+    width: 120px;
+    height: 120px;
     border: 1px solid var(--rule);
     background: var(--paper);
     overflow: hidden;
@@ -136,16 +136,18 @@ function fmtDate(d: Date) {
   .dek {
     color: var(--graphite);
     font-size: 13px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   .section {
     flex-shrink: 0;
   }
   @media (max-width: 640px) {
     .row {
-      grid-template-columns: 56px 1fr;
+      grid-template-columns: 84px 1fr;
       grid-template-areas:
         'thumb body'
         'thumb section';
@@ -153,8 +155,8 @@ function fmtDate(d: Date) {
     }
     .thumb {
       grid-area: thumb;
-      width: 56px;
-      height: 56px;
+      width: 84px;
+      height: 84px;
       align-self: start;
     }
     .time,
