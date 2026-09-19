@@ -28,6 +28,7 @@ sources:
     title: "CoinDesk: Bitcoin network used by exchanges hit by $320M exploit"
   - url: "https://x.com/Liquid_BTC/status/2097404704028545175"
     title: "Официальный отчёт Liquid Network об инциденте"
+    title_en: "Liquid Network: official incident report"
 related:
   - crypto-hacks-3-6-billion-18-months
   - stolen-keys-not-code-bugs-defi-losses

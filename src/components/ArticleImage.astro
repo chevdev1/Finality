@@ -3,9 +3,10 @@ import type { PexelsPhoto } from '../lib/pexels-client';
 
 interface Props {
   photo: PexelsPhoto;
+  creditLabel?: string;
 }
 
-const { photo } = Astro.props;
+const { photo, creditLabel = 'Фото' } = Astro.props;
 ---
 
 <figure class="figure">
@@ -18,7 +19,7 @@ const { photo } = Astro.props;
     decoding="async"
   />
   <figcaption class="kicker">
-    Фото: <a href={photo.photographerUrl} target="_blank" rel="noopener">{photo.photographer}</a> / <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>
+    {creditLabel}: <a href={photo.photographerUrl} target="_blank" rel="noopener">{photo.photographer}</a> / <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>
   </figcaption>
 </figure>
 

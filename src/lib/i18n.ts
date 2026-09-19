@@ -77,8 +77,6 @@ export const UI: Record<Locale, Record<string, string>> = {
     copyright: '© 2026 Finality',
     langSwitch: 'EN',
     breadcrumbHome: 'Finality',
-    notTranslatedNotice:
-      'Интерфейс уже на английском, но тексты статей пока только на русском — перевод материалов впереди.',
   },
   en: {
     projects: 'Projects',
@@ -109,8 +107,6 @@ export const UI: Record<Locale, Record<string, string>> = {
     copyright: '© 2026 Finality',
     langSwitch: 'RU',
     breadcrumbHome: 'Finality',
-    notTranslatedNotice:
-      'The interface is in English, but article text is still Russian-only — translated stories are coming.',
   },
 };
 
@@ -127,6 +123,9 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   const isHome = bare === '/';
   const isAbout = bare === '/about/' || bare === '/about';
   const isProjects = bare === '/projects/' || bare === '/projects';
+  const articleMatch = bare.match(/^\/([a-z]+)\/([a-z0-9-]+)\/$/);
+  const isArticle = !!articleMatch && (SECTIONS as readonly string[]).includes(articleMatch[1]);
+  const isAuthor = /^\/author\/[a-z0-9-]+\/$/.test(bare);
   const isCalendar = bare === '/calendar/' || bare === '/calendar';
   const isTracker = bare === '/regulation/' || bare === '/regulation';
   const isGlossary = bare === '/glossary/' || bare === '/glossary';
@@ -140,7 +139,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
     if (isCalendar) return { href: '/en/calendar/', exact: true };
     if (isTracker) return { href: '/en/regulation/', exact: true };
     if (isGlossary) return { href: '/en/glossary/', exact: true };
-    if (isSection) return { href: `/en${bare}`, exact: true };
+    if (isSection || isArticle || isAuthor) return { href: `/en${bare}`, exact: true };
     return { href: '/en/', exact: false };
   }
   if (isHome) return { href: '/', exact: true };
@@ -149,6 +148,6 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   if (isCalendar) return { href: '/calendar/', exact: true };
   if (isTracker) return { href: '/regulation/', exact: true };
   if (isGlossary) return { href: '/glossary/', exact: true };
-  if (isSection) return { href: bare, exact: true };
+  if (isSection || isArticle || isAuthor) return { href: bare, exact: true };
   return { href: '/', exact: false };
 }

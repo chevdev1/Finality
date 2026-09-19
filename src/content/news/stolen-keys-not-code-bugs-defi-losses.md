@@ -23,6 +23,7 @@ checks:
 sources:
   - url: "https://www.certik.com/"
     title: "CertiK — исследования безопасности Web3"
+    title_en: "CertiK: Web3 security research"
 related:
   - crypto-hacks-3-6-billion-18-months
   - liquid-reserve-wallet-btc-outflow

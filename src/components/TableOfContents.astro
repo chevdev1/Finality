@@ -6,14 +6,15 @@ interface Heading {
 }
 interface Props {
   headings: Heading[];
+  label?: string;
 }
-const { headings } = Astro.props;
+const { headings, label = 'На этой странице' } = Astro.props;
 const items = headings.filter((h) => h.depth === 2);
 ---
 
 {items.length > 1 && (
   <details class="toc" open>
-    <summary>На этой странице</summary>
+    <summary>{label}</summary>
     <nav>
       <ol>
         {items.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}

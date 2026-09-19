@@ -45,7 +45,7 @@ const sectionVideo = (await getCollection('videos'))
       itemListElement: news.map((n, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `/${n.data.section}/${n.id}/`,
+        url: `/en/${n.data.section}/${n.id}/`,
       })),
     },
   ]}
@@ -54,7 +54,6 @@ const sectionVideo = (await getCollection('videos'))
     <nav class="crumbs"><a href="/en/">Finality</a> / {sectionLabel}</nav>
     <h1 class="section-title">{sectionLabel}</h1>
     <p class="intro">{SECTION_INTROS_EN[section]}</p>
-    <p class="notice">{t.notTranslatedNotice}</p>
     {sectionVideo.length > 0 && (
       <div class="section-video">
         <VideoWidget items={sectionVideo} heading="Related video" locale="en" />
@@ -65,7 +64,7 @@ const sectionVideo = (await getCollection('videos'))
         <ArticleRow
           title={n.data.title_en ?? n.data.title}
           dek={n.data.dek_en ?? n.data.dek}
-          href={`/${n.data.section}/${n.id}/`}
+          href={`/en/${n.data.section}/${n.id}/`}
           section={sectionLabel}
           publishedAt={n.data.publishedAt}
           checksCount={n.data.checks.length}

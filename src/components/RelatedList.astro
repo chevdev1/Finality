@@ -9,16 +9,19 @@ interface Item {
 }
 interface Props {
   items: Item[];
+  heading?: string;
+  locale?: 'ru' | 'en';
 }
-const { items } = Astro.props;
+const { items, heading = 'Связанные материалы', locale = 'ru' } = Astro.props;
+const meterLabel = (n: number) => (locale === 'en' ? `${n} of 6 checks passed` : `${n} из 6 проверок пройдено`);
 ---
 
 {items.length > 0 && (
   <div class="related">
-    <span class="kicker heading">Связанные материалы</span>
+    <span class="kicker heading">{heading}</span>
     {items.map((i) => (
       <a class="item" href={i.href}>
-        <VerificationMeter filled={i.checksCount} size={9} />
+        <VerificationMeter filled={i.checksCount} size={9} label={meterLabel(i.checksCount)} />
         <span class="title">{i.title}</span>
       </a>
     ))}

@@ -21,7 +21,7 @@ const articleItems = news.map((n) => ({
   title: locale === 'en' ? (n.data.title_en ?? n.data.title) : n.data.title,
   dek: locale === 'en' ? (n.data.dek_en ?? n.data.dek) : n.data.dek,
   section: sectionLabels[n.data.section],
-  url: `/${n.data.section}/${n.id}/`,
+  url: `${locale === 'en' ? '/en' : ''}/${n.data.section}/${n.id}/`,
 }));
 
 // The site grew three more real destinations (Calendar, Regulatory Tracker, Glossary) since

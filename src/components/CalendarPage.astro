@@ -100,7 +100,7 @@ function monthBadge(d: Date, precision: 'day' | 'quarter' | 'year') {
       {events.map((e) => {
         const day = dayBadge(e.data.date, e.data.precision);
         const month = monthBadge(e.data.date, e.data.precision);
-        const articleHref = e.data.relatedArticle ? `/${e.data.section}/${e.data.relatedArticle}/` : null;
+        const articleHref = e.data.relatedArticle ? `${locale === 'en' ? '/en' : ''}/${e.data.section}/${e.data.relatedArticle}/` : null;
         return (
           <article class="event">
             <div class:list={['date-badge', { fuzzy: e.data.precision !== 'day' }]}>

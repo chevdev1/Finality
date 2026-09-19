@@ -49,9 +49,6 @@ function fmtUpdated(d: Date) {
   title="Finality — crypto news with a visible degree of confidence"
   description="Crypto and fintech news with a verification log on every story: the more cells are filled in, the harder the fact."
 >
-  <div class="wrap">
-    <p class="notice">{t.notTranslatedNotice}</p>
-  </div>
   <div class="wrap layout">
     <section class="hero">
       <div class="hero-top">
@@ -59,7 +56,7 @@ function fmtUpdated(d: Date) {
         <span class="status-word">{STATUS_LABELS_EN[hero.data.status]}</span>
         <span class="data">{t.updated} {fmtUpdated(hero.data.updatedAt)}</span>
       </div>
-      <h1><a href={`/${hero.data.section}/${hero.id}/`}>{hero.data.title_en ?? hero.data.title}</a></h1>
+      <h1><a href={`/en/${hero.data.section}/${hero.id}/`}>{hero.data.title_en ?? hero.data.title}</a></h1>
       <p class="lead">{hero.data.dek_en ?? hero.data.dek}</p>
       <VerificationMeter filled={hero.data.checks.length} animate size={16} label={`${hero.data.checks.length} of 6 checks passed`} />
     </section>
@@ -79,7 +76,7 @@ function fmtUpdated(d: Date) {
         <ArticleRow
           title={n.data.title_en ?? n.data.title}
           dek={n.data.dek_en ?? n.data.dek}
-          href={`/${n.data.section}/${n.id}/`}
+          href={`/en/${n.data.section}/${n.id}/`}
           section={SECTION_LABELS_EN[n.data.section]}
           publishedAt={n.data.publishedAt}
           checksCount={n.data.checks.length}

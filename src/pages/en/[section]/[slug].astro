@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import ArticlePage from '../../../components/ArticlePage.astro';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  const bodies = await getCollection('newsEn');
+  // Only articles that actually have a translated body get an English page — a missing
+  // translation is a 404 rather than an English shell wrapped around Russian prose.
+  return news
+    .map((entry) => ({ entry, enEntry: bodies.find((b) => b.id === entry.id) }))
+    .filter((x) => !!x.enEntry)
+    .map(({ entry, enEntry }) => ({
+      params: { section: entry.data.section, slug: entry.id },
+      props: { entry, enEntry },
+    }));
+}
+
+const { entry, enEntry } = Astro.props;
+---
+
+<ArticlePage entry={entry} enEntry={enEntry} locale="en" />

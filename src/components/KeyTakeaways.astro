@@ -1,12 +1,13 @@
 ---
 interface Props {
   items: string[];
+  label?: string;
 }
-const { items } = Astro.props;
+const { items, label = 'Главное' } = Astro.props;
 ---
 
 <div class="takeaways">
-  <span class="kicker">Главное</span>
+  <span class="kicker">{label}</span>
   <ul>
     {items.map((item) => <li>{item}</li>)}
   </ul>

@@ -8,13 +8,13 @@ export async function GET(context) {
   );
   return rss({
     title: 'Finality',
-    description: 'Crypto and fintech news with a verification log on every story. Interface is in English; article text is still Russian-only.',
+    description: 'Crypto and fintech news with a verification log on every story. Full English edition.',
     site: context.site,
     items: news.map((n) => ({
       title: n.data.title_en ?? n.data.title,
       description: `${n.data.dek_en ?? n.data.dek} (${n.data.checks.length}/6 checks passed, status: ${STATUS_LABELS_EN[n.data.status]})`,
       pubDate: n.data.publishedAt,
-      link: `/${n.data.section}/${n.id}/`,
+      link: `/en/${n.data.section}/${n.id}/`,
       categories: [SECTION_LABELS_EN[n.data.section]],
     })),
   });

@@ -21,6 +21,7 @@ checks:
 sources:
   - url: "https://newsroom.paypal-corp.com/news-cryptocurrency"
     title: "PayPal Newsroom: криптовалютные новости"
+    title_en: "PayPal Newsroom: crypto news"
 related:
   - visa-stablecoin-settlement-20b
   - us-bank-usbdc-stablecoin-stellar-pilot

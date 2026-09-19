@@ -23,6 +23,7 @@ checks:
 sources:
   - url: "https://ir.usbank.com/news-events/news/news-details/2026/U-S--Bank-Launches-USBDC-Stablecoin/default.aspx"
     title: "U.S. Bancorp: официальный релиз о запуске USBDC"
+    title_en: "U.S. Bancorp: official release on the USBDC launch"
   - url: "https://cointelegraph.com/news/us-bank-launches-usbdc-stablecoin-with-live-cross-border-payment"
     title: "Cointelegraph: U.S. Bank moves USBDC onchain in cross-border pilot"
 related:

@@ -32,7 +32,7 @@ const news = defineCollection({
     author: z.string(),
     takeaways: z.array(z.string()).length(3),
     checks: z.array(checkItem).max(6).default([]),
-    sources: z.array(z.object({ url: z.string().url(), title: z.string() })).min(1),
+    sources: z.array(z.object({ url: z.string().url(), title: z.string(), title_en: z.string().optional() })).min(1),
     related: z.array(z.string()).default([]),
     sponsored: z.literal(false).default(false),
     featured: z.boolean().default(false),
@@ -152,4 +152,14 @@ const glossary = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight, videos, events, regulations, glossary };
+// English article bodies. One file per article, same slug as its src/content/news counterpart;
+// frontmatter is only what actually needs translating (takeaways) — everything structural
+// (dates, checks, sources, author, section) stays single-sourced in the Russian entry.
+const newsEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news-en' }),
+  schema: z.object({
+    takeaways: z.array(z.string()).length(3),
+  }),
+});
+
+export const collections = { news, authors, spotlight, videos, events, regulations, glossary, newsEn };

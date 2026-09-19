@@ -28,6 +28,7 @@ checks:
 sources:
   - url: "https://docs.liquid.net/"
     title: "Документация Liquid Network"
+    title_en: "Liquid Network documentation"
 related:
   - liquid-reserve-wallet-btc-outflow
   - stolen-keys-not-code-bugs-defi-losses

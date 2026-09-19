@@ -91,7 +91,7 @@ function fmtUpdated(d: Date) {
 
     <div class="items">
       {regulations.map((r) => {
-        const articleHref = r.data.relatedArticle ? `/${r.data.section}/${r.data.relatedArticle}/` : null;
+        const articleHref = r.data.relatedArticle ? `${locale === 'en' ? '/en' : ''}/${r.data.section}/${r.data.relatedArticle}/` : null;
         return (
           <article class="item">
             <div class="item-head">

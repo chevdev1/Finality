@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleRow from '../../../components/ArticleRow.astro';
+import { SECTION_LABELS_EN } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((author) => ({ params: { name: author.id }, props: { author } }));
+}
+
+const { author } = Astro.props;
+const news = (await getCollection('news'))
+  .filter((n) => n.data.author === author.id)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: author.data.name,
+      jobTitle: author.data.role_en ?? author.data.role,
+      description: author.data.bio_en ?? author.data.bio,
+      inLanguage: 'en',
+      sameAs: author.data.sameAs,
+    },
+  },
+];
+---
+
+<BaseLayout locale="en" title={`${author.data.name} — Finality`} description={author.data.bio_en ?? author.data.bio} jsonLd={jsonLd}>
+  <div class="wrap author-page">
+    <header class="author-head">
+      <span class="avatar" aria-hidden="true">{author.data.initials}</span>
+      <div>
+        <h1>{author.data.name}</h1>
+        <p class="kicker">{author.data.role_en ?? author.data.role}</p>
+        <p class="bio">{author.data.bio_en ?? author.data.bio}</p>
+      </div>
+    </header>
+    <div class="feed">
+      <span class="kicker">All stories ({news.length})</span>
+      {news.map((n) => (
+        <ArticleRow
+          title={n.data.title_en ?? n.data.title}
+          dek={n.data.dek_en ?? n.data.dek}
+          href={`/en/${n.data.section}/${n.id}/`}
+          section={SECTION_LABELS_EN[n.data.section]}
+          publishedAt={n.data.publishedAt}
+          checksCount={n.data.checks.length}
+          slug={n.id}
+          imageQuery={n.data.imageQuery}
+          locale="en"
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .author-page {
+    padding-block: 24px 48px;
+    max-width: 720px;
+  }
+  .author-head {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--ledger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-data);
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  h1 {
+    font-size: var(--step-h2);
+  }
+  .bio {
+    color: var(--graphite);
+    max-width: 60ch;
+  }
+</style>

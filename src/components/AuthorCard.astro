@@ -5,11 +5,12 @@ interface Props {
   bio: string;
   initials: string;
   slug: string;
+  locale?: 'ru' | 'en';
 }
-const { name, role, bio, initials, slug } = Astro.props;
+const { name, role, bio, initials, slug, locale = 'ru' } = Astro.props;
 ---
 
-<a class="card" href={`/author/${slug}/`}>
+<a class="card" href={`${locale === 'en' ? '/en' : ''}/author/${slug}/`}>
   <span class="avatar" aria-hidden="true">{initials}</span>
   <span class="text">
     <span class="name">{name}</span>

@@ -23,6 +23,7 @@ checks:
 sources:
   - url: "https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21951.html"
     title: "Visa: официальный пресс-релиз о запуске расчётов в стейблкоинах"
+    title_en: "Visa: official press release on stablecoin settlement"
 related:
   - mastercard-agent-connect-launch
   - paypal-pyusdx-stablecoin-launch
