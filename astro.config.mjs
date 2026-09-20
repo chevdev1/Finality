@@ -31,6 +31,13 @@ for (const [section, time] of Object.entries(newestPerSection)) {
   lastmodByPath.set(`/${section}/`, time);
   lastmodByPath.set(`/en/${section}/`, time);
 }
+for (const file of fs.readdirSync(path.resolve('./src/content/topics'))) {
+  const updated = /^updatedAt:\s*(\S+)/m.exec(fs.readFileSync(path.resolve('./src/content/topics', file), 'utf8'))?.[1];
+  const time = updated ? new Date(updated).getTime() : NaN;
+  if (Number.isNaN(time)) continue;
+  lastmodByPath.set(`/topic/${file.slice(0, -3)}/`, time);
+  lastmodByPath.set(`/en/topic/${file.slice(0, -3)}/`, time);
+}
 lastmodByPath.set('/', newestOverall);
 lastmodByPath.set('/en/', newestOverall);
 

@@ -6,6 +6,7 @@ import SearchIndex from '../components/SearchIndex.astro';
 import { UI, altPath, type Locale } from '../lib/i18n';
 import { fitTitle, fitDescription } from '../lib/seo';
 import { ClientRouter } from 'astro:transitions';
+import { allTopicLinks } from '../lib/topics';
 
 interface Props {
   title: string;
@@ -25,6 +26,7 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const pathname = canonicalPath ?? Astro.url.pathname;
 const canonical = `${siteUrl}${pathname}`;
 const resolvedOgImage = ogImage ?? `${siteUrl}${locale === 'en' ? '/og-default-en.png' : '/og-default.png'}`;
+const topicLinks = await allTopicLinks(locale);
 const seoTitle = fitTitle(title);
 const seoDescription = fitDescription(description);
 const ogLocale = locale === 'en' ? 'en_US' : 'ru_RU';
@@ -87,7 +89,10 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
       })();
     </script>
     <title>{seoTitle}</title>
+    <link rel="preconnect" href="https://images.pexels.com" crossorigin />
     <meta name="description" content={seoDescription} />
+    {import.meta.env.PUBLIC_GSC_VERIFICATION && <meta name="google-site-verification" content={import.meta.env.PUBLIC_GSC_VERIFICATION} />}
+    {import.meta.env.PUBLIC_BING_VERIFICATION && <meta name="msvalidate.01" content={import.meta.env.PUBLIC_BING_VERIFICATION} />}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <link rel="canonical" href={canonical} />
     <link
@@ -136,6 +141,7 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
           <a href={locale === 'ru' ? '/calendar/' : '/en/calendar/'}>{t.calendar}</a>
           <a href={locale === 'ru' ? '/regulation/' : '/en/regulation/'}>{t.tracker}</a>
           <a href={locale === 'ru' ? '/glossary/' : '/en/glossary/'}>{t.glossary}</a>
+          {topicLinks.map((l) => <a href={l.href}>{l.label}</a>)}
         </nav>
         <p>{t.footerText} <a href={locale === 'ru' ? '/about/' : '/en/about/'}>{t.footerAboutLink}</a>.</p>
         <p class="kicker">{t.copyright}</p>

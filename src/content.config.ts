@@ -137,6 +137,27 @@ const regulations = defineCollection({
   }),
 });
 
+const topics = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/topics' }),
+  schema: z.object({
+    title: z.string(),
+    title_en: z.string(),
+    seoTitle: z.string(),
+    seoTitle_en: z.string(),
+    description: z.string(),
+    description_en: z.string(),
+    intro: z.string(),
+    intro_en: z.string(),
+    // Slugs from the `news` collection, in reading order — chosen by hand, not keyword-matched,
+    // so a hub never lists an article that merely mentions the word in passing.
+    articles: z.array(z.string()).min(1),
+    regulations: z.array(z.string()).default([]),
+    glossary: z.array(z.string()).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string(), q_en: z.string(), a_en: z.string() })).min(1),
+    updatedAt: z.coerce.date(),
+  }),
+});
+
 const glossary = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/glossary' }),
   schema: z.object({
@@ -162,4 +183,4 @@ const newsEn = defineCollection({
   }),
 });
 
-export const collections = { news, authors, spotlight, videos, events, regulations, glossary, newsEn };
+export const collections = { news, authors, spotlight, videos, events, regulations, glossary, newsEn, topics };

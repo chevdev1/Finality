@@ -1,0 +1,257 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleRow from './ArticleRow.astro';
+import type { Locale } from '../lib/i18n';
+import { SECTION_LABELS_EN } from '../lib/i18n';
+import { SECTION_LABELS as SECTION_LABELS_RU } from '../lib/labels';
+
+interface Props {
+  topic: CollectionEntry<'topics'>;
+  locale?: Locale;
+}
+const { topic, locale = 'ru' } = Astro.props;
+const en = locale === 'en';
+const prefix = en ? '/en' : '';
+const sectionLabels = en ? SECTION_LABELS_EN : SECTION_LABELS_RU;
+const d = topic.data;
+
+const L = en
+  ? { stories: 'Our reporting', faq: 'Frequently asked questions', tracker: 'Where it stands in the tracker', glossary: 'Terms', updated: 'Updated', more: 'Related topics', trackerLink: 'Open the Regulatory Tracker →', crumbsTopics: 'Topics' }
+  : { stories: 'Наши материалы', faq: 'Частые вопросы', tracker: 'Статус в трекере', glossary: 'Термины', updated: 'Обновлено', more: 'Смежные темы', trackerLink: 'Открыть трекер регулирования →', crumbsTopics: 'Темы' };
+
+const allNews = await getCollection('news');
+const enIds = new Set((await getCollection('newsEn')).map((e) => e.id));
+const articles = d.articles
+  .map((id) => allNews.find((n) => n.id === id))
+  .filter((n): n is NonNullable<typeof n> => !!n && (!en || enIds.has(n.id)))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const regs = (await getCollection('regulations')).filter((r) => d.regulations.includes(r.id));
+const terms = (await getCollection('glossary')).filter((g) => d.glossary.includes(g.id));
+const others = (await getCollection('topics')).filter((t) => t.id !== topic.id);
+
+const title = en ? d.title_en : d.title;
+const url = `${prefix}/topic/${topic.id}/`;
+const faq = d.faq.map((f) => ({ q: en ? f.q_en : f.q, a: en ? f.a_en : f.a }));
+const fmt = (date: Date) => date.toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  locale={locale}
+  title={en ? d.seoTitle_en : d.seoTitle}
+  description={en ? d.description_en : d.description}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: title,
+      description: en ? d.description_en : d.description,
+      dateModified: d.updatedAt.toISOString(),
+      inLanguage: en ? 'en' : 'ru',
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: articles.map((n, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${prefix}/${n.data.section}/${n.id}/`,
+        })),
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Finality', item: `${Astro.site?.toString().replace(/\/$/, '')}${en ? '/en/' : '/'}` },
+        { '@type': 'ListItem', position: 2, name: title, item: `${Astro.site?.toString().replace(/\/$/, '')}${url}` },
+      ],
+    },
+  ]}
+>
+  <div class="wrap hub">
+    <nav class="crumbs"><a href={en ? '/en/' : '/'}>Finality</a> / {L.crumbsTopics} / {title}</nav>
+    <h1 class="title">{title}</h1>
+    <p class="meta data">{L.updated} {fmt(d.updatedAt)}</p>
+    <p class="intro">{en ? d.intro_en : d.intro}</p>
+
+    {regs.length > 0 && (
+      <section class="block">
+        <h2>{L.tracker}</h2>
+        <ul class="regs">
+          {regs.map((r) => (
+            <li>
+              <p class="reg-name">{en ? (r.data.name_en ?? r.data.name) : r.data.name}</p>
+              <p class="reg-status">{en ? (r.data.statusLabel_en ?? r.data.statusLabel) : r.data.statusLabel}</p>
+              {(en ? (r.data.nextStep_en ?? r.data.nextStep) : r.data.nextStep) && (
+                <p class="reg-next">→ {en ? (r.data.nextStep_en ?? r.data.nextStep) : r.data.nextStep}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+        <a class="more" href={`${prefix}/regulation/`}>{L.trackerLink}</a>
+      </section>
+    )}
+
+    <section class="block">
+      <h2>{L.stories}</h2>
+      <div class="feed">
+        {articles.map((n) => (
+          <ArticleRow
+            title={en ? (n.data.title_en ?? n.data.title) : n.data.title}
+            dek={en ? (n.data.dek_en ?? n.data.dek) : n.data.dek}
+            href={`${prefix}/${n.data.section}/${n.id}/`}
+            section={sectionLabels[n.data.section] ?? n.data.section}
+            publishedAt={n.data.publishedAt}
+            checksCount={n.data.checks.length}
+            slug={n.id}
+            imageQuery={n.data.imageQuery}
+            locale={locale}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>{L.faq}</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    {terms.length > 0 && (
+      <section class="block">
+        <h2>{L.glossary}</h2>
+        <ul class="chips">
+          {terms.map((g) => (
+            <li><a href={`${prefix}/glossary/#${g.id}`}>{en ? (g.data.term_en ?? g.data.term) : g.data.term}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {others.length > 0 && (
+      <section class="block">
+        <h2>{L.more}</h2>
+        <ul class="chips">
+          {others.map((t) => (
+            <li><a href={`${prefix}/topic/${t.id}/`}>{en ? t.data.title_en : t.data.title}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .hub {
+    padding-block: 24px 48px;
+    max-width: 860px;
+  }
+  .crumbs {
+    font-size: 13px;
+    color: var(--graphite);
+  }
+  .crumbs a {
+    color: var(--graphite);
+    text-decoration: none;
+  }
+  .title {
+    font-size: var(--step-h1);
+    margin-top: 8px;
+  }
+  .meta {
+    color: var(--graphite);
+    font-size: 12px;
+    margin: 6px 0 0;
+  }
+  .intro {
+    max-width: 68ch;
+    color: var(--graphite);
+    margin: 16px 0 32px;
+  }
+  .block {
+    margin-bottom: 40px;
+  }
+  .block h2 {
+    font-size: var(--step-h3);
+    margin-bottom: 12px;
+  }
+  .regs {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .regs li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .regs p {
+    margin: 0;
+  }
+  .reg-name {
+    font-weight: 700;
+  }
+  .reg-status,
+  .reg-next {
+    color: var(--graphite);
+    font-size: 14px;
+    max-width: 66ch;
+    margin-top: 4px;
+  }
+  .more {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .faq {
+    border-top: 1px solid var(--rule);
+  }
+  .faq details {
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .faq p {
+    margin: 10px 0 0;
+    color: var(--graphite);
+    max-width: 66ch;
+  }
+  .chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chips a {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .chips a:hover {
+    background: var(--paper);
+  }
+</style>

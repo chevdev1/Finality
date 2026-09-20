@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import TopicPage from '../../../components/TopicPage.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('topics')).map((topic) => ({ params: { slug: topic.id }, props: { topic } }));
+}
+const { topic } = Astro.props;
+---
+
+<TopicPage topic={topic} locale="en" />

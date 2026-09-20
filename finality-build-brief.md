@@ -1084,3 +1084,18 @@ GitHub-логина в аккаунте Vercel), поэтому авто-деп�
 - EN OG images: `/og/en/[section]/[slug].png`, `/og-default-en.png`.
 - Sitemap: hreflang alternates + real `lastmod` from `updatedAt`; Google News sitemap lists RU and EN.
 - Audit (144 pages): titles >65 chars 106→1, descriptions >165 62→0, duplicate titles 6→0.
+
+## 34. Topic hubs, FAQ, internal linking (SEO package 2)
+
+- New `topics` collection (`src/content/topics/*.md`, RU+EN fields in one file): `clarity-act`, `genius-act`, `stablecoin-regulation`. Articles are listed by hand (not keyword-matched), plus linked tracker entries and glossary terms.
+- Routes `/topic/[slug]/` and `/en/topic/[slug]/` via `TopicPage.astro`; `altPath()` treats them as exact pairs (hreflang + language switcher).
+- Each hub emits CollectionPage + ItemList, FAQPage (every FAQ answer is drawn from our published articles) and BreadcrumbList JSON-LD.
+- Internal links: article pages get a "Topic hubs" block, tracker rows link to their hubs, every page footer lists the hubs; hubs link back to articles, tracker, glossary and each other. Sitemap lastmod comes from the hub's `updatedAt`.
+- To add a hub: drop a new markdown file in `src/content/topics/`; keep the FAQ to facts already in our articles.
+
+## 35. Launch to search (SEO package 3)
+
+- `vercel.json`: immutable cache for `/_astro/*`, nosniff + referrer-policy. Article hero image has `fetchpriority="high"`; preconnect to images.pexels.com.
+- Search Console / Bing: set `PUBLIC_GSC_VERIFICATION` and `PUBLIC_BING_VERIFICATION` env vars (meta tags render only when set).
+- IndexNow: key file `public/<key>.txt`, `node scripts/indexnow.mjs https://<domain>` after `astro build` pings every sitemap URL.
+- Needs the owner: buy/attach the real domain (build `site` is still `https://finality.news`), verify it in Search Console and Bing Webmaster, submit `sitemap-index.xml` and `news-sitemap.xml`. Until then the Vercel demo URL carries canonical tags pointing to finality.news.

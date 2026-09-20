@@ -11,6 +11,7 @@ import TableOfContents from '../components/TableOfContents.astro';
 import { SECTION_LABELS, STATUS_LABELS } from '../lib/labels';
 import { SECTION_LABELS_EN, STATUS_LABELS_EN, type Locale } from '../lib/i18n';
 import { fetchThemedPhoto } from '../lib/pexels-client';
+import { topicLinksForArticle } from '../lib/topics';
 
 interface Props {
   entry: Awaited<ReturnType<typeof getCollection<'news'>>>[number];
@@ -32,6 +33,7 @@ const L = en
       photo: 'Photo',
       toc: 'On this page',
       related: 'Related stories',
+      topics: 'Topic hubs',
     }
   : {
       crumbsAria: 'Хлебные крошки',
@@ -42,6 +44,7 @@ const L = en
       photo: 'Фото',
       toc: 'На этой странице',
       related: 'Связанные материалы',
+      topics: 'Тематические подборки',
     };
 const sectionLabels = en ? SECTION_LABELS_EN : SECTION_LABELS;
 const statusLabels = en ? STATUS_LABELS_EN : STATUS_LABELS;
@@ -55,6 +58,7 @@ const author = await getEntry('authors', entry.data.author);
 // picture either way, per the brief's carve-out for this feature (see README "Article imagery").
 const photo = entry.data.imageQuery ? await fetchThemedPhoto(entry.data.imageQuery) : null;
 
+const topicLinks = await topicLinksForArticle(entry.id, locale);
 const news = await getCollection('news');
 const relatedEntries = entry.data.related
   .map((slug) => news.find((n) => n.id === slug))
@@ -175,6 +179,12 @@ const jsonLd = [
       </div>
       <VerificationLog checks={entry.data.checks} status={entry.data.status} locale={locale} />
       <RelatedList items={related} heading={L.related} locale={locale} />
+      {topicLinks.length > 0 && (
+        <div class="topic-links">
+          <span class="kicker">{L.topics}</span>
+          {topicLinks.map((t) => <a href={t.href}>{t.label} →</a>)}
+        </div>
+      )}
       {author && (
         <AuthorCard
           name={author.data.name}
@@ -190,6 +200,17 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
+  .topic-links {
+    display: grid;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .topic-links a {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+  }
   .article-layout {
     display: grid;
     grid-template-columns: 1fr 280px;

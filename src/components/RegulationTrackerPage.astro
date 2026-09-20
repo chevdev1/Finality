@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Locale } from '../lib/i18n';
 import { SECTION_LABELS_EN } from '../lib/i18n';
 import { SECTION_LABELS as SECTION_LABELS_RU } from '../lib/labels';
+import { topicLinksForRegulation } from '../lib/topics';
 
 interface Props {
   locale?: Locale;
@@ -67,6 +68,9 @@ function fmtUpdated(d: Date) {
     timeZone: 'UTC',
   });
 }
+const topicsByReg = new Map(
+  await Promise.all(regulations.map(async (r) => [r.id, await topicLinksForRegulation(r.id, locale)] as const))
+);
 ---
 
 <BaseLayout
@@ -113,6 +117,7 @@ function fmtUpdated(d: Date) {
             )}
             <div class="item-links">
               {articleHref && <a href={articleHref}>{T.readArticle}</a>}
+              {(topicsByReg.get(r.id) ?? []).map((t) => <a href={t.href}>{t.label} →</a>)}
               <a href={r.data.sources[0].url} target="_blank" rel="noopener" class="source-link">{T.source}: {r.data.sources[0].title} ↗</a>
               <span class="updated-note data">{T.updated} {fmtUpdated(r.data.updatedAt)}</span>
             </div>

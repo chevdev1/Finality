@@ -129,6 +129,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   const isCalendar = bare === '/calendar/' || bare === '/calendar';
   const isTracker = bare === '/regulation/' || bare === '/regulation';
   const isGlossary = bare === '/glossary/' || bare === '/glossary';
+  const isTopic = /^\/topic\/[a-z0-9-]+\/$/.test(bare);
   const sectionMatch = bare.match(/^\/([a-z]+)\/$/);
   const isSection = !!sectionMatch && (SECTIONS as readonly string[]).includes(sectionMatch[1]);
 
@@ -139,7 +140,7 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
     if (isCalendar) return { href: '/en/calendar/', exact: true };
     if (isTracker) return { href: '/en/regulation/', exact: true };
     if (isGlossary) return { href: '/en/glossary/', exact: true };
-    if (isSection || isArticle || isAuthor) return { href: `/en${bare}`, exact: true };
+    if (isSection || isArticle || isAuthor || isTopic) return { href: `/en${bare}`, exact: true };
     return { href: '/en/', exact: false };
   }
   if (isHome) return { href: '/', exact: true };
@@ -148,6 +149,6 @@ export function altPath(pathname: string, targetLocale: Locale): { href: string;
   if (isCalendar) return { href: '/calendar/', exact: true };
   if (isTracker) return { href: '/regulation/', exact: true };
   if (isGlossary) return { href: '/glossary/', exact: true };
-  if (isSection || isArticle || isAuthor) return { href: bare, exact: true };
+  if (isSection || isArticle || isAuthor || isTopic) return { href: bare, exact: true };
   return { href: '/', exact: false };
 }

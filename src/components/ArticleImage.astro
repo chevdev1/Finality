@@ -16,6 +16,7 @@ const { photo, creditLabel = 'Фото' } = Astro.props;
     height={photo.height}
     alt={photo.alt}
     loading="eager"
+    fetchpriority="high"
     decoding="async"
   />
   <figcaption class="kicker">
