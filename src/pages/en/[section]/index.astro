@@ -7,6 +7,7 @@ import VideoWidget from '../../../components/VideoWidget.astro';
 import { SECTIONS } from '../../../content.config';
 import { SECTION_LABELS_EN, SECTION_INTROS_EN, UI } from '../../../lib/i18n';
 import { paginate } from '../../../lib/pagination';
+import { SECTION_SEO_TITLES } from '../../../lib/seo';
 
 export async function getStaticPaths() {
   return SECTIONS.map((section) => ({ params: { section } }));
@@ -30,7 +31,7 @@ const sectionVideo = (await getCollection('videos'))
 
 <BaseLayout
   locale="en"
-  title={`${sectionLabel} — Finality`}
+  title={SECTION_SEO_TITLES.en[section] ?? `${sectionLabel} — Finality`}
   description={SECTION_INTROS_EN[section]}
   jsonLd={[
     {

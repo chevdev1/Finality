@@ -1075,3 +1075,12 @@ GitHub-логина в аккаунте Vercel), поэтому авто-деп�
 по-прежнему `https://finality.news`, так что canonical/sitemap указывают на будущий домен, а не
 на vercel.app — для демонстрации заказчикам это не мешает, при привязке боевого домена ничего
 править не придётся.
+
+## 33. Technical SEO (package 1)
+
+- `src/lib/seo.ts`: `fitTitle` (≤62, drops " — Finality" first) and `fitDescription` (≤158, sentence-aware); per-section SEO titles.
+- BaseLayout: robots meta (`max-image-preview:large`), `og:locale` + `og:locale:alternate` only when a real translation exists, `og:url`, article:* meta, Twitter description.
+- ArticlePage JSON-LD: NewsArticle with image, articleSection, mainEntityOfPage, author url; BreadcrumbList.
+- EN OG images: `/og/en/[section]/[slug].png`, `/og-default-en.png`.
+- Sitemap: hreflang alternates + real `lastmod` from `updatedAt`; Google News sitemap lists RU and EN.
+- Audit (144 pages): titles >65 chars 106→1, descriptions >165 62→0, duplicate titles 6→0.

@@ -74,6 +74,9 @@ function fmtDate(d: Date) {
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 
+const articleUrl = `${siteUrl}${prefix}/${entry.data.section}/${entry.id}/`;
+const ogImageUrl = `${siteUrl}${en ? '/og/en' : '/og'}/${entry.data.section}/${entry.id}.png`;
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -81,13 +84,16 @@ const jsonLd = [
     headline: title,
     description: dek,
     inLanguage: en ? 'en' : 'ru',
+    image: photo ? [photo.src, ogImageUrl] : [ogImageUrl],
+    articleSection: sectionLabels[entry.data.section],
+    isAccessibleForFree: true,
     datePublished: entry.data.publishedAt.toISOString(),
     dateModified: entry.data.updatedAt.toISOString(),
     author: author
-      ? { '@type': 'Person', name: author.data.name, sameAs: author.data.sameAs }
+      ? { '@type': 'Person', name: author.data.name, url: `${siteUrl}${prefix}/author/${entry.data.author}/`, sameAs: author.data.sameAs }
       : undefined,
     publisher: { '@type': 'Organization', name: 'Finality', logo: `${siteUrl}/og-default.png` },
-    mainEntityOfPage: `${siteUrl}${prefix}/${entry.data.section}/${entry.id}/`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
   },
   {
     '@context': 'https://schema.org',
@@ -97,7 +103,7 @@ const jsonLd = [
       {
         '@type': 'ListItem',
         position: 2,
-        name: entry.data.section,
+        name: sectionLabels[entry.data.section],
         item: `${siteUrl}${prefix}/${entry.data.section}/`,
       },
       {
@@ -116,7 +122,13 @@ const jsonLd = [
   title={`${title} — Finality`}
   description={dek}
   jsonLd={jsonLd}
-  ogImage={`${siteUrl}/og/${entry.data.section}/${entry.id}.png`}
+  ogImage={ogImageUrl}
+  article={{
+    publishedTime: entry.data.publishedAt.toISOString(),
+    modifiedTime: entry.data.updatedAt.toISOString(),
+    section: sectionLabels[entry.data.section],
+    author: author?.data.name,
+  }}
 >
   <article class="wrap article-layout">
     <nav class="crumbs" aria-label={L.crumbsAria}>

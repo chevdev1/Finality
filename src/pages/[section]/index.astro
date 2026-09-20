@@ -6,6 +6,7 @@ import Pagination from '../../components/Pagination.astro';
 import VideoWidget from '../../components/VideoWidget.astro';
 import { SECTIONS } from '../../content.config';
 import { SECTION_LABELS } from '../../lib/labels';
+import { SECTION_SEO_TITLES } from '../../lib/seo';
 import { SECTION_INTROS } from '../../lib/section-intros';
 import { paginate } from '../../lib/pagination';
 
@@ -31,7 +32,7 @@ const sectionVideo = (await getCollection('videos'))
 ---
 
 <BaseLayout
-  title={`${sectionLabel} — Finality`}
+  title={SECTION_SEO_TITLES.ru[section] ?? `${sectionLabel} — Finality`}
   description={SECTION_INTROS[section]}
   jsonLd={[
     {

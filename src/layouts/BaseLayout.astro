@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Ticker from '../components/Ticker.astro';
 import SearchIndex from '../components/SearchIndex.astro';
 import { UI, altPath, type Locale } from '../lib/i18n';
+import { fitTitle, fitDescription } from '../lib/seo';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -14,14 +15,20 @@ interface Props {
   canonicalPath?: string;
   locale?: Locale;
   noindex?: boolean;
+  // Set for news articles: switches og:type to "article" and emits article:* meta.
+  article?: { publishedTime: string; modifiedTime: string; section: string; author?: string };
 }
 
-const { title, description, jsonLd = [], ogImage, canonicalPath, locale = 'ru', noindex = false } = Astro.props;
+const { title, description, jsonLd = [], ogImage, canonicalPath, locale = 'ru', noindex = false, article } = Astro.props;
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const pathname = canonicalPath ?? Astro.url.pathname;
 const canonical = `${siteUrl}${pathname}`;
-const resolvedOgImage = ogImage ?? `${siteUrl}/og-default.png`;
+const resolvedOgImage = ogImage ?? `${siteUrl}${locale === 'en' ? '/og-default-en.png' : '/og-default.png'}`;
+const seoTitle = fitTitle(title);
+const seoDescription = fitDescription(description);
+const ogLocale = locale === 'en' ? 'en_US' : 'ru_RU';
+const ogLocaleAlt = locale === 'en' ? 'ru_RU' : 'en_US';
 const t = UI[locale];
 const ruAlt = altPath(pathname, 'ru');
 const enAlt = altPath(pathname, 'en');
@@ -79,9 +86,9 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
         } catch (e) {}
       })();
     </script>
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <link rel="canonical" href={canonical} />
     <link
       rel="alternate"
@@ -90,14 +97,23 @@ const allSchema = [orgSchema, websiteSchema, ...jsonLd];
       href={locale === 'en' ? `${siteUrl}/en/rss.xml` : `${siteUrl}/rss.xml`}
     />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content="Finality" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={ogLocale} />
+    {hasRealAlternate && <meta property="og:locale:alternate" content={ogLocaleAlt} />}
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title.replace(/ — Finality$/, '')} />
+    <meta property="og:description" content={seoDescription} />
+    {article && <meta property="article:published_time" content={article.publishedTime} />}
+    {article && <meta property="article:modified_time" content={article.modifiedTime} />}
+    {article && <meta property="article:section" content={article.section} />}
+    {article?.author && <meta property="article:author" content={article.author} />}
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title.replace(/ — Finality$/, '')} />
+    <meta name="twitter:description" content={seoDescription} />
     <meta name="twitter:image" content={resolvedOgImage} />
 
     {allSchema.map((schema) => (

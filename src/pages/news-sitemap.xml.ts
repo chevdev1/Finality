@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 
 // Google News sitemap: only articles published in the last 48 hours, per brief §6.2.
 // Rebuilding the static site is what keeps this window current — there is no runtime here.
+// Both editions are listed: an article's English page is its own URL with its own title.
 export const GET: APIRoute = async ({ site }) => {
   const news = await getCollection('news');
   const cutoff = Date.now() - 48 * 60 * 60 * 1000;
@@ -13,18 +14,22 @@ export const GET: APIRoute = async ({ site }) => {
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
   const urls = recent
-    .map(
-      (n) => `  <url>
-    <loc>${siteUrl}/${n.data.section}/${n.id}/</loc>
+    .flatMap((n) =>
+      (['ru', 'en'] as const).map((lang) => {
+        const path = `${lang === 'en' ? '/en' : ''}/${n.data.section}/${n.id}/`;
+        const title = lang === 'en' ? (n.data.title_en ?? n.data.title) : n.data.title;
+        return `  <url>
+    <loc>${siteUrl}${path}</loc>
     <news:news>
       <news:publication>
         <news:name>Finality</news:name>
-        <news:language>ru</news:language>
+        <news:language>${lang}</news:language>
       </news:publication>
       <news:publication_date>${n.data.publishedAt.toISOString()}</news:publication_date>
-      <news:title>${escape(n.data.title)}</news:title>
+      <news:title>${escape(title)}</news:title>
     </news:news>
-  </url>`
+  </url>`;
+      })
     )
     .join('\n');
 

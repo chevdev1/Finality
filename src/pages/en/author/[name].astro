@@ -30,7 +30,7 @@ const jsonLd = [
 ];
 ---
 
-<BaseLayout locale="en" title={`${author.data.name} — Finality`} description={author.data.bio_en ?? author.data.bio} jsonLd={jsonLd}>
+<BaseLayout locale="en" title={`${author.data.name}: ${author.data.role_en ?? author.data.role} — Finality`} description={author.data.bio_en ?? author.data.bio} jsonLd={jsonLd}>
   <div class="wrap author-page">
     <header class="author-head">
       <span class="avatar" aria-hidden="true">{author.data.initials}</span>

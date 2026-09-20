@@ -125,7 +125,7 @@ export async function renderArticleOg(opts: { kicker: string; title: string; che
   });
 }
 
-export async function renderDefaultOg() {
+export async function renderDefaultOg(tagline = 'Крипто-новости с видимой степенью уверенности') {
   return toPng({
     type: 'div',
     props: {
@@ -151,7 +151,7 @@ export async function renderDefaultOg() {
                 type: 'div',
                 props: {
                   style: { fontSize: '30px', color: INK, display: 'flex', maxWidth: '900px' },
-                  children: 'Крипто-новости с видимой степенью уверенности',
+                  children: tagline,
                 },
               },
             ],
