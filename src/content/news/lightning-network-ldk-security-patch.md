@@ -5,8 +5,8 @@ title_en: "Developers patched two Lightning Development Kit bugs that could drai
 dek_en: "The LDK 0.2.6 update fixes a flaw that let a dishonest channel counterparty siphon off funds during splicing, plus a bug that blocked channel-data recovery after a crash."
 section: bitcoin
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: lina-suarez
 imageQuery: "lightning bolt network circuit technology"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Разработчикам кошельков и платёжных сервисов, встраивающих LDK, рекомендовано как можно скорее обновить библиотеку — уязвимости затрагивают приложения, построенные поверх неё, а не только референсную реализацию."
 checks:
   - id: 1
-    at: 2026-09-09T16:00:00Z
+    at: 2026-10-02T16:00:00Z
   - id: 4
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://www.crowdfundinsider.com/2026/09/310126-bitcoin-btc-lightning-network-security-vulnerability-could-have-impacted-apps-but-critical-ldk-bug-now-fixed/"
     title: "Crowdfund Insider: Bitcoin Lightning Network Security Vulnerability Could Have Impacted Apps, But Critical LDK Bug Now Fixed"

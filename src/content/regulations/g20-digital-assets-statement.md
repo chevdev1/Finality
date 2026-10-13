@@ -13,5 +13,5 @@ relatedArticle: g20-statement-digital-assets-asheville
 sources:
   - url: "https://home.treasury.gov/news/press-releases/sb0620"
     title: "U.S. Department of the Treasury: G20 Chair's Statement"
-updatedAt: 2026-09-01T00:00:00Z
+updatedAt: 2026-09-24T00:00:00Z
 ---

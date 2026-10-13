@@ -1,5 +1,5 @@
 ---
-date: 2026-09-28T00:00:00Z
+date: 2026-10-21T00:00:00Z
 precision: day
 title: "Тестовая сеть Sepolia форкнется перед обновлением Glamsterdam"
 title_en: "Sepolia testnet forks ahead of the Glamsterdam upgrade"

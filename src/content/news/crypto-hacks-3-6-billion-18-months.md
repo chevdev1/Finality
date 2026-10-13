@@ -5,8 +5,8 @@ title_en: "Crypto platforms lost $3.6B to hacks in eighteen months — despite a
 dek_en: "88% of stolen funds came from platforms that had passed an independent security audit. Attacks are concentrating exactly where standard reviews don't look."
 section: security
 status: final
-publishedAt: 2026-09-05T00:00:00Z
-updatedAt: 2026-09-07T00:00:00Z
+publishedAt: 2026-09-28T00:00:00Z
+updatedAt: 2026-09-30T00:00:00Z
 author: mara-okafor
 imageQuery: "cybersecurity data breach digital lock"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Большинство атак — результат кибератак и кражи passkey, сосредоточенных в областях, которые обычные аудиты кода не проверяют."
 checks:
   - id: 1
-    at: 2026-09-05T12:00:00Z
+    at: 2026-09-28T12:00:00Z
   - id: 2
-    at: 2026-09-06T09:00:00Z
+    at: 2026-09-29T09:00:00Z
 sources:
   - url: "https://www.pymnts.com/cryptocurrency/2026/crypto-platforms-lose-3-6-billion-to-hacks-despite-security-audits"
     title: "PYMNTS: Crypto Platforms Lose $3.6 Billion to Hacks Despite Security Audits"

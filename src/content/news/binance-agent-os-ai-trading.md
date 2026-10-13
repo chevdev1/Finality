@@ -5,8 +5,8 @@ title_en: "Binance granted AI agents a trading license via Agent OS — with thi
 dek_en: "Claude, ChatGPT, Codex, and other MCP-compatible agents can trade through an isolated sub-account with no withdrawal rights. Critics say the protection isn't as solid as it looks on paper."
 section: ai
 status: developing
-publishedAt: 2026-08-20T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-09-12T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: lina-suarez
 imageQuery: "artificial intelligence chatbot robot technology"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Агент может читать рыночные данные и исполнять сделки на споте, марже, конвертации и фьючерсах — но не может вывести средства за пределы биржи."
 checks:
   - id: 1
-    at: 2026-08-20T14:00:00Z
+    at: 2026-09-12T14:00:00Z
   - id: 2
-    at: 2026-08-21T09:00:00Z
+    at: 2026-09-13T09:00:00Z
   - id: 3
-    at: 2026-09-10T10:00:00Z
+    at: 2026-10-03T10:00:00Z
 sources:
   - url: "https://crypto.news/binance-agent-os-ai-trading-safeguards/"
     title: "crypto.news: Binance just gave AI bots a trading license — the safeguards are thinner than they look"

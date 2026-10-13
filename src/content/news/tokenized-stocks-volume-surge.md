@@ -5,8 +5,8 @@ title_en: "Tokenized stock trading volume grew 33x in eight months"
 dek_en: "Monthly turnover jumped from $237M in January to $7.9B in August. Two platforms — bStocks and Robinhood — carry the bulk of the market."
 section: rwa
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: lina-suarez
 imageQuery: "stock trading screen numbers finance"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Рынок сильно сконцентрирован: bStocks и Robinhood обеспечили 87,8% отслеживаемого объёма, а BNB Chain и Robinhood Chain вместе — 88,2% объёма по сетям."
 checks:
   - id: 1
-    at: 2026-09-09T14:00:00Z
+    at: 2026-10-02T14:00:00Z
   - id: 2
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://www.coingecko.com/en/api/reports/tokenized-equities-sep-2026"
     title: "CoinGecko: Tokenized Equities Report 2026"

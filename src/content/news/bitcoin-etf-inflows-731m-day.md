@@ -5,8 +5,8 @@ title_en: "Bitcoin ETFs pulled in $731M in a single day — the best result sinc
 dek_en: "After a $236M outflow on September 1, spot bitcoin funds reversed sharply: BlackRock's IBIT accounted for more than 60% of the inflow."
 section: bitcoin
 status: final
-publishedAt: 2026-09-03T00:00:00Z
-updatedAt: 2026-09-04T00:00:00Z
+publishedAt: 2026-09-26T00:00:00Z
+updatedAt: 2026-09-27T00:00:00Z
 author: lina-suarez
 imageQuery: "bitcoin gold coin finance investment"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Разворот произошёл всего через два дня после оттока в $236 млн 1 сентября — сентябрь начался волатильно."
 checks:
   - id: 1
-    at: 2026-09-03T20:00:00Z
+    at: 2026-09-26T20:00:00Z
   - id: 2
-    at: 2026-09-04T09:00:00Z
+    at: 2026-09-27T09:00:00Z
   - id: 3
-    at: 2026-09-04T12:00:00Z
+    at: 2026-09-27T12:00:00Z
 sources:
   - url: "https://en.cryptonomist.ch/2026/09/04/us-bitcoin-etf-inflows-surge/"
     title: "The Cryptonomist: U.S. Bitcoin ETF inflows surge $731M on September 3"

@@ -5,8 +5,8 @@ title_en: "G20 promises \"clear pathways\" for digital assets — again with no 
 dek_en: "G20 finance ministers and central bank governors acknowledged digital assets as a driver of economic growth, without naming any rules or timelines."
 section: bitcoin
 status: final
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-03T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-09-26T00:00:00Z
 author: lina-suarez
 imageQuery: "world leaders meeting government finance"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "G20 также ждёт итогов отчёта Совета по финансовой стабильности (FSB) о трансграничных рисках стейблкоинов и призвал FATF проверить соблюдение стандартов по виртуальным активам."
 checks:
   - id: 1
-    at: 2026-09-01T18:00:00Z
+    at: 2026-09-24T18:00:00Z
   - id: 2
-    at: 2026-09-02T09:00:00Z
+    at: 2026-09-25T09:00:00Z
   - id: 3
-    at: 2026-09-03T10:00:00Z
+    at: 2026-09-26T10:00:00Z
 sources:
   - url: "https://home.treasury.gov/news/press-releases/sb0620"
     title: "U.S. Department of the Treasury: G20 Chair's Statement"

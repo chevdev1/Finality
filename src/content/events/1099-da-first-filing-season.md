@@ -1,5 +1,5 @@
 ---
-date: 2027-01-31T00:00:00Z
+date: 2027-02-23T00:00:00Z
 precision: quarter
 title: "Первый сезон отчётности по форме 1099-DA с себестоимостью сделок"
 title_en: "First 1099-DA filing season to include cost basis"

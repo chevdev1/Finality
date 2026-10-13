@@ -5,8 +5,8 @@ title_en: "Solana leads all networks in RWA inflows — $348M in 30 days"
 dek_en: "Total tokenized assets on Solana have grown to $4.23B across almost 400,000 holders. DEX networks on Solana handle 95-97% of all global tokenized-stock trading volume."
 section: rwa
 status: final
-publishedAt: 2026-09-05T00:00:00Z
-updatedAt: 2026-09-05T00:00:00Z
+publishedAt: 2026-09-28T00:00:00Z
+updatedAt: 2026-09-28T00:00:00Z
 author: lina-suarez
 imageQuery: "financial network data growth technology"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Децентрализованные биржи на Solana обрабатывают 95–97% всего мирового объёма торгов токенизированными акциями через DEX — доминирование, сложившееся во многом благодаря запуску Franklin Templeton сотен токенизированных акций и ETF на сети в январе 2026 года."
 checks:
   - id: 1
-    at: 2026-09-05T13:00:00Z
+    at: 2026-09-28T13:00:00Z
 sources:
   - url: "https://crypto.news/solana-leads-rwa-networks-with-348m-monthly-inflows/"
     title: "crypto.news: Solana Leads RWA Networks With $348M Monthly Inflows"

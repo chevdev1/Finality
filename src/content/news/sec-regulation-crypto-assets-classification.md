@@ -5,8 +5,8 @@ title_en: "SEC proposes splitting the crypto market into five asset categories"
 dek_en: "Regulation Crypto Assets introduces a separate offering regime for investment contracts built on crypto assets — only one of the five classes defaults to being treated as a security."
 section: policy
 status: developing
-publishedAt: 2026-08-21T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-09-13T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: dev-patel
 imageQuery: "government building law courthouse columns"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Тест Howey остаётся действующим прецедентом: продажа актива может создавать инвестиционный контракт в зависимости от того, как именно её структурировали."
 checks:
   - id: 1
-    at: 2026-08-21T14:00:00Z
+    at: 2026-09-13T14:00:00Z
   - id: 2
-    at: 2026-08-22T09:00:00Z
+    at: 2026-09-14T09:00:00Z
   - id: 3
-    at: 2026-09-11T10:00:00Z
+    at: 2026-10-04T10:00:00Z
 sources:
   - url: "https://corpgov.law.harvard.edu/2026/09/11/sec-proposes-regulation-crypto-assets-a-tailored-offering-framework-for-crypto-investment-contracts/"
     title: "Harvard Law School Forum on Corporate Governance: SEC Proposes Regulation Crypto Assets"

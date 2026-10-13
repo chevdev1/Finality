@@ -17,5 +17,5 @@ sources:
     title: "Government Enforcement Report: CFTC Chairman Selig Announces Plans to Develop Crypto Market-Structure Rules Under Existing Authority"
   - url: "https://www.law360.com/publicpolicy/articles/2516151/selig-says-cftc-will-propose-crypto-rules-if-clarity-act-stalls"
     title: "Law360: Selig Says CFTC Will Propose Crypto Rules If Clarity Act Stalls"
-updatedAt: 2026-09-13T00:00:00Z
+updatedAt: 2026-10-06T00:00:00Z
 ---

@@ -5,8 +5,8 @@ title_en: "India is building a registry to vet AI agents that will be able to pa
 dek_en: "India's National Payments Corporation will start with small recurring purchases like groceries — spending limits, identity verification, and an audit trail are mandatory from day one."
 section: ai
 status: developing
-publishedAt: 2026-09-11T00:00:00Z
-updatedAt: 2026-09-12T00:00:00Z
+publishedAt: 2026-10-04T00:00:00Z
+updatedAt: 2026-10-05T00:00:00Z
 author: lina-suarez
 imageQuery: "digital payment mobile phone technology india"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Старт — с небольших и частых платежей вроде покупки продуктов; более сложные сценарии (условные покупки, инвестиционные операции) рассматриваются как более поздний этап по мере взросления системы."
 checks:
   - id: 1
-    at: 2026-09-11T13:00:00Z
+    at: 2026-10-04T13:00:00Z
   - id: 3
-    at: 2026-09-12T09:00:00Z
+    at: 2026-10-05T09:00:00Z
 sources:
   - url: "https://technode.global/2026/09/12/india-npci-ai-agent-registry-upi-payments/"
     title: "TechNode Global: India Plans AI-Agent Registry for UPI Payments"

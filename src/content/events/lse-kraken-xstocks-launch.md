@@ -1,5 +1,5 @@
 ---
-date: 2027-06-01T00:00:00Z
+date: 2027-06-24T00:00:00Z
 precision: year
 title: "Запуск xStocks на LSE от Payward (материнской компании Kraken)"
 title_en: "Payward's xStocks launch on the London Stock Exchange"

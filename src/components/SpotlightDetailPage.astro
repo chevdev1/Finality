@@ -1,0 +1,651 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+  entry: CollectionEntry<'spotlight'>;
+  locale?: Locale;
+}
+const { entry, locale = 'ru' } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const en = locale === 'en';
+
+const L = en
+  ? {
+      partnerBar: `Sponsored content · Paid for by ${d.project}`,
+      writtenWith: `Written together with the ${d.project} team. The "Risks" section was added by Finality's editors.`,
+      platform: 'Platform',
+      focus: 'Focus',
+      format: 'Format',
+      chain: 'Chain',
+      token: 'Token',
+      launch: 'Launch',
+      audits: 'Audits',
+      backers: 'Investors',
+      tvl: 'TVL / volume',
+      whatItIs: 'What it is',
+      howItWorks: 'How it works',
+      resultsHeading: "Last month's results",
+      resultsNote: `Figures supplied by ${d.project} and not independently verified by Finality's editors — this is the sponsor's own claimed return on its trades, not our assessment.`,
+      tokenomics: 'Tokenomics',
+      roadmap: 'Roadmap',
+      teamHeading: 'Team and investors',
+      risksHeading: 'Risks and open questions',
+      addedBy: "Added by Finality's editors",
+      faqHeading: 'FAQ',
+      commentsHeading: 'Comments',
+      commentsNote: `Reader replies and ${d.project}'s own responses, published as supplied by the sponsor, without review or editing by Finality.`,
+      verifiedTitle: 'Official account',
+      ctaNoteChannel: 'Opens the Telegram channel in a new tab.',
+      ctaNoteProtocol: "Opens the project's official site in a new tab.",
+      bannerAlt: `${d.project} — promotional banner`,
+      bodyTitle: `${d.project} — Project Spotlight — Finality`,
+    }
+  : {
+      partnerBar: `Партнёрский материал · Оплачено ${d.project}`,
+      writtenWith: `Написано вместе с командой ${d.project}. Раздел «Риски» добавлен редакцией Finality.`,
+      platform: 'Платформа',
+      focus: 'Фокус',
+      format: 'Формат',
+      chain: 'Сеть',
+      token: 'Токен',
+      launch: 'Запуск',
+      audits: 'Аудиты',
+      backers: 'Инвесторы',
+      tvl: 'TVL / объём',
+      whatItIs: 'Что это',
+      howItWorks: 'Как это работает',
+      resultsHeading: 'Результаты за последний месяц',
+      resultsNote: `Цифры предоставлены ${d.project} и не проверены редакцией Finality независимо — это заявленная доходность по их собственным сделкам, а не наша оценка.`,
+      tokenomics: 'Токеномика',
+      roadmap: 'Роадмап',
+      teamHeading: 'Команда и инвесторы',
+      risksHeading: 'Риски и открытые вопросы',
+      addedBy: 'Добавлено редакцией Finality',
+      faqHeading: 'FAQ',
+      commentsHeading: 'Комментарии',
+      commentsNote: `Реплики читателей и ответы ${d.project} — публикуются как предоставлены спонсором, без проверки и редактуры Finality.`,
+      verifiedTitle: 'Официальный аккаунт',
+      ctaNoteChannel: 'Откроется Telegram-канал в новой вкладке.',
+      ctaNoteProtocol: 'Откроется официальный сайт проекта в новой вкладке.',
+      bannerAlt: `${d.project} — рекламный баннер`,
+      bodyTitle: `${d.project} — Project Spotlight — Finality`,
+    };
+
+const tagline = en ? (d.tagline_en ?? d.tagline) : d.tagline;
+const whatItIs = en ? (d.whatItIs_en ?? d.whatItIs) : d.whatItIs;
+const launch = en ? (d.launch_en ?? d.launch) : d.launch;
+const howItWorks = en && d.howItWorks_en.length > 0 ? d.howItWorks_en : d.howItWorks;
+const highlights = en && d.highlights_en.length > 0 ? d.highlights_en : d.highlights;
+const risks = en && d.risks_en.length > 0 ? d.risks_en : d.risks;
+const faq = d.faq.map((f) => ({ q: en ? (f.q_en ?? f.q) : f.q, a: en ? (f.a_en ?? f.a) : f.a }));
+const ctaLabel = en ? (d.ctaLabel_en ?? d.ctaLabel) : d.ctaLabel;
+const prefix = en ? '/en' : '';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${d.project}: ${tagline}`,
+    datePublished: d.publishedAt.toISOString(),
+    inLanguage: en ? 'en' : 'ru',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={L.bodyTitle}
+  description={tagline}
+  jsonLd={jsonLd}
+  canonicalPath={`${prefix}/spotlight/${entry.id}/`}
+>
+  <div class="partner-bar">{L.partnerBar}</div>
+
+  <div class="wrap spotlight" style={`--guest: ${d.guestColor}`}>
+    {d.bannerImage && (
+      <div class="banner">
+        <img src={d.bannerImage} alt={L.bannerAlt} width="1100" height="678" loading="eager" fetchpriority="high" />
+        <div class="banner-fade" aria-hidden="true"></div>
+      </div>
+    )}
+
+    <div class="inner">
+    <header class="hero">
+      <div class="tile" aria-hidden="true">
+        {d.logo ? <img src={d.logo} alt="" width="56" height="56" /> : d.project.replace('[', '').charAt(0) || 'P'}
+      </div>
+      <div>
+        <h1>{d.project}: {tagline}</h1>
+        <p class="lead">{L.writtenWith}</p>
+      </div>
+    </header>
+
+    {d.kind === 'channel' ? (
+      <div class="facts">
+        <div><span class="kicker">{L.platform}</span><span class="data">{d.platform}</span></div>
+        <div><span class="kicker">{L.focus}</span><span class="data guest">{d.focus}</span></div>
+        <div><span class="kicker">{L.format}</span><span class="data">{launch}</span></div>
+      </div>
+    ) : (
+      <div class="facts">
+        <div><span class="kicker">{L.chain}</span><span class="data">{d.chain}</span></div>
+        <div><span class="kicker">{L.token}</span><span class="data guest">{d.token}</span></div>
+        <div><span class="kicker">{L.launch}</span><span class="data">{launch}</span></div>
+        <div><span class="kicker">{L.audits}</span><span class="data">{d.audits}</span></div>
+        <div><span class="kicker">{L.backers}</span><span class="data">{d.backers}</span></div>
+        <div><span class="kicker">{L.tvl}</span><span class="data">{d.tvl}</span></div>
+      </div>
+    )}
+
+    <section class="block">
+      <h2>{L.whatItIs}</h2>
+      <p>{whatItIs}</p>
+    </section>
+
+    {howItWorks.length > 0 && (
+      <section class="block">
+        <h2>{L.howItWorks}</h2>
+        <div class="flow">
+          {howItWorks.map((step, i) => (
+            <>
+              <span class="flow-step">{step}</span>
+              {i < howItWorks.length - 1 && <span class="flow-arrow" aria-hidden="true">→</span>}
+            </>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {d.kind === 'channel' && highlights.length > 0 && (
+      <section class="block">
+        <h2>{L.resultsHeading}</h2>
+        <p class="highlights-note">{L.resultsNote}</p>
+        <div class="highlights">
+          {highlights.map((h) => (
+            <div class="highlight-card" style={`--guest: ${d.guestColor}`}>
+              <span class="h-name">{h.name}</span>
+              <span class="h-pct data">{h.pct}</span>
+              <span class="h-x data">{h.x}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {d.tokenomics.length > 0 && (
+      <section class="block">
+        <h2>{L.tokenomics}</h2>
+        <div class="bars">
+          {d.tokenomics.map((t) => (
+            <div class="bar-row">
+              <span class="bar-label">{t.label}</span>
+              <div class="bar-track">
+                <div class="bar-fill" style={`width:${t.pct}%`}></div>
+              </div>
+              <span class="data">{t.pct}%</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {d.roadmap.length > 0 && (
+      <section class="block">
+        <h2>{L.roadmap}</h2>
+        <ol class="roadmap">
+          {d.roadmap.map((r) => (
+            <li class:list={{ done: r.done }}>
+              <span class="n data">{r.n}</span>
+              <span>{r.label}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+    {(d.team || d.backersList) && (
+      <section class="block">
+        <h2>{L.teamHeading}</h2>
+        {d.team && <p>{d.team}</p>}
+        {d.backersList && <p>{d.backersList}</p>}
+      </section>
+    )}
+
+    <section class="block risks">
+      <h2>{L.risksHeading}</h2>
+      <p class="added-by">{L.addedBy}</p>
+      <ul>
+        {risks.map((r) => <li>{r}</li>)}
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>{L.faqHeading}</h2>
+      <dl>
+        {faq.map((f) => (
+          <>
+            <dt>{f.q}</dt>
+            <dd>{f.a}</dd>
+          </>
+        ))}
+      </dl>
+    </section>
+
+    {d.comments.length > 0 && (
+      <section class="block">
+        <h2>{L.commentsHeading}</h2>
+        <p class="comments-note">{L.commentsNote}</p>
+        <div class="comments">
+          {d.comments.map((c) => (
+            <div class="comment">
+              <div class="comment-row">
+                {c.avatar ? (
+                  <img class="avatar" src={c.avatar} alt="" width="36" height="36" loading="lazy" />
+                ) : (
+                  <span class="avatar data" aria-hidden="true">{c.name.charAt(0)}</span>
+                )}
+                <div class="comment-body">
+                  <span class="comment-name">{c.name}{c.handle && <span class="comment-handle"> {c.handle}</span>}</span>
+                  <p class="comment-text">{en ? (c.body_en ?? c.body) : c.body}</p>
+                </div>
+              </div>
+              {c.reply && (
+                <div class="comment-reply">
+                  <span class="avatar data guest-avatar" aria-hidden="true">{c.reply.name.charAt(0)}</span>
+                  <div class="comment-body">
+                    <span class="comment-name">{c.reply.name} <span class="verified" title={L.verifiedTitle}>✓</span></span>
+                    <p class="comment-text">{en ? (c.reply.body_en ?? c.reply.body) : c.reply.body}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="cta">
+      <a href={d.ctaUrl} rel="sponsored noopener" target="_blank">{ctaLabel ?? `${en ? 'Go to' : 'Перейти на'} ${d.ctaUrl.replace('https://', '')}`}</a>
+      <p class="kicker">{d.kind === 'channel' ? L.ctaNoteChannel : L.ctaNoteProtocol}</p>
+    </div>
+
+    <div class="extra-content">
+      <Content />
+    </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .partner-bar {
+    background: var(--ink);
+    color: var(--ledger);
+    text-align: center;
+    padding: 8px;
+    font-family: var(--font-data);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+  .spotlight {
+    padding: 0;
+    max-width: 760px;
+    border: 1px solid var(--rule);
+    display: grid;
+    /* A faint wash of the sponsor's own color behind the whole module — turns the flat
+       "editorial box with a dashed border" treatment into something that actually reads as
+       the guest's brand, without touching Finality's own palette anywhere else on the site. */
+    background: radial-gradient(1200px 420px at 50% -120px, color-mix(in srgb, var(--guest) 16%, transparent), transparent 70%);
+  }
+  .banner {
+    position: relative;
+    line-height: 0;
+  }
+  .banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .banner-fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--paper) 100%);
+  }
+  .inner {
+    padding: 0 32px 48px;
+    display: grid;
+    gap: 36px;
+  }
+  .banner + .inner {
+    padding-top: 0;
+  }
+  .inner:first-child {
+    padding-top: 32px;
+  }
+  .hero {
+    display: flex;
+    gap: 20px;
+  }
+  .banner + .inner .hero {
+    margin-top: -64px;
+    position: relative;
+  }
+  .tile {
+    width: 64px;
+    height: 64px;
+    background: var(--guest);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-shadow: 0 0 0 4px var(--paper), 0 8px 24px -6px color-mix(in srgb, var(--guest) 70%, transparent);
+  }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero h1 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--step-h2);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  }
+  .lead {
+    color: var(--graphite);
+    max-width: 60ch;
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    border: 1px solid var(--rule);
+    padding: 16px;
+    background: var(--paper);
+  }
+  .facts > div {
+    display: grid;
+    gap: 4px;
+  }
+  .guest {
+    color: var(--guest);
+    font-weight: 600;
+  }
+  .block h2 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--step-h3);
+    margin-bottom: 12px;
+  }
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    font-family: var(--font-data);
+    font-size: 13px;
+  }
+  .highlights-note {
+    font-size: 12px;
+    color: var(--graphite);
+    margin: -4px 0 14px;
+    max-width: 62ch;
+  }
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .highlight-card {
+    border: 1px solid color-mix(in srgb, var(--guest) 35%, var(--rule));
+    border-top: 3px solid var(--guest);
+    padding: 16px;
+    display: grid;
+    gap: 6px;
+    background: linear-gradient(165deg, color-mix(in srgb, var(--guest) 10%, var(--paper)), var(--paper) 65%);
+    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--guest) 60%, transparent);
+  }
+  .h-name {
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .h-pct {
+    color: var(--guest);
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 0 0 18px color-mix(in srgb, var(--guest) 55%, transparent);
+  }
+  .h-pct::before {
+    content: '↗ ';
+  }
+  .h-x {
+    color: var(--graphite);
+    font-size: 12px;
+  }
+  .comments-note {
+    font-size: 12px;
+    color: var(--graphite);
+    margin: -4px 0 14px;
+    max-width: 62ch;
+  }
+  .comments {
+    display: grid;
+    gap: 16px;
+  }
+  .comment {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+  }
+  .comment-row,
+  .comment-reply {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .comment-reply {
+    padding-left: 48px;
+    border-left: 2px solid color-mix(in srgb, var(--guest) 50%, var(--rule));
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    background: var(--ink);
+    color: var(--ledger);
+    object-fit: cover;
+  }
+  .avatar.guest-avatar {
+    background: var(--guest);
+    color: #fff;
+  }
+  .comment-body {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+  .comment-name {
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .comment-handle {
+    font-weight: 400;
+    color: var(--graphite);
+  }
+  .verified {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--guest);
+    color: #fff;
+    font-size: 9px;
+  }
+  .comment-text {
+    margin: 0;
+    color: var(--graphite);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .bars {
+    display: grid;
+    gap: 10px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 40px;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .bar-track {
+    height: 8px;
+    background: var(--rule);
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--guest);
+  }
+  .roadmap {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .roadmap li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.5;
+  }
+  .roadmap li.done {
+    opacity: 1;
+  }
+  .roadmap .n {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  /* Same fix as the homepage hero and Subscribe.astro: .risks sits directly on the
+     constant-yellow --pending fill in both themes, so everything inside it needs the fixed
+     --on-accent rather than var(--ink) (flips to near-white in dark mode) or inherited body
+     color — otherwise this becomes white text on yellow, a WCAG failure. Scoping --ink to
+     --on-accent on the section covers the h2/ul/li text that has no color rule of its own. */
+  .risks {
+    background: var(--pending);
+    padding: 20px;
+    --ink: var(--on-accent);
+    /* h2/li below have no color rule of their own — they inherit whatever `color` computes
+       to HERE, not a live re-read of --ink, so the custom-property override above only takes
+       effect once it's actually assigned to this element's own `color` too. */
+    color: var(--ink);
+  }
+  .risks h2 {
+    font-family: var(--font-display);
+  }
+  .added-by {
+    font-family: var(--font-data);
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--on-accent);
+    margin: -4px 0 12px;
+  }
+  dl {
+    display: grid;
+    gap: 12px;
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin: 4px 0 0;
+    color: var(--graphite);
+  }
+  .cta {
+    background: var(--ink);
+    color: var(--ledger);
+    padding: 20px;
+    display: grid;
+    gap: 6px;
+  }
+  .cta a {
+    color: var(--guest);
+    font-weight: 700;
+    text-decoration: none;
+    /* guest on ink is 3.58:1 — fails AA for normal text (4.5:1) but clears the 3:1 bar
+       for "large text" (≥14pt/18.66px bold). 20px keeps it unambiguously in that bucket
+       without changing the sponsor's actual brand color. */
+    font-size: 20px;
+  }
+  .cta .kicker {
+    color: #9aa39d;
+  }
+  /* Same fix as Ticker.astro's dark-theme overrides: .cta is always background:var(--ink),
+     which flips from dark to light in dark theme, so the two colors tuned for a dark
+     surface here need to pin back to their original light-surface values instead of
+     following --guest/--graphite, which move the other way. */
+  :root[data-theme='dark'] .cta a {
+    color: #3d5afe;
+  }
+  :root[data-theme='dark'] .cta .kicker {
+    color: #56615b;
+  }
+
+  @media (max-width: 640px) {
+    .facts {
+      grid-template-columns: 1fr 1fr;
+    }
+    .inner {
+      padding-inline: 20px;
+    }
+    .hero {
+      gap: 14px;
+    }
+    .tile {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+    .comment-reply {
+      padding-left: 0;
+      border-left: none;
+      border-top: 2px solid color-mix(in srgb, var(--guest) 50%, var(--rule));
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+  }
+</style>

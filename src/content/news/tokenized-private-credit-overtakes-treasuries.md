@@ -5,8 +5,8 @@ title_en: "Tokenized private credit overtakes treasuries as the largest RWA asse
 dek_en: "According to rwa.xyz, more than $18.9B in private credit is active on-chain against $33.7B in cumulative originations — but different trackers measure the market very differently, and the spread in estimates is large."
 section: rwa
 status: developing
-publishedAt: 2026-09-04T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-09-27T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: lina-suarez
 imageQuery: "financial documents contracts lending paperwork"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Разные методологии дают разные цифры: часть трекеров считает только распределённую стоимость (около $5 млрд на март 2026 года), другие — включая представленные и заблокированные на платформах активы (порядка $18–19 млрд) — это не ошибка одного из отчётов, а разница в том, что именно считается «токенизированным»."
 checks:
   - id: 1
-    at: 2026-09-04T12:00:00Z
+    at: 2026-09-27T12:00:00Z
   - id: 5
-    at: 2026-09-11T09:00:00Z
+    at: 2026-10-04T09:00:00Z
 sources:
   - url: "https://blockeden.xyz/blog/2026/01/13/rwa-tokenization-market-breakdown-private-credit-dominance/"
     title: "BlockEden.xyz: RWA Market Anatomy — Why Private Credit Owns 58% While Equities Struggle at 2%"

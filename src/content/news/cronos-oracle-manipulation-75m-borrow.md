@@ -5,8 +5,8 @@ title_en: "Cronos rolled back the chain after a $75M loan against a token pumped
 dek_en: "An attacker pumped the TONIC token's price 100x, borrowed real assets against it, and the network reversed part of the attack with a full state rollback."
 section: defi
 status: final
-publishedAt: 2026-08-31T00:00:00Z
-updatedAt: 2026-09-06T00:00:00Z
+publishedAt: 2026-09-23T00:00:00Z
+updatedAt: 2026-09-29T00:00:00Z
 author: mara-okafor
 imageQuery: "cryptocurrency trading chart screen"
 takeaways:
@@ -15,13 +15,13 @@ takeaways:
   - "На следующий день сеть перезапустили с откатом состояния к моменту до атаки — необычное для крупных сетей решение, обратившее большую часть последствий."
 checks:
   - id: 1
-    at: 2026-08-30T15:00:00Z
+    at: 2026-09-22T15:00:00Z
   - id: 2
-    at: 2026-08-30T16:00:00Z
+    at: 2026-09-22T16:00:00Z
   - id: 3
-    at: 2026-08-31T09:00:00Z
+    at: 2026-09-23T09:00:00Z
   - id: 4
-    at: 2026-09-01T00:00:00Z
+    at: 2026-09-24T00:00:00Z
 sources:
   - url: "https://www.trmlabs.com/resources/blog/number-of-price-manipulation-attacks-hits-all-time-high-as-usd-75-million-is-stolen-from-tectonic"
     title: "TRM Labs: разбор атаки на Tectonic"

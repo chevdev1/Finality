@@ -5,8 +5,8 @@ title_en: "The stablecoin market is getting even more concentrated: only Tether 
 dek_en: "According to ARK Invest, USDT and USDC together control 85% of the market. In 2022, four issuers crossed the $10B threshold — now only two do."
 section: stablecoins
 status: final
-publishedAt: 2026-09-11T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-04T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: lina-suarez
 imageQuery: "dollar currency concentration finance market"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Рынок не просто вырос в размере — он стал структурно менее разнообразным: доля топ-2 эмитентов увеличилась, а число крупных независимых игроков сократилось вдвое за три с небольшим года."
 checks:
   - id: 1
-    at: 2026-09-11T14:00:00Z
+    at: 2026-10-04T14:00:00Z
 sources:
   - url: "https://www.kucoin.com/news/flash/ark-invest-stablecoin-market-highly-concentrated-only-tether-and-circle-remain-above-100b"
     title: "KuCoin: ARK Invest — Stablecoin Market Highly Concentrated, Only Tether and Circle Remain Above $10B"

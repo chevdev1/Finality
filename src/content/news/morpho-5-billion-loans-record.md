@@ -5,8 +5,8 @@ title_en: "Morpho hits $5B in outstanding loans — and is closing the gap with 
 dek_en: "95% of Morpho's loans are denominated in stablecoins, 62% in USDC. Aave still leads — $12.6B versus $4.83B — but the gap is narrowing after Morpho's June funding round."
 section: defi
 status: final
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-05T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-09-28T00:00:00Z
 author: mara-okafor
 imageQuery: "financial growth chart lending money"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Morpho Blue стал ведущим кредитным рынком на Robinhood Chain, а RedStone включил мгновенный выход из токенизированных фондов с использованием паёв фонда HYB как залога на Morpho — ещё один канал притока RWA-обеспечения в протокол."
 checks:
   - id: 1
-    at: 2026-09-01T13:00:00Z
+    at: 2026-09-24T13:00:00Z
   - id: 5
-    at: 2026-09-05T10:00:00Z
+    at: 2026-09-28T10:00:00Z
 sources:
   - url: "https://www.cryptopolitan.com/morpho-outstanding-loans-hit-record-aave/"
     title: "Cryptopolitan: Morpho's Outstanding Loans Hit $5 Billion Record, Closing the Gap on Aave"

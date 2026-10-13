@@ -5,8 +5,8 @@ title_en: "About 93% of all Ethereum transactions now run through L2s — Base a
 dek_en: "According to growthepie, L2 networks process 13-15 times more transactions than mainnet itself. The market is meanwhile consolidating around two networks out of 73 active ones."
 section: ethereum
 status: final
-publishedAt: 2026-09-08T00:00:00Z
-updatedAt: 2026-09-12T00:00:00Z
+publishedAt: 2026-10-01T00:00:00Z
+updatedAt: 2026-10-05T00:00:00Z
 author: dev-patel
 imageQuery: "blockchain network layers abstract technology"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Раннее заявление о том, что не всем L2 есть смысл продолжать существовать (CoinDesk, июнь 2026), подтверждается на цифрах: десятки роллапов с околонулевой активностью соседствуют с двумя сетями, забирающими почти весь объём."
 checks:
   - id: 1
-    at: 2026-09-08T14:00:00Z
+    at: 2026-10-01T14:00:00Z
   - id: 5
-    at: 2026-09-12T10:00:00Z
+    at: 2026-10-05T10:00:00Z
 sources:
   - url: "https://www.growthepie.xyz/"
     title: "growthepie: Ethereum Layer 2 analytics"

@@ -13,5 +13,5 @@ relatedArticle: nasdaq-texas-commodity-trust-rule
 sources:
   - url: "https://coinmarketcap.com/cmc-ai/solana/latest-updates/"
     title: "CoinMarketCap: Solana latest updates"
-updatedAt: 2026-09-09T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 ---

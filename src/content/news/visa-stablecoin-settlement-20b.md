@@ -5,8 +5,8 @@ title_en: "Visa's stablecoin settlement volume surpassed $20B annualized"
 dek_en: "Volume grew more than 15x year over year. Over 160 card programs on the Visa network already use stablecoins, and online lending from Credit Coop is cutting funding costs by up to 30%."
 section: fintech
 status: final
-publishedAt: 2026-09-08T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-10-01T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "credit card payment technology contactless"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Visa встраивает ончейн-кредитование через партнёрство с Credit Coop: с 2023 года через эту систему профинансировано более $2,5 млрд объёма расчётов без единого дефолта."
 checks:
   - id: 1
-    at: 2026-09-08T15:00:00Z
+    at: 2026-10-01T15:00:00Z
   - id: 2
-    at: 2026-09-08T18:00:00Z
+    at: 2026-10-01T18:00:00Z
   - id: 3
-    at: 2026-09-09T09:00:00Z
+    at: 2026-10-02T09:00:00Z
 sources:
   - url: "https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.21951.html"
     title: "Visa: официальный пресс-релиз о запуске расчётов в стейблкоинах"

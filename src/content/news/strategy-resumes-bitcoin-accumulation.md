@@ -5,8 +5,8 @@ title_en: "Strategy resumes bitcoin buying after a 10-week pause — treasury gr
 dek_en: "Michael Saylor's company bought another 4,603 BTC for $369.7M, funding the purchase with a new share issuance. That's about 4% of all bitcoin supply."
 section: bitcoin
 status: final
-publishedAt: 2026-09-03T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-09-26T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: lina-suarez
 imageQuery: "corporate office finance skyscraper business"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "845 050 BTC — это около 4% от всего предложения биткоина в обращении; акции компании выросли примерно на 57% за неполные три недели, с уровня около $92 в середине августа до $144,82 к 3 сентября."
 checks:
   - id: 1
-    at: 2026-09-03T15:00:00Z
+    at: 2026-09-26T15:00:00Z
   - id: 5
-    at: 2026-09-11T10:00:00Z
+    at: 2026-10-04T10:00:00Z
 sources:
   - url: "https://finance.yahoo.com/markets/crypto/articles/strategy-mstr-resumed-bitcoin-accumulation-030758585.html"
     title: "Yahoo Finance: Strategy (MSTR) Resumed Bitcoin Accumulation With A 4,603 BTC Purchase"

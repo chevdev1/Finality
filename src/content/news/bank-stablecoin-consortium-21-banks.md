@@ -5,8 +5,8 @@ title_en: "21 banks, including Goldman Sachs and Citi, are preparing a joint dol
 dek_en: "The token would be a private liability of a separate company, backed by the banks' own reserves — with no Fed balance sheet involved. Launch is timed to the GENIUS Act's effective date."
 section: stablecoins
 status: developing
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: lina-suarez
 imageQuery: "bank building finance dollar currency"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Запуск ориентирован на первую половину 2027 года — это совпадает с датой вступления в силу закона GENIUS (18 января 2027), задающего резервные требования для эмитентов стейблкоинов в США."
 checks:
   - id: 1
-    at: 2026-09-01T16:00:00Z
+    at: 2026-09-24T16:00:00Z
   - id: 3
-    at: 2026-09-02T10:00:00Z
+    at: 2026-09-25T10:00:00Z
 sources:
   - url: "https://www.coindesk.com/business/2026/09/01/citi-goldman-other-global-banks-and-asset-managers-team-up-on-stablecoin-venture"
     title: "CoinDesk: Citi, Goldman, Other Global Banks and Asset Managers Team Up on Stablecoin Venture"

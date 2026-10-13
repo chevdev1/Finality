@@ -5,8 +5,8 @@ title_en: "For the first time, key theft has overtaken code bugs as the leading 
 dek_en: "According to Forbes and CertiK, DeFi protocols have lost at least $1.3B since the start of 2026, and private-key compromise is now the top attack vector."
 section: security
 status: final
-publishedAt: 2026-09-10T00:00:00Z
-updatedAt: 2026-09-12T00:00:00Z
+publishedAt: 2026-10-03T00:00:00Z
+updatedAt: 2026-10-05T00:00:00Z
 author: mara-okafor
 imageQuery: "digital lock security padlock technology"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Сдвиг вектора атак означает, что чистый аудит кода больше не гарантирует безопасность протокола."
 checks:
   - id: 1
-    at: 2026-09-09T14:00:00Z
+    at: 2026-10-02T14:00:00Z
   - id: 2
-    at: 2026-09-09T18:00:00Z
+    at: 2026-10-02T18:00:00Z
   - id: 3
-    at: 2026-09-10T10:00:00Z
+    at: 2026-10-03T10:00:00Z
 sources:
   - url: "https://www.certik.com/"
     title: "CertiK — исследования безопасности Web3"

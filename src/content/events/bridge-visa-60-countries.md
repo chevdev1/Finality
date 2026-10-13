@@ -1,5 +1,5 @@
 ---
-date: 2026-09-30T00:00:00Z
+date: 2026-10-23T00:00:00Z
 precision: quarter
 title: "Партнёрство Bridge и Visa должно расшириться до 60 стран"
 title_en: "Bridge's Visa card partnership is due to reach 60 countries"

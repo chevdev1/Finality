@@ -5,8 +5,8 @@ title_en: "Lido and Stakely launch public and institutional staking vaults on st
 dek_en: "Institutional vaults give clients control over custody, access rights, fees, and liquidity — while remaining part of Lido's infrastructure."
 section: defi
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: mara-okafor
 imageQuery: "ethereum staking vault blockchain infrastructure"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Публичный продукт совмещает стейкинг ETH с EarnETH — стратегией Lido в DeFi: участники вносят ETH через интерфейс Stakely и получают ERC-20 токен доли в хранилище."
 checks:
   - id: 1
-    at: 2026-09-09T15:00:00Z
+    at: 2026-10-02T15:00:00Z
   - id: 4
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://mpost.io/lido-and-stakely-launch-public-and-institutional-stvaults-products-for-eth-staking/"
     title: "Metaverse Post: Lido And Stakely Launch Public And Institutional stVaults Products For ETH Staking"

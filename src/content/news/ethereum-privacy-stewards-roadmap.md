@@ -5,8 +5,8 @@ title_en: "Ethereum Foundation renamed its privacy team and published a roadmap 
 dek_en: "Privacy Stewards of Ethereum (formerly Privacy & Scaling Explorations) laid out a plan to make private on-chain actions cheap and ubiquitous without losing compliance."
 section: ethereum
 status: developing
-publishedAt: 2026-09-02T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-25T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "digital privacy encryption technology abstract"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Публичный тестнет Ethrex уже поддерживает ключевые EIP из дорожной карты приватности, включая EIP-8141 Frame Transactions и списки включения FOCIL (EIP-7805)."
 checks:
   - id: 1
-    at: 2026-09-08T12:00:00Z
+    at: 2026-10-01T12:00:00Z
   - id: 2
-    at: 2026-09-09T10:00:00Z
+    at: 2026-10-02T10:00:00Z
 sources:
   - url: "https://www.theblock.co/post/370532/ethereum-foundation-sets-end-to-end-privacy-roadmap-with-private-writes-reads-and-proving"
     title: "The Block: Ethereum Foundation sets end-to-end privacy roadmap"

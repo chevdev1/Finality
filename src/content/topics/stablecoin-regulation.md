@@ -39,5 +39,5 @@ faq:
     a: "21 банк и управляющая компания, включая Goldman Sachs и Citi, готовят совместный долларовый стейблкоин на первую половину 2027 года. U.S. Bank провёл пилотный платёж в USBDC на Stellar. PayPal запустил PYUSDx для выпуска собственных стейблкоинов, а объём расчётов в стейблкоинах в сети Visa превысил $20 млрд в годовом выражении."
     q_en: "What are banks and payment companies doing?"
     a_en: "21 banks and asset managers, including Goldman Sachs and Citi, are preparing a joint dollar stablecoin for the first half of 2027. U.S. Bank ran a pilot payment in USBDC on Stellar. PayPal launched PYUSDx for issuing custom stablecoins, and stablecoin settlement on Visa's network passed $20 billion annualized."
-updatedAt: 2026-09-11T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 ---

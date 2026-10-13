@@ -5,8 +5,8 @@ title_en: "AI bots now account for 58% of all crypto trading volume"
 dek_en: "Agents have stopped being just trade-execution tools: they now form their own market view, allocate capital, and manage risk without human involvement in real time."
 section: ai
 status: developing
-publishedAt: 2026-09-03T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-09-26T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: lina-suarez
 imageQuery: "artificial intelligence robot technology futuristic"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Более 97% ончейн-транзакций агентов во втором квартале прошли через протокол x402, а свыше 90% объёма стейблкоинов в сделках агентов — на сети Base."
 checks:
   - id: 1
-    at: 2026-09-09T12:00:00Z
+    at: 2026-10-02T12:00:00Z
   - id: 2
-    at: 2026-09-09T18:00:00Z
+    at: 2026-10-02T18:00:00Z
 sources:
   - url: "https://cryptorank.io/news/feed/96b24-how-ai-agents-are-becoming-crypto-traders-co-pilots-in-2026"
     title: "CryptoRank: How AI agents are becoming crypto traders' co-pilots in 2026"

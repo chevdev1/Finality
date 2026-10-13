@@ -5,8 +5,8 @@ title_en: "4,000 BTC worth $320M left Liquid's reserve wallet — some funds alr
 dek_en: "Attackers exploited a bug in Elements' range-proof verification cache. Developers are calling it a \"white-hat\" hack: 3,400 BTC has already been returned."
 section: security
 status: developing
-publishedAt: 2026-09-07T09:00:00Z
-updatedAt: 2026-09-12T18:00:00Z
+publishedAt: 2026-09-30T09:00:00Z
+updatedAt: 2026-10-05T18:00:00Z
 author: mara-okafor
 featured: true
 imageQuery: "cybersecurity hacker dark cryptocurrency"
@@ -16,13 +16,13 @@ takeaways:
   - "Патч для уязвимого кэша был замёржен в публичную ветку Elements ещё 1–3 сентября — то есть код исправления был виден заранее любому, кто его искал."
 checks:
   - id: 1
-    at: 2026-09-07T10:15:00Z
+    at: 2026-09-30T10:15:00Z
   - id: 2
-    at: 2026-09-07T14:30:00Z
+    at: 2026-09-30T14:30:00Z
   - id: 3
-    at: 2026-09-07T20:00:00Z
+    at: 2026-09-30T20:00:00Z
   - id: 4
-    at: 2026-09-08T19:10:00Z
+    at: 2026-10-01T19:10:00Z
 sources:
   - url: "https://www.coindesk.com/markets/2026/09/07/bitcoin-network-used-by-exchanges-hit-by-usd320-million-exploit-hackers-claim-they-re-the-good-guys"
     title: "CoinDesk: Bitcoin network used by exchanges hit by $320M exploit"

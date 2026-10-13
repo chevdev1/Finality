@@ -514,8 +514,9 @@ const gainerCategories = [...new Set(gainers.map((p) => p.category))].sort();
           <SpotlightTeaser
             project={spotlight.data.project}
             tagline={spotlight.data.tagline}
-            href={`/spotlight/${spotlight.id}/`}
+            href={`${locale === 'en' ? '/en' : ''}/spotlight/${spotlight.id}/`}
             guestColor={spotlight.data.guestColor}
+            logo={spotlight.data.logo}
           />
         ) : (
           <div class="house-block">

@@ -5,8 +5,8 @@ title_en: "AI-driven scams are closing in on hacks as crypto's top security thre
 dek_en: "Over 207 distinct exploits were confirmed in the first half of 2026, AI use in crypto crime nearly doubled year over year, and deepfake-scam losses have already surpassed all of 2025's total."
 section: ai
 status: developing
-publishedAt: 2026-08-28T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-09-20T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: lina-suarez
 imageQuery: "cybersecurity artificial intelligence threat digital"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Задокументирован первый полностью автономный случай ИИ-вымогательства (ransomware), а также атаки, где ИИ-система вроде SecFlow превращает общую цель кампании в конкретные задачи для специализированных агентов с инструментами и данными о цели."
 checks:
   - id: 1
-    at: 2026-08-28T14:00:00Z
+    at: 2026-09-20T14:00:00Z
   - id: 3
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://www.forbes.com/sites/boazsobrado/2026/08/28/ai-enabled-scams-are-closing-in-on-crypto-hacks-as-a-security-threat/"
     title: "Forbes: AI-Enabled Scams Are Closing In On Crypto Hacks As A Security Threat"

@@ -5,8 +5,8 @@ title_en: "Tokenized real estate: Lofty holds $100M in assets with a $50 entry t
 dek_en: "Private credit and real estate are growing faster than treasuries within the tokenized-asset market, which has grown from $6B to $31B in under 18 months."
 section: rwa
 status: final
-publishedAt: 2026-09-03T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-26T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: lina-suarez
 imageQuery: "modern real estate property investment building"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Платформа Lofty держит $100,5 млн в активах в более чем 180 объектах недвижимости в 21 штате США на блокчейне Algorand при пороге входа $50 и средней доходности 11%."
 checks:
   - id: 1
-    at: 2026-09-03T14:00:00Z
+    at: 2026-09-26T14:00:00Z
   - id: 2
-    at: 2026-09-08T09:00:00Z
+    at: 2026-10-01T09:00:00Z
 sources:
   - url: "https://councils.forbes.com/blog/from-real-estate-to-credit-rwa-tokenization-is-transforming-ownership-in-2026"
     title: "Forbes Councils: From Real Estate to Credit, RWA Tokenization Is Transforming Ownership in 2026"

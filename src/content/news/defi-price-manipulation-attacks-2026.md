@@ -5,8 +5,8 @@ title_en: "Price-manipulation attacks on DeFi lenders hit a record 32 for the ye
 dek_en: "According to TRM Labs, 2026 is a record year for this type of attack — more than any year before it."
 section: defi
 status: final
-publishedAt: 2026-09-06T00:00:00Z
-updatedAt: 2026-09-06T00:00:00Z
+publishedAt: 2026-09-29T00:00:00Z
+updatedAt: 2026-09-29T00:00:00Z
 author: mara-okafor
 imageQuery: "stock market crash red graph decline"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Атака на Tectonic (Cronos, $75 млн) — один из примеров, разобранных в отчёте."
 checks:
   - id: 1
-    at: 2026-09-05T12:00:00Z
+    at: 2026-09-28T12:00:00Z
   - id: 2
-    at: 2026-09-06T09:00:00Z
+    at: 2026-09-29T09:00:00Z
   - id: 3
-    at: 2026-09-06T14:00:00Z
+    at: 2026-09-29T14:00:00Z
 sources:
   - url: "https://en.cryptonomist.ch/2026/09/06/defi-price-manipulation-exploits/"
     title: "The Cryptonomist: DeFi price-manipulation exploits surge to record high"

@@ -5,8 +5,8 @@ title_en: "What a federated sidechain is"
 dek_en: "A plain-language explanation of the funds-custody model behind the September 6 Liquid Network incident."
 section: security
 status: final
-publishedAt: 2026-09-08T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-10-01T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: mara-okafor
 takeaways:
   - "Федеративный сайдчейн передаёт контроль над базовым активом фиксированной группе подписантов («функционеров»)."
@@ -14,17 +14,17 @@ takeaways:
   - "Пользователи меняют гарантии расчётов базового уровня на более быстрые и конфиденциальные транзакции."
 checks:
   - id: 1
-    at: 2026-09-07T20:00:00Z
+    at: 2026-09-30T20:00:00Z
   - id: 2
-    at: 2026-09-07T21:00:00Z
+    at: 2026-09-30T21:00:00Z
   - id: 3
-    at: 2026-09-07T22:00:00Z
+    at: 2026-09-30T22:00:00Z
   - id: 4
-    at: 2026-09-07T23:00:00Z
+    at: 2026-09-30T23:00:00Z
   - id: 5
-    at: 2026-09-08T00:00:00Z
+    at: 2026-10-01T00:00:00Z
   - id: 6
-    at: 2026-09-08T00:30:00Z
+    at: 2026-10-01T00:30:00Z
 sources:
   - url: "https://docs.liquid.net/"
     title: "Документация Liquid Network"

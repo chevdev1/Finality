@@ -5,8 +5,8 @@ title_en: "Circle brings USDC and EURC to Nu Global — 140 million customers in
 dek_en: "The integration is meant to speed up cross-border transfers through Nu Global's multi-currency accounts, a rival international payments platform."
 section: fintech
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "global payments world map currency exchange"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Партнёрство идёт параллельно с запуском публичного мейннета Circle Arc 16 сентября — компания одновременно расширяет и низовую (потребительскую) дистрибуцию своих стейблкоинов, и инфраструктурный уровень под ними."
 checks:
   - id: 1
-    at: 2026-09-09T14:00:00Z
+    at: 2026-10-02T14:00:00Z
 sources:
   - url: "https://coinedition.com/circle-brings-usdc-eurc-to-nus-140m-customer-global-payments-push/"
     title: "Coin Edition: Circle Brings USDC, EURC to Nu's 140M-Customer Global Payments Push"

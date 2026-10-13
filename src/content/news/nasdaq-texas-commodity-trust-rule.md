@@ -5,8 +5,8 @@ title_en: "SEC approves Nasdaq Texas rule explicitly naming BTC, ETH, SOL, and X
 dek_en: "The amendment to Rule 5711(d) lists specific digital assets meeting the exchange's commodity-trust standards for the first time."
 section: policy
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: dev-patel
 imageQuery: "stock exchange trading floor finance"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Решение расширяет список активов, под которые на этой бирже могут структурироваться товарные трастовые продукты."
 checks:
   - id: 1
-    at: 2026-09-09T14:00:00Z
+    at: 2026-10-02T14:00:00Z
   - id: 2
-    at: 2026-09-10T10:00:00Z
+    at: 2026-10-03T10:00:00Z
 sources:
   - url: "https://coinmarketcap.com/cmc-ai/solana/latest-updates/"
     title: "CoinMarketCap: Solana latest updates"

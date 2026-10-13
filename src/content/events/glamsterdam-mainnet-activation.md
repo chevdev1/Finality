@@ -1,5 +1,5 @@
 ---
-date: 2026-10-15T00:00:00Z
+date: 2026-11-07T00:00:00Z
 precision: quarter
 title: "Активация Glamsterdam в основной сети Ethereum"
 title_en: "Glamsterdam activates on Ethereum mainnet"

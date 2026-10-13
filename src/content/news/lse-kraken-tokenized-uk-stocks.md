@@ -5,8 +5,8 @@ title_en: "London Stock Exchange strikes deal with Kraken's parent company to to
 dek_en: "Payward and LSE will launch xStocks on London's largest listed companies in 2027 — but not yet for UK investors."
 section: rwa
 status: developing
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: lina-suarez
 imageQuery: "london stock exchange building financial district"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Payward и LSE также изучают возможность нативных токенов акций, выпущенных через инфраструктуру самой биржи, с теми же правами и полной взаимозаменяемостью, что и у обычных акций."
 checks:
   - id: 1
-    at: 2026-09-01T15:00:00Z
+    at: 2026-09-24T15:00:00Z
   - id: 2
-    at: 2026-09-02T09:00:00Z
+    at: 2026-09-25T09:00:00Z
   - id: 3
-    at: 2026-09-08T10:00:00Z
+    at: 2026-10-01T10:00:00Z
 sources:
   - url: "https://www.theblock.co/news/business/2026-09-01-kraken-parent-payward-to-tokenize-100-london-listed-stocks-with-lse-24-trading-planned"
     title: "The Block: Kraken parent Payward to tokenize 100 London-listed stocks"

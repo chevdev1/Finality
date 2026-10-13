@@ -5,8 +5,8 @@ title_en: "Tether commissions its first full audit of USDT reserves — from KPM
 dek_en: "The company previously disclosed reserves only through quarterly reviews by BDO. Circle, meanwhile, publishes USDC data weekly with a monthly Big Four review."
 section: stablecoins
 status: developing
-publishedAt: 2026-08-25T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-09-17T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: lina-suarez
 imageQuery: "financial audit documents magnifying glass"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Circle для сравнения публикует резервы USDC еженедельно с ежемесячной проверкой от фирмы «большой четвёрки» — более частый цикл раскрытия, чем исторически был у Tether."
 checks:
   - id: 1
-    at: 2026-08-25T14:00:00Z
+    at: 2026-09-17T14:00:00Z
   - id: 2
-    at: 2026-09-09T10:00:00Z
+    at: 2026-10-02T10:00:00Z
 sources:
   - url: "https://news.bitcoin.com/report-tether-hires-kpmg-for-first-full-financial-audit-of-usdt-reserves/"
     title: "Bitcoin.com News: Tether hires KPMG for first full financial audit of USDT reserves"

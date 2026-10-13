@@ -37,5 +37,5 @@ faq:
     a: "Консорциум из 21 крупного банка и управляющей компании, включая Goldman Sachs, Citi, Bank of America, Wells Fargo и Fidelity, планирует совместный долларовый стейблкоин в первой половине 2027 года — к дате вступления закона в силу. U.S. Bank провёл пилотный трансграничный платёж в собственном USBDC."
     q_en: "Who is already preparing?"
     a_en: "A consortium of 21 major banks and asset managers, including Goldman Sachs, Citi, Bank of America, Wells Fargo, and Fidelity, plans a joint dollar stablecoin for the first half of 2027 — matching the law's effective date. U.S. Bank has run a pilot cross-border payment in its own USBDC."
-updatedAt: 2026-09-11T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 ---

@@ -5,8 +5,8 @@ title_en: "Spot Ethereum ETFs pulled in a record $824M in a week — the best re
 dek_en: "BlackRock's ETHA accounted for $567M of the total inflow. Funds now hold 5.2% of Ethereum's market cap."
 section: ethereum
 status: final
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "ethereum coin financial chart growth"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Совокупные активы спотовых ETH-ETF достигли $15,23 млрд — 5,2% рыночной капитализации Ethereum; неделей позже фонды зафиксировали разовый отток $24 млн, прервав растущую серию."
 checks:
   - id: 1
-    at: 2026-09-01T13:00:00Z
+    at: 2026-09-24T13:00:00Z
   - id: 5
-    at: 2026-09-02T10:00:00Z
+    at: 2026-09-25T10:00:00Z
 sources:
   - url: "https://cryptobriefing.com/bitcoin-eth-etf-inflows-924m-824m/"
     title: "Crypto Briefing: Bitcoin ETFs See $924M Net Inflows, ETH ETFs Attract $824M in Banner Week"

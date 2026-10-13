@@ -5,8 +5,8 @@ title_en: "The CLARITY Act failed its Senate cloture vote — crypto market-stru
 dek_en: "The procedural vote came up short of the 60 votes needed, effectively killing the bill for the rest of 2026. Outlets disagree on the exact tally, but agree the gap wasn't close."
 section: policy
 status: final
-publishedAt: 2026-09-15T00:00:00Z
-updatedAt: 2026-09-16T00:00:00Z
+publishedAt: 2026-10-08T00:00:00Z
+updatedAt: 2026-10-09T00:00:00Z
 author: dev-patel
 imageQuery: "us senate capitol building washington"
 takeaways:
@@ -15,13 +15,13 @@ takeaways:
   - "Формальный путь к пересмотру остаётся (подана процедурная заявка на повторное рассмотрение), но, по словам сенатора Лумис, в 2026 году билль на голосование больше не вернётся."
 checks:
   - id: 1
-    at: 2026-09-15T21:00:00Z
+    at: 2026-10-08T21:00:00Z
   - id: 2
-    at: 2026-09-16T09:00:00Z
+    at: 2026-10-09T09:00:00Z
   - id: 3
-    at: 2026-09-16T11:00:00Z
+    at: 2026-10-09T11:00:00Z
   - id: 5
-    at: 2026-09-16T14:00:00Z
+    at: 2026-10-09T14:00:00Z
 sources:
   - url: "https://www.cryptotimes.io/2026/09/16/clarity-act-fails-in-senate-as-cloture-vote-falls-short-of-60-votes/"
     title: "The Crypto Times: CLARITY Act Fails in Senate as Cloture Vote Falls Short of 60 Votes"

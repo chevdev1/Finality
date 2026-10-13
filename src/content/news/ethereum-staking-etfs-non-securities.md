@@ -5,8 +5,8 @@ title_en: "Staked ETH topped 41 million coins after the SEC ruled staking reward
 dek_en: "A joint SEC-CFTC clarification in March removed the legal barrier that had kept staking ETFs on hold for over a year. The staked share of supply climbed to 34.23%."
 section: ethereum
 status: final
-publishedAt: 2026-04-01T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-04-24T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: dev-patel
 imageQuery: "ethereum cryptocurrency coin technology blue"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Доля застейканного ETH выросла до 34,23% предложения, рыночная капитализация стейкинга превысила $77 млрд, а чистая доходность для держателей фондов после комиссий составляет 1,9–2,6% годовых."
 checks:
   - id: 1
-    at: 2026-09-07T12:00:00Z
+    at: 2026-09-30T12:00:00Z
   - id: 2
-    at: 2026-09-08T09:00:00Z
+    at: 2026-10-01T09:00:00Z
   - id: 3
-    at: 2026-09-08T15:00:00Z
+    at: 2026-10-01T15:00:00Z
 sources:
   - url: "https://www.coindesk.com/tech/2026/06/22/ethereum-validators-asked-to-fund-projects-with-up-to-10-of-staking-rewards-under-new-proposal"
     title: "CoinDesk: Ethereum validators asked to fund projects with up to 10% of staking rewards"

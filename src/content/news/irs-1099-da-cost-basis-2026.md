@@ -5,8 +5,8 @@ title_en: "IRS starts requiring exchanges to report cost basis on crypto trades 
 dek_en: "Form 1099-DA will for the first time show cost basis, not just sale proceeds — but only for assets bought after January 1, 2026 and held on the same exchange."
 section: policy
 status: final
-publishedAt: 2026-08-28T00:00:00Z
-updatedAt: 2026-09-05T00:00:00Z
+publishedAt: 2026-09-20T00:00:00Z
+updatedAt: 2026-09-28T00:00:00Z
 author: dev-patel
 imageQuery: "tax documents financial forms paperwork"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Для «непокрытых» активов — купленных раньше или переведённых между кошельками/биржами — расчёт себестоимости и прибыли остаётся на самом налогоплательщике: биржа укажет в форме только сумму продажи с пометкой «непокрыто»."
 checks:
   - id: 1
-    at: 2026-08-28T15:00:00Z
+    at: 2026-09-20T15:00:00Z
   - id: 3
-    at: 2026-09-05T09:00:00Z
+    at: 2026-09-28T09:00:00Z
 sources:
   - url: "https://247wallst.com/personal-finance/2026/08/28/cryptos-anonymous-era-just-ended-form-1099-da-now-tells-the-irs-what-you-sold-and-its-cost-basis-math-may-not-match-yours/"
     title: "24/7 Wall St.: Crypto's Anonymous Era Just Ended — Form 1099-DA Now Tells the IRS What You Sold"

@@ -1,5 +1,5 @@
 ---
-date: 2027-03-01T00:00:00Z
+date: 2027-03-24T00:00:00Z
 precision: year
 title: "Целевой запуск банковского консорциума по стейблкоину"
 title_en: "Target launch for the bank consortium's joint stablecoin"

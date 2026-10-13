@@ -1,0 +1,134 @@
+---
+// A sponsored "Spotlight" entry styled to sit inside the article feed (same grid rhythm as
+// ArticleRow) rather than tucked in the sidebar — used when a placement should read as a
+// prominent position in the list, not an afterthought. Always carries its own "Партнёрский
+// материал" badge; nothing here is editorial content.
+interface Props {
+  project: string;
+  tagline: string;
+  href: string;
+  guestColor: string;
+  image?: string;
+  logo?: string;
+  locale?: 'ru' | 'en';
+}
+const { project, tagline, href, guestColor, image, logo, locale = 'ru' } = Astro.props;
+const badge = locale === 'en' ? 'Sponsored' : 'Партнёрский материал';
+const initial = project.replace('[', '').charAt(0) || 'P';
+---
+
+<a class="row" href={href} rel="sponsored" style={`--guest: ${guestColor}`}>
+  <span class="thumb" aria-hidden="true">
+    {image ? (
+      <img src={image} alt="" loading="lazy" width="120" height="120" />
+    ) : (
+      initial
+    )}
+    {logo && <img class="logo-badge" src={logo} alt="" loading="lazy" width="28" height="28" />}
+  </span>
+  <span class="badge data">{badge}</span>
+  <span class="body">
+    <span class="title">{project}</span>
+    <span class="dek">{tagline}</span>
+  </span>
+  <span class="arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 120px 90px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    margin: 4px 0;
+    border: 1px solid var(--guest);
+    background: color-mix(in srgb, var(--guest) 7%, var(--paper));
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .thumb {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--guest);
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 44px;
+    overflow: hidden;
+  }
+  .thumb img:not(.logo-badge) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .logo-badge {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    width: 28px;
+    height: 28px;
+    box-shadow: 0 0 0 2px var(--guest);
+  }
+  .badge {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--guest);
+    font-weight: 700;
+  }
+  .body {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .title {
+    font-weight: 700;
+    font-size: 17px;
+  }
+  .dek {
+    color: var(--graphite);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .arrow {
+    color: var(--guest);
+    font-size: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover {
+      background: color-mix(in srgb, var(--guest) 14%, var(--paper));
+    }
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 72px 1fr auto;
+      grid-template-areas:
+        'thumb body arrow'
+        'badge badge badge';
+      gap: 6px 12px;
+    }
+    .thumb {
+      grid-area: thumb;
+      width: 72px;
+      height: 72px;
+      font-size: 28px;
+    }
+    .badge {
+      grid-area: badge;
+    }
+    .body {
+      grid-area: body;
+    }
+    .arrow {
+      grid-area: arrow;
+    }
+  }
+</style>

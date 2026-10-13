@@ -5,8 +5,8 @@ title_en: "Senate schedules a September 15 procedural vote on the CLARITY bill"
 dek_en: "60 votes are needed to break a filibuster. Industry sentiment is increasingly that the bill won't pass in 2026."
 section: policy
 status: developing
-publishedAt: 2026-09-01T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-09-24T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: dev-patel
 imageQuery: "capitol building washington government senate"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Многие участники рынка считают, что билль не успеют принять в 2026 году, несмотря на попытки его протащить до конца сессии."
 checks:
   - id: 1
-    at: 2026-09-01T09:00:00Z
+    at: 2026-09-24T09:00:00Z
   - id: 2
-    at: 2026-09-08T10:00:00Z
+    at: 2026-10-01T10:00:00Z
 sources:
   - url: "https://www.cnbc.com/2026/09/01/crypto-enters-september-with-policy-gamble-hanging-by-a-thread.html"
     title: "CNBC: Crypto enters September with legislative policy gamble hanging by a thread"

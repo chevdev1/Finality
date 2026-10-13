@@ -5,8 +5,8 @@ title_en: "Wallet-drainer losses fell 83% in a year — a rare case of a specifi
 dek_en: "From $494M in 2024 to about $83.85M in 2025; the number of affected wallets dropped 68%. But the overall number of exchange and protocol hacks didn't decrease."
 section: security
 status: final
-publishedAt: 2026-08-20T00:00:00Z
-updatedAt: 2026-09-02T00:00:00Z
+publishedAt: 2026-09-12T00:00:00Z
+updatedAt: 2026-09-25T00:00:00Z
 author: mara-okafor
 imageQuery: "digital lock security shield technology"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Это снижение не означает общего спада крипто-мошенничества: сами дрейнер-наборы продолжают продаваться как услуга на теневых форумах, а взлом биржи или протокола, по формулировке одного из источников, «перестал быть редкой катастрофой и стал рутинным риском рынка»."
 checks:
   - id: 1
-    at: 2026-08-20T14:00:00Z
+    at: 2026-09-12T14:00:00Z
   - id: 5
-    at: 2026-09-02T10:00:00Z
+    at: 2026-09-25T10:00:00Z
 sources:
   - url: "https://deepstrike.io/blog/crypto-wallet-drainer-statistics"
     title: "DeepStrike: Crypto Wallet Drainer Statistics 2026 — Losses, Victims & Major Operations"

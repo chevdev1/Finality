@@ -5,8 +5,8 @@ title_en: "Kraken launches perpetual futures on access to pre-IPO OpenAI and Ant
 dek_en: "Contracts with up to 5x leverage give synthetic exposure to the companies' valuations, with no rights to shares, votes, or dividends. The product is closed to the US, EEA, Canada, Australia, and New Zealand."
 section: ai
 status: final
-publishedAt: 2026-09-06T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-09-29T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: lina-suarez
 imageQuery: "trading screen finance technology futuristic"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Позиции не дают права на акции, голос на собраниях акционеров или дивиденды; продукт недоступен клиентам из США, ЕЭЗ, Канады, Австралии и Новой Зеландии."
 checks:
   - id: 1
-    at: 2026-09-06T10:00:00Z
+    at: 2026-09-29T10:00:00Z
   - id: 2
-    at: 2026-09-06T14:00:00Z
+    at: 2026-09-29T14:00:00Z
   - id: 3
-    at: 2026-09-08T09:00:00Z
+    at: 2026-10-01T09:00:00Z
 sources:
   - url: "https://crypto.news/kraken-launches-openai-and-anthropic-pre-ipo-perps/"
     title: "crypto.news: Kraken launches OpenAI and Anthropic pre-IPO perps"

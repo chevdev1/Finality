@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import SpotlightDetailPage from '../../../components/SpotlightDetailPage.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('spotlight');
+  return items
+    .filter((entry) => !entry.data.project.includes('['))
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+---
+
+<SpotlightDetailPage entry={entry} locale="en" />

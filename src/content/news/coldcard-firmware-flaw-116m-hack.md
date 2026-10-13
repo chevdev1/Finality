@@ -5,8 +5,8 @@ title_en: "A five-year-old firmware bug in Coldcard hardware wallets led to a $1
 dek_en: "A flaw in the 2021 firmware weakened randomness during seed-phrase generation. Attackers derived private keys and drained about 1,816 BTC from more than 5,200 addresses."
 section: security
 status: final
-publishedAt: 2026-08-04T00:00:00Z
-updatedAt: 2026-08-06T00:00:00Z
+publishedAt: 2026-08-27T00:00:00Z
+updatedAt: 2026-08-29T00:00:00Z
 author: mara-okafor
 imageQuery: "hardware wallet security cold storage device"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Владельцам, сгенерировавшим сид-фразу на Coldcard между мартом 2021 года и выходом патча, рекомендовано считать её скомпрометированной и перенести средства на новый сид; это третий по величине крипто-взлом 2026 года."
 checks:
   - id: 1
-    at: 2026-08-04T18:00:00Z
+    at: 2026-08-27T18:00:00Z
   - id: 3
-    at: 2026-08-05T10:00:00Z
+    at: 2026-08-28T10:00:00Z
 sources:
   - url: "https://www.trmlabs.com/resources/blog/the-largest-hardware-wallet-exploit-of-2026-inside-the-usd-116-million-coldcard-hack"
     title: "TRM Labs: The Largest Hardware Wallet Exploit of 2026 — Inside the $116 Million Coldcard Hack"

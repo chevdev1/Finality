@@ -5,8 +5,8 @@ title_en: "Public bitcoin miners are selling reserves to fund a pivot into AI in
 dek_en: "Core Scientific, Bitdeer, and Riot together cut their treasuries by more than 15,000 BTC. Over $70B in compute-leasing contracts with AI companies have been signed."
 section: bitcoin
 status: final
-publishedAt: 2026-09-10T00:00:00Z
-updatedAt: 2026-09-12T00:00:00Z
+publishedAt: 2026-10-03T00:00:00Z
+updatedAt: 2026-10-05T00:00:00Z
 author: lina-suarez
 imageQuery: "bitcoin mining data center servers"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Riot, Hut 8, TeraWulf, IREN, Bitdeer, CleanSpark, Cipher Digital и Core Scientific в сумме подписали контракты на аренду мощностей ИИ-лабораториям и гиперскейлерам на срок от 10 лет на сумму свыше $70 млрд."
 checks:
   - id: 1
-    at: 2026-09-10T11:00:00Z
+    at: 2026-10-03T11:00:00Z
   - id: 3
-    at: 2026-09-11T09:00:00Z
+    at: 2026-10-04T09:00:00Z
 sources:
   - url: "https://www.coindesk.com/markets/2026/03/27/bitcoin-miners-are-becoming-ai-companies-and-selling-their-btc-to-fund-the-transition"
     title: "CoinDesk: Bitcoin Miners Are Becoming AI Companies and Selling Their BTC to Fund the Transition"

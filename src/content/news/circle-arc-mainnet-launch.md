@@ -5,8 +5,8 @@ title_en: "Circle launches public Arc mainnet — a stablecoin-settlement blockc
 dek_en: "The full product suite ships September 16: transaction privacy, infrastructure for autonomous AI agents, and support for tokenized real-world assets."
 section: stablecoins
 status: developing
-publishedAt: 2026-09-12T00:00:00Z
-updatedAt: 2026-09-12T00:00:00Z
+publishedAt: 2026-10-05T00:00:00Z
+updatedAt: 2026-10-05T00:00:00Z
 author: lina-suarez
 imageQuery: "blockchain network digital finance technology"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Запуск идёт на фоне уже объявленных партнёрств Circle — с Nu Global (140 млн клиентов в более чем 35 странах) и Chelsea FC — и общего сдвига рынка к специализированным, а не универсальным блокчейнам под конкретные финансовые задачи."
 checks:
   - id: 1
-    at: 2026-09-12T12:00:00Z
+    at: 2026-10-05T12:00:00Z
 sources:
   - url: "https://coinedition.com/circle-brings-usdc-eurc-to-nus-140m-customer-global-payments-push/"
     title: "Coin Edition: Circle Brings USDC, EURC to Nu's 140M-Customer Global Payments Push"

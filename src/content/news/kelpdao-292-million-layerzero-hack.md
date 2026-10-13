@@ -5,8 +5,8 @@ title_en: "The biggest DeFi hack of 2026: how $292M left the KelpDAO bridge thro
 dek_en: "Attackers socially engineered a LayerZero developer, gained access to RPC nodes, and DDoSed the rest — the bridge accepted a forged confirmation because of a single-verifier setup."
 section: defi
 status: final
-publishedAt: 2026-04-20T00:00:00Z
-updatedAt: 2026-09-08T00:00:00Z
+publishedAt: 2026-05-13T00:00:00Z
+updatedAt: 2026-10-01T00:00:00Z
 author: mara-okafor
 imageQuery: "server room data center cables dark"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Корневая причина — конфигурация верификации 1-из-1: только один узел подтверждал межцепочечные сообщения перед выпуском средств. Mandiant, CrowdStrike и независимые исследователи связывают атаку с северокорейской группой TraderTraitor (UNC4899)."
 checks:
   - id: 1
-    at: 2026-04-20T18:00:00Z
+    at: 2026-05-13T18:00:00Z
   - id: 3
-    at: 2026-04-21T10:00:00Z
+    at: 2026-05-14T10:00:00Z
   - id: 4
-    at: 2026-05-05T09:00:00Z
+    at: 2026-05-28T09:00:00Z
 sources:
   - url: "https://www.coindesk.com/tech/2026/04/20/kelp-dao-claims-layerzero-s-default-settings-are-what-actually-caused-the-usd290-million-disaster"
     title: "CoinDesk: Kelp DAO Hits Back at LayerZero for Trying to Shift the Blame After a Massive Exploit"

@@ -5,8 +5,8 @@ title_en: "Bitcoin mining difficulty fell 19% from its October peak — but mine
 dek_en: "Hashrate is holding around 934 EH/s, while 30-day hashprice climbed from $32.42 to $39.63 per PH/s per day — miners are earning more for the same capacity."
 section: bitcoin
 status: final
-publishedAt: 2026-09-07T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-30T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: lina-suarez
 imageQuery: "bitcoin mining hardware data center"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Хешпрайс — доходность на единицу мощности — вырос за 30 дней с $32,42 до $39,63 за PH/s в день, то есть майнеры зарабатывают больше при том же объёме оборудования."
 checks:
   - id: 1
-    at: 2026-09-07T10:00:00Z
+    at: 2026-09-30T10:00:00Z
   - id: 2
-    at: 2026-09-08T09:00:00Z
+    at: 2026-10-01T09:00:00Z
 sources:
   - url: "https://finance.yahoo.com/markets/crypto/articles/bitcoin-mining-difficulty-drops-10-092553340.html"
     title: "Yahoo Finance: Bitcoin Mining Difficulty Drops in Second-Largest 2026 Decline"

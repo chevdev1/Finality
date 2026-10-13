@@ -5,8 +5,8 @@ title_en: "Ethereum Foundation publishes its first unified ranking of proposals 
 dek_en: "Of 62 EIPs under consideration, only two were rated must-ship. It's the first time the protocol cluster has issued one combined verdict instead of separate opinions from each team."
 section: ethereum
 status: final
-publishedAt: 2026-09-07T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-30T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "ethereum blockchain code programming abstract"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Рейтинг составлен по 397 индивидуальным оценкам от 12 из 16 участников девяти команд кластера — в среднем 6,4 оценки на каждый EIP, а не мнение одного человека или одной команды."
 checks:
   - id: 1
-    at: 2026-09-07T16:00:00Z
+    at: 2026-09-30T16:00:00Z
   - id: 2
-    at: 2026-09-08T10:00:00Z
+    at: 2026-10-01T10:00:00Z
   - id: 6
-    at: 2026-09-09T09:00:00Z
+    at: 2026-10-02T09:00:00Z
 sources:
   - url: "https://blog.ethereum.org/2026/09/07/protocol-hegota-eips"
     title: "Ethereum Foundation Blog: EF Protocol — The Hegotá EIP Opinion Post and Tier List"

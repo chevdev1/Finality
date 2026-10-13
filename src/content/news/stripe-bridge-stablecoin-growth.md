@@ -5,8 +5,8 @@ title_en: "Bridge's transaction volume quadrupled after Stripe integration — s
 dek_en: "Bridge's partnership with Visa, which lets companies issue cards linked to stablecoin wallets, is expanding to 60 countries by Q3 2026."
 section: fintech
 status: final
-publishedAt: 2026-09-02T00:00:00Z
-updatedAt: 2026-09-02T00:00:00Z
+publishedAt: 2026-09-25T00:00:00Z
+updatedAt: 2026-09-25T00:00:00Z
 author: dev-patel
 imageQuery: "payment card technology digital finance"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Партнёрство Bridge с Visa, позволяющее финтех-компаниям выпускать карты, привязанные к стейблкоин-кошелькам, планирует расшириться до 60 стран к третьему кварталу 2026 года."
 checks:
   - id: 1
-    at: 2026-09-02T15:00:00Z
+    at: 2026-09-25T15:00:00Z
 sources:
   - url: "https://en.cryptonomist.ch/2026/09/02/stripe-bridge-acquisition-growth/"
     title: "The Cryptonomist: Stripe Bridge Acquisition Drives $10 Billion Infrastructure Build"

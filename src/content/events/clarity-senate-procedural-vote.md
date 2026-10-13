@@ -1,5 +1,5 @@
 ---
-date: 2026-09-15T00:00:00Z
+date: 2026-10-08T00:00:00Z
 precision: day
 title: "Сенат США голосует по биллю CLARITY — голосование провалено"
 title_en: "US Senate votes on the CLARITY bill — the vote failed"

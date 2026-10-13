@@ -5,8 +5,8 @@ title_en: "U.S. Bank completes first live cross-border payment in its own USBDC 
 dek_en: "The sixth-largest US bank tested a transfer between its North American and European divisions on the Stellar blockchain."
 section: stablecoins
 status: final
-publishedAt: 2026-09-10T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-03T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: lina-suarez
 imageQuery: "bank building finance corporate"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "USBDC остаётся инфраструктурным пилотом, а не коммерчески доступным стейблкоином."
 checks:
   - id: 1
-    at: 2026-09-10T14:00:00Z
+    at: 2026-10-03T14:00:00Z
   - id: 2
-    at: 2026-09-10T16:00:00Z
+    at: 2026-10-03T16:00:00Z
   - id: 3
-    at: 2026-09-11T09:00:00Z
+    at: 2026-10-04T09:00:00Z
 sources:
   - url: "https://ir.usbank.com/news-events/news/news-details/2026/U-S--Bank-Launches-USBDC-Stablecoin/default.aspx"
     title: "U.S. Bancorp: официальный релиз о запуске USBDC"

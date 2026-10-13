@@ -15,5 +15,5 @@ relatedArticle: genius-act-stablecoin-treasury-rules
 sources:
   - url: "https://www.federalregister.gov/documents/2026/08/18/2026-16796/genius-act-regulations-on-payment-stablecoin-issuance-offer-and-sale"
     title: "Federal Register: GENIUS Act Regulations on Payment Stablecoin Issuance, Offer, and Sale"
-updatedAt: 2026-09-05T00:00:00Z
+updatedAt: 2026-09-28T00:00:00Z
 ---

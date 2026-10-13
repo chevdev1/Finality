@@ -44,5 +44,5 @@ faq:
     a: "Биткоин за день упал примерно на 4% — с около $79 530 до $75 850–76 300. Акции Coinbase потеряли 6,7%, Circle — 8%, Bullish — 4,6%, Robinhood — 3,6%."
     q_en: "How did the market react?"
     a_en: "Bitcoin fell about 4% over the day, from roughly $79,530 to $75,850–76,300. Coinbase shares lost 6.7%, Circle 8%, Bullish 4.6%, and Robinhood 3.6%."
-updatedAt: 2026-09-16T00:00:00Z
+updatedAt: 2026-10-09T00:00:00Z
 ---

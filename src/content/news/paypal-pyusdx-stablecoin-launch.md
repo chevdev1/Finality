@@ -5,8 +5,8 @@ title_en: "PayPal launches a tool for issuing custom stablecoins built on PYUSD"
 dek_en: "PYUSDx lets any company create its own stablecoin backed by PayPal USD. On day one, three projects launched on it with a combined volume over $100M."
 section: fintech
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-10T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-03T00:00:00Z
 author: dev-patel
 imageQuery: "digital payment mobile phone finance app"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "PayPal Pay with Crypto позволяет проверенным продавцам в США принимать около 100 криптовалют, включая PYUSD, USDC и USDT, с расчётом в долларах на баланс PayPal."
 checks:
   - id: 1
-    at: 2026-09-09T16:00:00Z
+    at: 2026-10-02T16:00:00Z
   - id: 2
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://newsroom.paypal-corp.com/news-cryptocurrency"
     title: "PayPal Newsroom: криптовалютные новости"

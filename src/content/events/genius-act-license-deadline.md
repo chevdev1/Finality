@@ -1,5 +1,5 @@
 ---
-date: 2027-01-18T00:00:00Z
+date: 2027-02-10T00:00:00Z
 precision: day
 title: "Дедлайн лицензирования эмитентов стейблкоинов по закону GENIUS"
 title_en: "GENIUS Act stablecoin issuer licensing deadline"

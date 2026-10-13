@@ -13,5 +13,5 @@ relatedArticle: sec-regulation-crypto-assets-classification
 sources:
   - url: "https://corpgov.law.harvard.edu/2026/09/11/sec-proposes-regulation-crypto-assets-a-tailored-offering-framework-for-crypto-investment-contracts/"
     title: "Harvard Law School Forum on Corporate Governance: SEC Proposes Regulation Crypto Assets"
-updatedAt: 2026-09-11T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 ---

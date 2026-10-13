@@ -5,8 +5,8 @@ title_en: "US Treasury proposes rules for stablecoin issuance under the GENIUS A
 dek_en: "The draft rules define exactly what counts as issuing and selling a payment stablecoin. Issuing one without a license becomes illegal starting January 18, 2027."
 section: stablecoins
 status: developing
-publishedAt: 2026-08-18T00:00:00Z
-updatedAt: 2026-09-05T00:00:00Z
+publishedAt: 2026-09-10T00:00:00Z
+updatedAt: 2026-09-28T00:00:00Z
 author: lina-suarez
 imageQuery: "us treasury department building washington"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Публичные комментарии к проекту правил принимаются до 19 октября 2026 года."
 checks:
   - id: 1
-    at: 2026-08-18T16:00:00Z
+    at: 2026-09-10T16:00:00Z
   - id: 2
-    at: 2026-09-05T09:00:00Z
+    at: 2026-09-28T09:00:00Z
 sources:
   - url: "https://www.federalregister.gov/documents/2026/08/18/2026-16796/genius-act-regulations-on-payment-stablecoin-issuance-offer-and-sale"
     title: "Federal Register: GENIUS Act Regulations on Payment Stablecoin Issuance, Offer, and Sale"

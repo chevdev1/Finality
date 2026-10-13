@@ -5,8 +5,8 @@ title_en: "DBS, OCBC, and UOB complete first settlements in tokenized Singapore 
 dek_en: "Singapore's three largest banks made their first interbank payments through a shared Swift blockchain ledger, exchanging payment messages and tokenized-deposit obligations."
 section: fintech
 status: final
-publishedAt: 2026-09-10T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-03T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: dev-patel
 imageQuery: "singapore skyline finance banking district"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Это следует за июльским объявлением Swift о готовности леджера к использованию — тогда 17 банков на шести континентах готовились к похожим живым транзакциям с токенизированными депозитами."
 checks:
   - id: 1
-    at: 2026-09-10T14:00:00Z
+    at: 2026-10-03T14:00:00Z
   - id: 4
-    at: 2026-09-11T09:00:00Z
+    at: 2026-10-04T09:00:00Z
 sources:
   - url: "https://www.fintechfutures.com/blockchain-crypto-digital-assets/singapore-banks-complete-first-tokenised-sgd-transactions-on-swift-blockchain-ledger"
     title: "FinTech Futures: Singapore Banks Complete First Tokenised SGD Transactions on Swift Blockchain Ledger"

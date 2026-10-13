@@ -5,8 +5,8 @@ title_en: "CFTC is drafting its own crypto market rules in case the CLARITY bill
 dek_en: "CFTC chair Michael Selig has directed staff to work out rules under the agency's existing authority — in parallel with the Senate's September 15 procedural vote."
 section: policy
 status: developing
-publishedAt: 2026-09-12T00:00:00Z
-updatedAt: 2026-09-13T00:00:00Z
+publishedAt: 2026-10-05T00:00:00Z
+updatedAt: 2026-10-06T00:00:00Z
 author: dev-patel
 imageQuery: "government building law courthouse columns"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Селиг подчёркивает, что предпочитает путь через полноценное законодательство, но агентство готово двигаться вперёд независимо от исхода голосования по CLARITY в Сенате 15 сентября."
 checks:
   - id: 1
-    at: 2026-09-12T14:00:00Z
+    at: 2026-10-05T14:00:00Z
   - id: 3
-    at: 2026-09-13T10:00:00Z
+    at: 2026-10-06T10:00:00Z
 sources:
   - url: "https://www.governmentenforcementreport.com/2026/09/cftc-chairman-selig-announces-plans-to-develop-crypto-market-structure-rules-under-existing-authority/"
     title: "Government Enforcement Report: CFTC Chairman Selig Announces Plans to Develop Crypto Market-Structure Rules Under Existing Authority"

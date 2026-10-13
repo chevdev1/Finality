@@ -5,8 +5,8 @@ title_en: "The tokenized asset market has grown to $60B — but only treasuries 
 dek_en: "The report counted more than 7,000 products across 12 asset classes. Tokenized US treasuries reached $15B — the only class to reach industrial-scale maturity."
 section: rwa
 status: final
-publishedAt: 2026-09-02T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-09-25T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: lina-suarez
 imageQuery: "financial bonds documents treasury paperwork"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Крупнейшие продукты — USYC от Circle, USDY от Ondo, iBENJI от Franklin Templeton и WTGXX от WisdomTree."
 checks:
   - id: 1
-    at: 2026-09-08T12:00:00Z
+    at: 2026-10-01T12:00:00Z
   - id: 2
-    at: 2026-09-08T16:00:00Z
+    at: 2026-10-01T16:00:00Z
   - id: 3
-    at: 2026-09-09T09:00:00Z
+    at: 2026-10-02T09:00:00Z
 sources:
   - url: "https://www.coingecko.com/research/publications/rwa-report-2026"
     title: "CoinGecko: RWA Report 2026"

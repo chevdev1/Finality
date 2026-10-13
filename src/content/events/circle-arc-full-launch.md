@@ -1,5 +1,5 @@
 ---
-date: 2026-09-16T00:00:00Z
+date: 2026-10-09T00:00:00Z
 precision: day
 title: "Полный запуск публичного мейннета Circle Arc"
 title_en: "Circle Arc public mainnet ships its full product suite"

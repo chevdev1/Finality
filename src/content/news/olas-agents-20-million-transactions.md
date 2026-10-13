@@ -5,8 +5,8 @@ title_en: "Olas AI agents have logged almost 20 million on-chain transactions �
 dek_en: "The protocol itself calls this \"real, verifiable activity,\" not spam. The numbers aren't actually contradictory — they're just measuring different things."
 section: ai
 status: final
-publishedAt: 2026-08-15T00:00:00Z
-updatedAt: 2026-08-16T00:00:00Z
+publishedAt: 2026-09-07T00:00:00Z
+updatedAt: 2026-09-08T00:00:00Z
 author: lina-suarez
 imageQuery: "ai agent robot network digital abstract"
 takeaways:
@@ -15,7 +15,7 @@ takeaways:
   - "Сам Olas в собственном разборе настаивает, что каждая транзакция — «осмысленное, проверяемое ончейн-действие», а не спам, но не приводит долю операций, которые несли реальную экономическую стоимость."
 checks:
   - id: 1
-    at: 2026-08-15T15:00:00Z
+    at: 2026-09-07T15:00:00Z
 sources:
   - url: "https://olas.network/blog/20-million-olas-agent-transactions"
     title: "Olas: Approaching 20 Million Olas Agent Transactions — Spam or Something Else?"

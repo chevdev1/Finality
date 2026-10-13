@@ -5,8 +5,8 @@ title_en: "Mastercard launches Agent Connect — a single integration for AI-age
 dek_en: "The service gives merchants one entry point to list products, build a cart, and take payment with customer confirmation across different AI shopping platforms."
 section: fintech
 status: final
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-09T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-02T00:00:00Z
 author: dev-patel
 imageQuery: "credit card payment technology contactless"
 takeaways:
@@ -15,11 +15,11 @@ takeaways:
   - "Agent Connect дополняет более широкий набор сервисов Mastercard Agent Suite, включая партнёрство с Anthropic для интеграции моделей Claude."
 checks:
   - id: 1
-    at: 2026-09-09T13:00:00Z
+    at: 2026-10-02T13:00:00Z
   - id: 2
-    at: 2026-09-09T17:00:00Z
+    at: 2026-10-02T17:00:00Z
   - id: 3
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://en.cryptonomist.ch/2026/09/09/mastercard-ai-shopping-agent-connect/"
     title: "The Cryptonomist: Mastercard AI Shopping launches Agent Connect integration"

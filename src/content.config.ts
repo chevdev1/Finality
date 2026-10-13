@@ -56,25 +56,63 @@ const authors = defineCollection({
 const spotlight = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/spotlight' }),
   schema: z.object({
+    // 'protocol' — a DeFi/token project: chain, tokenomics, roadmap, the original shape below.
+    // 'channel' — a content/community sponsor (a Telegram channel, a newsletter) that has no
+    // token or on-chain footprint of its own; forcing it through chain/tokenomics/roadmap
+    // would mean inventing numbers that don't exist. `highlights` replaces `tokenomics` for
+    // this kind: a short, sourced track record instead of a fabricated token split.
+    kind: z.enum(['protocol', 'channel']).default('protocol'),
     project: z.string(),
     tagline: z.string(),
+    tagline_en: z.string().optional(),
     publishedAt: z.coerce.date(),
     guestColor: z.string().default('#3d5afe'),
-    chain: z.string(),
-    token: z.string(),
-    launch: z.string(),
-    audits: z.string(),
-    backers: z.string(),
-    tvl: z.string(),
+    chain: z.string().optional(),
+    token: z.string().optional(),
+    launch: z.string().optional(),
+    launch_en: z.string().optional(),
+    audits: z.string().optional(),
+    backers: z.string().optional(),
+    tvl: z.string().optional(),
+    platform: z.string().optional(),
+    focus: z.string().optional(),
+    logo: z.string().optional(),
+    bannerImage: z.string().optional(),
     whatItIs: z.string(),
-    howItWorks: z.array(z.string()),
-    tokenomics: z.array(z.object({ label: z.string(), pct: z.number() })),
-    roadmap: z.array(z.object({ n: z.number(), label: z.string(), done: z.boolean() })),
-    team: z.string(),
-    backersList: z.string(),
+    whatItIs_en: z.string().optional(),
+    howItWorks: z.array(z.string()).default([]),
+    howItWorks_en: z.array(z.string()).default([]),
+    tokenomics: z.array(z.object({ label: z.string(), pct: z.number() })).default([]),
+    roadmap: z.array(z.object({ n: z.number(), label: z.string(), done: z.boolean() })).default([]),
+    highlights: z.array(z.object({ name: z.string(), pct: z.string(), x: z.string() })).default([]),
+    // Only the formatting differs between editions (decimal comma vs. point) — optional, falls
+    // back to `highlights` when the figures read fine as-is.
+    highlights_en: z.array(z.object({ name: z.string(), pct: z.string(), x: z.string() })).default([]),
+    team: z.string().optional(),
+    backersList: z.string().optional(),
     risks: z.array(z.string()),
-    faq: z.array(z.object({ q: z.string(), a: z.string() })),
+    risks_en: z.array(z.string()).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string(), q_en: z.string().optional(), a_en: z.string().optional() })),
+    // Community comments as supplied by the sponsor — shown as-is, not vetted or fact-checked
+    // by Finality's editorial team, same disclosure as the rest of this page. `reply` is an
+    // official account response (e.g. explaining a closed invite flow), not a second comment.
+    // `avatar` is a generated (DiceBear) illustration, never a real person's photo — this page
+    // doesn't attach anyone's actual likeness to a quote they didn't give.
+    comments: z
+      .array(
+        z.object({
+          name: z.string(),
+          handle: z.string().optional(),
+          avatar: z.string().optional(),
+          body: z.string(),
+          body_en: z.string().optional(),
+          reply: z.object({ name: z.string(), body: z.string(), body_en: z.string().optional() }).optional(),
+        })
+      )
+      .default([]),
     ctaUrl: z.string().url(),
+    ctaLabel: z.string().optional(),
+    ctaLabel_en: z.string().optional(),
   }),
 });
 

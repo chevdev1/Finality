@@ -15,5 +15,5 @@ relatedArticle: clarity-act-cloture-vote-fails
 sources:
   - url: "https://www.cryptotimes.io/2026/09/16/clarity-act-fails-in-senate-as-cloture-vote-falls-short-of-60-votes/"
     title: "The Crypto Times: CLARITY Act Fails in Senate as Cloture Vote Falls Short of 60 Votes"
-updatedAt: 2026-09-16T00:00:00Z
+updatedAt: 2026-10-09T00:00:00Z
 ---

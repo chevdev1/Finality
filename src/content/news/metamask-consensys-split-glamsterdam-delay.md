@@ -5,8 +5,8 @@ title_en: "MetaMask splits off from Consensys, and the Glamsterdam upgrade slips
 dek_en: "Consensys is separating its consumer and institutional businesses by year end; Glamsterdam's mainnet activation is delayed, and the Sepolia testnet will fork on September 28."
 section: ethereum
 status: developing
-publishedAt: 2026-09-09T00:00:00Z
-updatedAt: 2026-09-11T00:00:00Z
+publishedAt: 2026-10-02T00:00:00Z
+updatedAt: 2026-10-04T00:00:00Z
 author: dev-patel
 imageQuery: "ethereum cryptocurrency network technology blue"
 takeaways:
@@ -15,9 +15,9 @@ takeaways:
   - "Активация обновления Glamsterdam в основной сети Ethereum сдвинута на четвёртый квартал 2026 года; форк тестовой сети Sepolia запланирован на 28 сентября."
 checks:
   - id: 1
-    at: 2026-09-09T10:00:00Z
+    at: 2026-10-02T10:00:00Z
   - id: 2
-    at: 2026-09-10T09:00:00Z
+    at: 2026-10-03T09:00:00Z
 sources:
   - url: "https://coinmarketcap.com/cmc-ai/ethereum/latest-updates/"
     title: "CoinMarketCap: Ethereum latest updates"

@@ -17,5 +17,5 @@ sources:
     title: "24/7 Wall St.: Crypto's Anonymous Era Just Ended — Form 1099-DA Now Tells the IRS What You Sold"
   - url: "https://koinly.io/blog/form-1099-da/"
     title: "Koinly: Form 1099-DA — How to Deal with 1099-DA Forms in 2026"
-updatedAt: 2026-08-28T00:00:00Z
+updatedAt: 2026-09-20T00:00:00Z
 ---
